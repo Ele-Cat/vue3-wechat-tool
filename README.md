@@ -1,4 +1,4 @@
-# Vue3 Wechat Tool
+# Vue3 Wechat Tool - 微信对话生成器
 
 技术栈：vue3、pinia、less
 
