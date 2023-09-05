@@ -1,6 +1,6 @@
 <template>
   <div class="wt-footer">
-    ©2023 微信对话生成器
+    ©2023 微信对话生成器【开源】
   </div>
 </template>
 

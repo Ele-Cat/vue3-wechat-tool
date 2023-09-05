@@ -50,6 +50,7 @@ const footerStyle = {
 </script>
 
 <style lang="less" scoped>
+@import url(//at.alicdn.com/t/c/font_4238507_tn4gdu3795p.css);
 .content {
   height: calc(100vh - 90px);
 }
