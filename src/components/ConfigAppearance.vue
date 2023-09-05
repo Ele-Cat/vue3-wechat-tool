@@ -14,7 +14,7 @@
         <a-select :options="phoneSignals" v-model:value="formState.phoneSignal"></a-select>
       </a-form-item>
       <a-form-item label="系统时间">
-        <a-time-picker v-model:value="formState.phoneTime" format="HH:mm" :allowClear="false" />
+        <a-time-picker v-model:value="formState.phoneTime" format="HH:mm" :allowClear="false" style="width:100%;" />
       </a-form-item>
       <a-form-item label="是否充电">
         <a-switch v-model:checked="formState.isCharging" />
