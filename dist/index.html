@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/vue3-wechat-tool/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wechat</title>
+    <style>
+      .visual-loading-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .visual-circle-path {
+        stroke: #0f62fe;
+        /* 给画笔设置一个颜色 */
+        stroke-width: 2;
+        /* 设置线条的宽度 */
+        stroke-dasharray: 95, 126;
+        /* 设置实现长95，虚线长126 */
+        stroke-dashoffset: 0;
+        /* 设置虚线的偏移位置 */
+        animation: visual-loading-dash 1.5s ease-in-out infinite;
+      }
+
+      @keyframes visual-loading-dash {
+        0% {
+          stroke-dasharray: 1, 126;
+          /* 实线部分1，虚线部分126 */
+          stroke-dashoffset: 0;
+          /* 前面1/126显示实线，后面125显示空白 */
+        }
+
+        50% {
+          stroke-dasharray: 95, 126;
+          /* 实线部分95，虚线部分126 */
+          stroke-dashoffset: -31px
+          /* 顺时针偏移31/126，即前31/126显示空白，后面3/4显示线条 */
+        }
+
+        to {
+          stroke-dasharray: 6, 120;
+          /* 实线部分6，虚线部分120 */
+          stroke-dashoffset: -120px;
+          /* 最后顺时针偏移120/126，即前120/126显示空白，后面6点显示线条部分 */
+        }
+      }
+
+      .visual-loading-svg {
+        width: 2.5em;
+        height: 2.5em;
+        max-width: 50px;
+        /* 设置svg显示区域大小 */
+        max-height: 50px;
+        animation: visual-loading-rotate 1.5s infinite ease-in-out;
+        /* 给svg也加上一个旋转动画 */
+        margin-bottom: 20px;
+      }
+
+      @keyframes visual-loading-rotate {
+        to {
+          transform: rotate(1turn);
+          /* 旋转1圈 */
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="/vue3-wechat-tool/assets/index-8d36ff86.js"></script>
+    <link rel="stylesheet" href="/vue3-wechat-tool/assets/index-89a03610.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="visual-loading-container">
+        <svg viewBox="0 0 50 50" class="visual-loading-svg">
+          <circle cx="25" cy="25" r="20" fill="none" class="visual-circle-path"></circle>
+        </svg>
+        <p>正在努力加载页面，请耐心等候...</p>
+      </div>
+    </div>
+    
+  </body>
+</html>
