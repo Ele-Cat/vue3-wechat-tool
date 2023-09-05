@@ -1,24 +1,34 @@
 <template>
-  <a-layout>
-    <a-layout-header :style="headerStyle">
-      <WtHeader />
-    </a-layout-header>
-    <a-layout class="content">
-      <a-layout-sider :style="siderStyle" width="480">
-        <WtSider />
-      </a-layout-sider>
-      <a-layout-content :style="contentStyle">
-        <WtContent />
-      </a-layout-content>
+  <a-config-provider :theme="{
+    token: {
+      colorPrimary: '#e8a95b',
+    },
+  }" :locale="zhCN">
+    <a-layout>
+      <a-layout-header :style="headerStyle">
+        <WtHeader />
+      </a-layout-header>
+      <a-layout class="content">
+        <a-layout-sider :style="siderStyle" width="480">
+          <WtSider />
+        </a-layout-sider>
+        <a-layout-content :style="contentStyle">
+          <WtContent />
+        </a-layout-content>
+      </a-layout>
+      <a-layout-footer :style="footerStyle">
+        <WtFooter />
+      </a-layout-footer>
     </a-layout>
-    <a-layout-footer :style="footerStyle">
-      <WtFooter />
-    </a-layout-footer>
-  </a-layout>
-  <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg' alt='Fork me on Gitee' /></a>
+    <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg' alt='Fork me on Gitee' /></a>
+  </a-config-provider>
 </template>
 
 <script setup>
+import zhCN from 'ant-design-vue/es/locale/zh_CN';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+dayjs.locale('zh-cn');
 import WtHeader from "@/components/WtHeader.vue"
 import WtSider from "@/components/WtSider.vue"
 import WtContent from "@/components/WtContent.vue"

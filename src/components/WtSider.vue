@@ -7,7 +7,7 @@
         <p>{{ menu.label }}</p>
       </div>
     </div>
-    <div class="wt-form">
+    <div class="wt-config">
       <component :is="configComponents[useSystemStore.activeMenu]" />
     </div>
   </div>
@@ -63,6 +63,7 @@ const configComponents = reactive({
       height: 80px;
       cursor: pointer;
       transition: all .3s;
+      color: #333;
 
       i {
         font-size: 24px;
@@ -72,7 +73,13 @@ const configComponents = reactive({
       &.active,
       &:hover {
         background-color: #F9F9F9;
+        color: #e8a95b;
       }
     }
   }
-}</style>
+}
+.wt-config {
+  flex: 1;
+  padding: 20px;
+}
+</style>

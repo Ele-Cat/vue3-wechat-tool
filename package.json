@@ -12,7 +12,8 @@
     "ant-design-vue": "^4.0.2",
     "pinia": "^2.1.6",
     "pinia-plugin-persist": "^1.0.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue3-perfect-scrollbar": "^1.6.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
