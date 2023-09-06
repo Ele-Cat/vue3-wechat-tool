@@ -4,6 +4,9 @@
       <a-form-item label="机型">
         <a-select :options="models" v-model:value="formState.model"></a-select>
       </a-form-item>
+      <a-form-item label="深色模式">
+        <a-switch v-model:checked="formState.darkMode" />
+      </a-form-item>
       <a-form-item label="网络类型">
         <a-select :options="networkTypes" v-model:value="formState.networkType"></a-select>
       </a-form-item>
@@ -58,12 +61,13 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum"
 import dayjs from 'dayjs';
 
 const formState = reactive({
   model: "apple",
+  darkMode: false,
   networkType: "wifi",
   wifiSignal: "3",
   phoneSignal: "4",
@@ -81,7 +85,6 @@ const labelCol = {
   },
 };
 
-import { ref } from 'vue';
 import { message } from 'ant-design-vue';
 function getBase64(img, callback) {
   const reader = new FileReader();

@@ -8,6 +8,61 @@ export const models = [
     value: "apple",
   },
 ];
+// iPhoneX
+// 分辨率: 1125x2436
+
+// iPhoneXR
+// 分辨率: 828x1792
+
+// iPhoneXs Max
+// 分辨率: 1242x2688
+
+// iPhone11
+// 分辨率: 828x1792
+
+// iPhone11 Pro
+// 分辨率: 1125x2436
+
+// iPhone12
+// 分辨率: 1170x2532
+
+// iPhone12 Mini
+// 分辨率: 1080x2340
+
+// iPhone11 Pro Max
+// 分辨率: 1242x2688
+
+// iPhone13 Mini
+// 分辨率: 1080x2340
+
+// iPhone13
+// 分辨率: 1170x2532
+
+// iPhone13 Pro Max
+// 分辨率: 1242x2688
+
+// iPhone14 Pro
+// 分辨率: 1179x2556
+
+// iPhone14 Pro Max
+// 分辨率: 1290x2796
+
+// ---
+
+// Mate40
+// 分辨率: 1080x2376
+
+// Mate40pro
+// 分辨率: 1200x2640
+
+// Nova8
+// 分辨率: 1080x2340
+
+// Mi10
+// 分辨率: 1080x2340
+
+// Mi11
+// 分辨率: 1440x3200
 
 export const networkTypes = [
   {
