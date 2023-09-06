@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import dayjs from 'dayjs';
 
 export const useSystemStore = defineStore("toolSystem", {
   state: () => {
@@ -11,12 +10,12 @@ export const useSystemStore = defineStore("toolSystem", {
         networkType: "wifi",
         wifiSignal: "3",
         phoneSignal: "4",
-        phoneTime: dayjs('12:21', 'HH:mm'),
+        phoneTimeHour: "12",
+        phoneTimeMinute: "21",
         isCharging: true,
         phoneBattery: 60,
         earphoneMode: true,
         unreadMessages: 1,
-        chatTitle: "小甜甜",
         voiceMode: false,
         chatBackground: "",
       },

@@ -4,14 +4,22 @@
       <a-form-item>
         <slot name="label">
           <div class="config-label">
-            <span>选择发送用户：</span>
-            <a-button type="link">用户管理</a-button>
+            <span>选择发送用户</span>
+            <a-button type="link" @click="userManageVisible = true">用户管理</a-button>
           </div>
         </slot>
         <div class="user-select-box">
-          <div class="user-item"></div>
+          <div class="user-item" :class="{active: useUserStore.activeRole === 'own'}" @click="changeRole('own')">
+            <img src="@/assets/images/content/user-face.png" alt="">
+            <p>你自己</p>
+          </div>
+          <div class="user-item" :class="{active: useUserStore.activeRole === 'other'}" @click="changeRole('other')">
+            <img src="@/assets/images/content/user-face.png" alt="">
+            <p>小甜甜</p>
+          </div>
         </div>
       </a-form-item>
+      <a-divider style="border-color: #e8a95b" />
       <a-form-item label="">
         <a-tabs v-model:activeKey="activeType" size="small" tab-position="top" :style="{ width: '360px' }">
           <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
@@ -27,17 +35,23 @@
       </a-form-item>
     </a-form>
   </perfect-scrollbar>
+  <UserManage :open="userManageVisible" @close="userManageVisible = false" />
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
-import { getAssetsFile } from "@/utils/utils"
+import { reactive, ref, watch } from "vue";
 import GenerateForm from "./common/GenerateForm.vue"
+import UserManage from "./common/UserManage.vue"
+import useStore from "@/store";
+const { useUserStore } = useStore();
+
+const userManageVisible = ref(false)
+const changeRole = (role) => {
+  useUserStore.activeRole = role
+}
 
 const activeType = ref('text')
-const addTypeName = computed(() => {
-  return addTypes.find(item => item.value === activeType.value)['label']
-})
+const addTypeName = ref('')
 const addTypes = reactive([
   {
     label: "文本",
@@ -68,23 +82,13 @@ const addTypes = reactive([
     value: "recallMessage",
   }
 ])
-
-import { message } from 'ant-design-vue';
-const fileList = ref([]);
-const handleChange = info => {
-  const status = info.file.status;
-  if (status !== 'uploading') {
-    console.log(info.file, info.fileList);
-  }
-  if (status === 'done') {
-    message.success(`${info.file.name} file uploaded successfully.`);
-  } else if (status === 'error') {
-    message.error(`${info.file.name} file upload failed.`);
-  }
-};
-function handleDrop(e) {
-  console.log(e);
-}
+watch(() => [activeType, useUserStore], () => {
+  let sendRole = useUserStore.activeRole === 'own' ? '你自己发送：' : '对方发送：'
+  addTypeName.value = sendRole + addTypes.find(item => item.value === activeType.value)['label']
+}, {
+  immediate: true,
+  deep: true,
+})
 </script>
 
 <style lang="less" scoped>
@@ -94,7 +98,38 @@ function handleDrop(e) {
   align-items: center;
 }
 
-
+.user-select-box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #F5F5F5;
+  border-radius: 4px;
+  padding: 6px 4px;
+  .user-item {
+    width: 49%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      background-color: #E7E7E7;
+    }
+    &.active {
+      background-color: #FFFFFF;
+      color: #e8a95b;
+    }
+    img {
+      width: 36px;
+      border-radius: 6px;
+    }
+    p {
+      margin: 4px 0 0 0;
+    }
+  }
+}
 
 .avatar-uploader>.ant-upload {
   width: 128px;
