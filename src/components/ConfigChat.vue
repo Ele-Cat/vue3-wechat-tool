@@ -21,7 +21,7 @@
             <template v-if="activeType === 'text'">
               <a-textarea v-model:value="formState.phoneBattery" :autoSize="{minRows: 3, maxRows: 6}" />
               <div class="emojis">
-                <img :src="getAssetsFile(`../assets/emoji/emoji_${i}.png`)" v-for="i in 108" :key="i" alt="">
+                <img :src="getAssetsFile(`/public/emoji/emoji_${i}.png`)" v-for="i in 2" :key="i" alt="">
               </div>
             </template>
           </a-form>
@@ -160,11 +160,11 @@ const beforeUpload = file => {
   display: flex;
   flex-wrap: wrap;
   // justify-content: space-around;
-  height: 126px;
+  max-height: 126px;
   overflow-y: auto;
   img {
     width: 22px;
-    margin: 5px;
+    margin: 4px 5px;
   }
 }
 
