@@ -38,21 +38,14 @@
         <a-switch v-model:checked="formState.voiceMode" />
       </a-form-item>
       <a-form-item label="聊天背景">
-        <a-upload
-          v-model:file-list="fileList"
-          name="avatar"
-          list-type="picture-card"
-          class="avatar-uploader"
-          :show-upload-list="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          :before-upload="beforeUpload"
-          @change="handleChange"
-        >
-          <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+        <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
+          :customRequest="handleChange" :show-upload-list="false" :before-upload="beforeUpload" accept="image/*">
+          <img v-if="formState.chatBackground" :src="formState.chatBackground" alt="chat background"
+            class="ant-upload-image" asp />
           <div v-else>
-            <loading-outlined v-if="loading"></loading-outlined>
-            <plus-outlined v-else></plus-outlined>
-            <div class="ant-upload-text">+</div>
+            <LoadingOutlined v-if="uploadLoading" />
+            <PlusOutlined v-else />
+            <div class="ant-upload-text">点击上传</div>
           </div>
         </a-upload>
       </a-form-item>
@@ -62,81 +55,77 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum"
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import dayjs from 'dayjs';
+import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum"
+import { fileToBase64 } from "@/utils/utils"
+import { toast } from "@/utils/feedback"
+import useStore from "@/store";
+const { useSystemStore } = useStore();
 
-const formState = reactive({
-  model: "apple",
-  darkMode: false,
-  networkType: "wifi",
-  wifiSignal: "3",
-  phoneSignal: "4",
-  phoneTime: dayjs('12:21', 'HH:mm'),
-  isCharging: true,
-  phoneBattery: 60,
-  earphoneMode: true,
-  unreadMessages: 1,
-  chatTitle: "小甜甜",
-  voiceMode: false,
+console.log('useSystemStore.appearance.phoneTime: ', useSystemStore.appearance.phoneTime);
+const formState = Object.assign({}, useSystemStore.appearance, {
+  phoneTime: dayjs(useSystemStore.appearance.phoneTime, 'HH:mm')
 });
+
 const labelCol = {
   style: {
     width: "80px",
   },
 };
 
-import { message } from 'ant-design-vue';
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 const fileList = ref([]);
-const loading = ref(false);
-const imageUrl = ref('');
+const uploadLoading = ref(false);
 const handleChange = info => {
-  if (info.file.status === 'uploading') {
-    loading.value = true;
-    return;
-  }
-  if (info.file.status === 'done') {
-    // Get this url from response in real world.
-    getBase64(info.file.originFileObj, base64Url => {
-      imageUrl.value = base64Url;
-      loading.value = false;
-    });
-  }
-  if (info.file.status === 'error') {
-    loading.value = false;
-    message.error('upload error');
-  }
+  uploadLoading.value = true;
+  fileToBase64(info.file).then(base64Data => {
+    formState.chatBackground = base64Data;
+    uploadLoading.value = false;
+  });
 };
 const beforeUpload = file => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG file!');
+    toast({
+      type: "warning",
+      content: "只可上传JPG或PNG图片!",
+    });
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    toast({
+      type: "warning",
+      content: "图片大小需小于2MB!",
+    });
   }
   return isJpgOrPng && isLt2M;
 };
 </script>
 
 <style lang="less" scoped>
-.avatar-uploader > .ant-upload {
-  width: 128px;
-  height: 128px;
-}
-.ant-upload-select-picture-card i {
-  font-size: 32px;
-  color: #999;
-}
+.avatar-uploader {
+  .ant-upload {
+    width: 128px;
+    height: 128px;
+  }
 
-.ant-upload-select-picture-card .ant-upload-text {
-  margin-top: -12px;
-  font-size: 46px;
-  color: #666;
+  .ant-upload-select-picture-card {
+    i {
+
+      font-size: 32px;
+      color: #999;
+    }
+
+    .ant-upload-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ant-upload-text {
+      margin-top: 8px;
+      color: #666;
+    }
+  }
 }
 </style>
