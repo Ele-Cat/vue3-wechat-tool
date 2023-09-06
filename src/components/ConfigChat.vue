@@ -21,7 +21,7 @@
             <template v-if="activeType === 'text'">
               <a-textarea v-model:value="formState.phoneBattery" :autoSize="{minRows: 3, maxRows: 6}" />
               <div class="emojis">
-                <img :src="getAssetsFile(`/public/emoji/emoji_${i}.png`)" v-for="i in 2" :key="i" alt="">
+                <img :src="getAssetsFile(`/emoji/emoji_${i}.png`)" v-for="i in 2" :key="i" alt="">
               </div>
             </template>
           </a-form>
