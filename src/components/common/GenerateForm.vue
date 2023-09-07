@@ -63,6 +63,7 @@ const handleChange = info => {
 };
 function handleDrop(e) {
   console.log(e);
+  console.log(fileList);
   // https://tucdn.wpon.cn/api/upload
 }
 
