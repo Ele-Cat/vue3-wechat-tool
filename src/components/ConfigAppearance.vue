@@ -2,7 +2,7 @@
   <perfect-scrollbar>
     <a-form :model="formState" :label-col="labelCol" class="config-appearance">
       <a-form-item label="机型">
-        <a-select :options="models" v-model:value="formState.model"></a-select>
+        <a-select :options="models" v-model:value="formState.model" disabled></a-select>
       </a-form-item>
       <a-form-item label="深色模式">
         <a-switch v-model:checked="formState.darkMode" />

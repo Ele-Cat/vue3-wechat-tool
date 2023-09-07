@@ -43,7 +43,7 @@ const props = defineProps({
 })
 
 const formState = reactive({
-  model: "apple",
+  model: "ios",
   phoneBattery: 60,
 });
 </script>

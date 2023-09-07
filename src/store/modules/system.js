@@ -5,7 +5,7 @@ export const useSystemStore = defineStore("toolSystem", {
     return {
       activeMenu: "chat", // 当前聚焦的工具栏目
       appearance: {
-        model: "apple",
+        model: "ios",
         darkMode: false,
         networkType: "wifi",
         wifiSignal: "3",

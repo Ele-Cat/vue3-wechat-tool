@@ -1,17 +1,48 @@
 <template>
-  <div class="wt-content">
-    <div class="wt-skeleton" v-if="useSystemStore.activeMenu === 'chat'">
-      大纲
+  <perfect-scrollbar>
+    <div class="wt-content">
+      <!-- <div class="wt-skeleton" v-if="useSystemStore.activeMenu === 'chat'">
+        大纲
+      </div> -->
+      <div class="wt-preview">
+        <div class="phone-wrap">
+          <div class="phone-scale" :style="{transform: `scale(${phoneScale})`}">
+            <div id="phone" class="phone" :style="{width: phoneWidth + 'px', height: phoneHeight + 'px'}">
+              <div class="phone-bar">状态栏</div>
+              <div class="phone-header">导航栏</div>
+              <div class="phone-body">内容</div>
+              <div class="phone-footer">底部操作</div>
+            </div>
+          </div>
+        </div>
+        <div class="wt-ctrl">
+          工具栏
+        </div>
+      </div>
     </div>
-    <div class="wt-preview">
-      预览
-    </div>
-  </div>
+  </perfect-scrollbar>
 </template>
 
 <script setup>
+import { ref, watch } from "vue";
 import useStore from "@/store";
 const { useSystemStore } = useStore();
+import { models } from "@/utils/enum"
+
+const phoneWidth = ref(1200)
+const phoneHeight = ref(2700)
+const phoneScale = ref(1)
+watch(() => useSystemStore.appearance.model, (newVal) => {
+  // ios:1125*2436
+  // android:1224*2700
+  // 做缩放是为了在预览时好看，同时在生成图片、视频时高清
+  const { width, height } = models.find(model => model.value === newVal)
+  phoneWidth.value = width
+  phoneHeight.value = height
+  phoneScale.value = (360 / width).toFixed(2)
+}, {
+  immediate: true,
+})
 </script>
 
 <style lang="less" scoped>
@@ -26,9 +57,62 @@ const { useSystemStore } = useStore();
     background-color: #F1F1F1;
   }
   .wt-preview {
-    width: 50%;
-    padding: 10px;
-    background-color: #E0E0E0;
+    position: relative;
+    .phone-wrap {
+      width: 360px;
+      height: 100%;
+      // background-color: #E0E0E0;
+      .phone-scale {
+        transform-origin: 0 0;
+      }
+      .phone {
+        background-color: #EDEDED;
+        position: relative;
+        font-size: 36px;
+        .phone-bar {
+          height: 132px;
+        }
+        .phone-header {
+          height: 132px;
+          position: relative;
+          &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: .67px;
+            background: #d5d5d5;
+            overflow: hidden;
+            left: 0;
+            bottom: 2px;
+          }
+        }
+        .phone-body {
+          position: absolute;
+          top: 264px;
+          bottom: 269px;
+          left: 0;
+          right: 0;
+          -webkit-overflow-scrolling: touch;
+          overflow-y: scroll;
+        }
+        .phone-footer {
+          background: #f6f6f6;
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 269px;
+        }
+      }
+    }
+    .wt-ctrl {
+      position: absolute;
+      top: 50%;
+      right: -90px;
+      width: 80px;
+      transform: translate(0, -50%);
+      height: 200px;
+      background-color: yellow;
+    }
   }
 }
 </style>

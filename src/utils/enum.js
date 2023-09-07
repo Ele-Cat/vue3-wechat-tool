@@ -2,10 +2,14 @@ export const models = [
   {
     label: "安卓",
     value: "android",
+    width: 1224,
+    height: 2700,
   },
   {
     label: "苹果",
-    value: "apple",
+    value: "ios",
+    width: 1125,
+    height: 2436,
   },
 ];
 // iPhoneX
