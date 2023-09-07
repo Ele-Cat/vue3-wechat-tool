@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useSystemStore = defineStore("toolSystem", {
   state: () => {
     return {
-      activeMenu: "chat", // 当前聚焦的工具栏目
+      activeMenu: "appearance", // 当前聚焦的工具栏目
       appearance: {
         model: "ios",
         darkMode: false,
