@@ -5,7 +5,7 @@
         <slot name="label">
           <div class="config-label">
             <span>选择发送用户</span>
-            <a-button type="link" @click="userManageVisible = true">用户管理</a-button>
+            <a-button type="primary" @click="userManageVisible = true">用户管理</a-button>
           </div>
         </slot>
         <div class="user-select-box">
@@ -19,7 +19,7 @@
           </div>
         </div>
       </a-form-item>
-      <a-divider style="border-color: #e8a95b" />
+      <a-divider style="border-color: var(--theme-color)" />
       <a-form-item label="">
         <a-tabs v-model:activeKey="activeType" size="small" tab-position="top" :style="{ width: '360px' }">
           <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
@@ -105,8 +105,9 @@ watch(() => [activeType, useUserStore], () => {
   background-color: #F5F5F5;
   border-radius: 4px;
   padding: 6px 4px;
+  margin-top: 6px;
   .user-item {
-    width: 49%;
+    width: 49.5%;
     height: 80px;
     display: flex;
     flex-direction: column;
@@ -119,7 +120,7 @@ watch(() => [activeType, useUserStore], () => {
     }
     &.active {
       background-color: #FFFFFF;
-      color: #e8a95b;
+      color: var(--theme-color);
     }
     img {
       width: 36px;
