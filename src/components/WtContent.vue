@@ -1,9 +1,6 @@
 <template>
   <perfect-scrollbar>
     <div class="wt-content">
-      <!-- <div class="wt-skeleton" v-if="useSystemStore.activeMenu === 'chat'">
-        大纲
-      </div> -->
       <div class="wt-preview">
         <div class="phone-wrap">
           <div class="phone-scale" :style="{ transform: `scale(${phoneScale})` }">
@@ -19,6 +16,7 @@
           </div>
         </div>
         <PhoneGenerate />
+        <PhoneTools />
       </div>
     </div>
   </perfect-scrollbar>
@@ -34,6 +32,7 @@ import PhoneNav from "./phone/PhoneNav.vue";
 import PhoneBody from "./phone/PhoneBody.vue";
 import PhoneBottom from "./phone/PhoneBottom.vue";
 import PhoneGenerate from "./phone/PhoneGenerate.vue"
+import PhoneTools from "./phone/PhoneTools.vue"
 
 const phoneWidth = ref(1200)
 const phoneHeight = ref(2700)
@@ -87,15 +86,16 @@ watch(() => useSystemStore.appearance, (newVal) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          height: 100%;
           position: absolute;
-          top: 0;
+          top: 264px;
+          bottom: 270px;
           width: 100%;
           overflow: hidden;
           .phone-bg-for-height {
             width: auto;
-            max-width: none;
+            max-width: 100%;
             height: 100%;
+            object-fit: cover;
           }
         }
       }

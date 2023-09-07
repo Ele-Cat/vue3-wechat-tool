@@ -75,7 +75,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";
@@ -84,7 +84,13 @@ import { toast } from "@/utils/feedback";
 import useStore from "@/store";
 const { useSystemStore } = useStore();
 
-const formState = useSystemStore.appearance;
+const formState = ref({});
+watch(() => useSystemStore.appearance, (newVal) => {
+  formState.value = newVal
+}, {
+  immediate: true,
+  deep: true,
+})
 
 const labelCol = {
   style: {
@@ -101,7 +107,7 @@ const uploadLoading = ref(false);
 const handleChange = (info) => {
   uploadLoading.value = true;
   fileToBase64(info.file).then((base64Data) => {
-    formState.chatBackground = base64Data;
+    formState.value.chatBackground = base64Data;
     uploadLoading.value = false;
   });
 };
