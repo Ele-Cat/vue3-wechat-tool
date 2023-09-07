@@ -32,7 +32,7 @@ p {
   font-weight: bold;
   white-space: nowrap;
   color: transparent;
-  background-color: #e8a95b;
+  background-color: var(--theme-color);
   background-clip: text;
   -webkit-background-clip: text;
 }

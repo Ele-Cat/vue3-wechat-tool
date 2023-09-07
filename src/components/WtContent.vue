@@ -16,7 +16,9 @@
           </div>
         </div>
         <div class="wt-ctrl">
-          工具栏
+          <div class="wtc-button">生成图片</div>
+          <div class="wtc-button">生成动图</div>
+          <div class="wtc-button">生成视频</div>
         </div>
       </div>
     </div>
@@ -107,11 +109,23 @@ watch(() => useSystemStore.appearance.model, (newVal) => {
     .wt-ctrl {
       position: absolute;
       top: 50%;
-      right: -90px;
-      width: 80px;
+      right: -66px;
+      width: 60px;
       transform: translate(0, -50%);
-      height: 200px;
-      background-color: yellow;
+      .wtc-button {
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        font-size: 12px;
+        background-image: linear-gradient( 135deg, #FFE985 10%, #FA742B 100%);
+        background-image: linear-gradient( 135deg, #FFA8A8 10%, #FCFF00 100%);
+        background-image: linear-gradient( 135deg, #3B2667 10%, #BC78EC 100%);
+        background-image: linear-gradient( 135deg, #F6D242 10%, #FF52E5 100%);
+        background-image: linear-gradient( 135deg, #FD6E6A 10%, #FFC600 100%);
+        border-radius: 50%;
+        margin-bottom: 12px;
+        color: #FFFFFF;
+      }
     }
   }
 }

@@ -10,6 +10,6 @@
 
 <style lang="less" scoped>
 .wt-footer {
-  color: #e8a95b;
+  color: var(--theme-color);
 }
 </style>

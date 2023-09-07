@@ -73,7 +73,7 @@ const configComponents = reactive({
       &.active,
       &:hover {
         background-color: #F9F9F9;
-        color: #e8a95b;
+        color: var(--theme-color);
       }
     }
   }

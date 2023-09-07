@@ -1,7 +1,7 @@
 <template>
   <a-config-provider :theme="{
     token: {
-      colorPrimary: '#e8a95b',
+      colorPrimary: '#FFC600',
     },
   }" :locale="zhCN">
     <a-layout>
