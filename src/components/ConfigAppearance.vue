@@ -132,6 +132,7 @@ const beforeUpload = (file) => {
 
 <style lang="less" scoped>
 .config-appearance {
+  overflow-x: hidden;
   .phone-time {
     display: flex;
     justify-content: space-between;
