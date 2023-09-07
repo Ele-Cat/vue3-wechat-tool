@@ -75,15 +75,15 @@ export const networkTypes = [
   },
   {
     label: "3G",
-    value: "3g",
+    value: "3",
   },
   {
     label: "4G",
-    value: "4g",
+    value: "4",
   },
   {
     label: "5G",
-    value: "5g",
+    value: "5",
   },
 ];
 

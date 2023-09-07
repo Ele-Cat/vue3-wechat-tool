@@ -5,7 +5,7 @@
         <a-select :options="models" v-model:value="formState.model" disabled></a-select>
       </a-form-item>
       <a-form-item label="深色模式">
-        <a-switch v-model:checked="formState.darkMode" />
+        <a-switch v-model:checked="formState.darkMode" disabled />
       </a-form-item>
       <a-form-item label="网络类型">
         <a-select :options="networkTypes" v-model:value="formState.networkType"></a-select>
@@ -13,7 +13,7 @@
       <a-form-item label="wifi信号" v-if="formState.networkType === 'wifi'">
         <a-select :options="wifiSignals" v-model:value="formState.wifiSignal"></a-select>
       </a-form-item>
-      <a-form-item label="手机信号" v-else>
+      <a-form-item label="手机信号">
         <a-select :options="phoneSignals" v-model:value="formState.phoneSignal"></a-select>
       </a-form-item>
       <a-form-item label="系统时间">
@@ -26,13 +26,20 @@
         <a-switch v-model:checked="formState.isCharging" />
       </a-form-item>
       <a-form-item label="手机电量">
-        <a-input-number v-model:value="formState.phoneBattery" :min="0" :max="100" />
+        <a-row :gutter="12">
+          <a-col :span="16">
+            <a-slider v-model:value="formState.phoneBattery" :tip-formatter="batteryFormatter" :min="0" :max="100" />
+          </a-col>
+          <a-col :span="8">
+            <a-input-number v-model:value="formState.phoneBattery" :min="0" :max="100" />
+          </a-col>
+        </a-row>
       </a-form-item>
       <a-form-item label="听筒模式">
         <a-switch v-model:checked="formState.earphoneMode" />
       </a-form-item>
       <a-form-item label="未读消息数">
-        <a-input-number v-model:value="formState.unreadMessages" :min="0" :max="100" />
+        <a-input-number v-model:value="formState.unreadMessages" :min="0" :max="10000" />
       </a-form-item>
       <a-form-item label="语音模式">
         <a-switch v-model:checked="formState.voiceMode" />
@@ -85,6 +92,10 @@ const labelCol = {
   },
 };
 
+const batteryFormatter = (value) => {
+  return `${value}%`
+}
+
 const fileList = ref([]);
 const uploadLoading = ref(false);
 const handleChange = (info) => {
@@ -99,14 +110,14 @@ const beforeUpload = (file) => {
   if (!isJpgOrPng) {
     toast({
       type: "warning",
-      content: "只可上传JPG或PNG图片!",
+      content: "只可上传JPG或PNG图片！",
     });
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
     toast({
       type: "warning",
-      content: "图片大小需小于2MB!",
+      content: "图片大小需小于2MB！",
     });
   }
   return isJpgOrPng && isLt2M;

@@ -12,7 +12,7 @@ export const useSystemStore = defineStore("toolSystem", {
         phoneSignal: "4",
         phoneTimeHour: "12",
         phoneTimeMinute: "21",
-        isCharging: true,
+        isCharging: false,
         phoneBattery: 60,
         earphoneMode: true,
         unreadMessages: 1,

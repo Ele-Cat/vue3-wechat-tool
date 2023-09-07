@@ -72,7 +72,7 @@ const beforeUpload = (file) => {
   if (!isLt2M) {
     toast({
       type: "warning",
-      content: "图片大小需小于2MB!",
+      content: "图片大小需小于2MB！",
     });
   }
   return isJpgOrPng && isLt2M;
