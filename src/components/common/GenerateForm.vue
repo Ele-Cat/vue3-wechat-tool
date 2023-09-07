@@ -8,8 +8,8 @@
         </div> -->
       </template>
       <template v-else-if="type === 'image'">
-        <a-upload-dragger v-model:fileList="fileList" name="file" :multiple="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76" @change="handleChange" @drop="handleDrop">
+        <a-upload-dragger v-model:fileList="fileList" name="image" :multiple="false" :show-upload-list="false"
+          :customRequest="handleChange" :before-upload="beforeUpload" accept="image/*" @drop="handleDrop">
           <p class="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
@@ -28,8 +28,9 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { InboxOutlined } from '@ant-design/icons-vue';
+import { toast } from "@/utils/feedback";
 
 const props = defineProps({
   title: {
@@ -46,6 +47,35 @@ const formState = reactive({
   model: "ios",
   phoneBattery: 60,
 });
+
+const fileList = ref([]);
+const handleChange = info => {
+  console.log('info: ', info);
+  // const status = info.file.status;
+  // if (status !== 'uploading') {
+  //   console.log(info.file, info.fileList);
+  // }
+  // if (status === 'done') {
+  //   message.success(`${info.file.name} file uploaded successfully.`);
+  // } else if (status === 'error') {
+  //   message.error(`${info.file.name} file upload failed.`);
+  // }
+};
+function handleDrop(e) {
+  console.log(e);
+  // https://tucdn.wpon.cn/api/upload
+}
+
+const beforeUpload = (file) => {
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    toast({
+      type: "warning",
+      content: "图片大小需小于2MB!",
+    });
+  }
+  return isJpgOrPng && isLt2M;
+};
 </script>
 
 <style lang="less" scoped>
