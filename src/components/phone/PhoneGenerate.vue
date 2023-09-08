@@ -32,14 +32,15 @@ const handleGenerateVideo = () => {
 <style lang="less" scoped>
 .wt-ctrl {
   position: absolute;
-  top: 50%;
-  right: -74px;
-  transform: translate(0, -50%);
+  top: 0;
+  right: -10px;
+  transform: translate(100%, 0);
 
   .wtc-button {
-    line-height: 28px;
+    height: 32px;
+    line-height: 30px;
     text-align: center;
-    padding: 0 8px;
+    padding: 0 12px;
     font-size: 12px;
     background-image: linear-gradient(135deg, #fd6e6a 10%, #ffc600 100%);
     border-radius: 6px;

@@ -40,7 +40,8 @@ const resetChat = () => {
 .phone-tools {
   position: absolute;
   top: 0;
-  left: -42px;
+  left: -10px;
+  transform: translate(-100%, 0);
   display: flex;
   flex-direction: column;
   .ant-btn {
