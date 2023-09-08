@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
@@ -40,7 +40,8 @@ import WtContent from "@/components/WtContent.vue"
 import WtFooter from "@/components/WtFooter.vue"
 import Instructions from "@/components/common/Instructions.vue"
 import useStore from "@/store";
-const { useSystemStore } = useStore();
+const { useSystemStore, useUserStore } = useStore();
+import { urlToBase64 } from "@/utils/utils";
 
 const headerStyle = {
   height: '50px',
@@ -78,6 +79,28 @@ const handleModalCancel = e => {
   modalOpen.value = false;
 };
 !useSystemStore.hadDisclaimer && showDisclaimerModal();
+
+console.log('useUserStore.userList: ', useUserStore.userList);
+onMounted(async () => {
+  if (!useUserStore.userList.length) {
+    // 在这里初始化用户列表吧
+    useUserStore.userList = [
+      {
+        nickname: "你自己",
+        avatar: await urlToBase64("/avatar/001.jpg"),
+        role: "own",
+        id: "user-0",
+      },
+      {
+        nickname: "小甜甜",
+        avatar: await urlToBase64("/avatar/002.jpg"),
+        role: "other",
+        id: "user-" + Date.now(),
+      }
+    ]
+    useUserStore.activeOther = useUserStore.userList[1]['id'];
+  }
+})
 </script>
 
 <style lang="less" scoped>

@@ -1,23 +1,34 @@
 <template>
-  <a-drawer :width="480" title="用户管理" placement="left" :open="open" @close="close" class="disclaimers-drawer">
-    <a-table size="small" :columns="columns" :data-source="dataSource" :pagination="false" bordered>
+  <a-drawer :width="480" title="用户管理" placement="left" :open="open" @close="close" class="user-manage">
+    <div class="user-control">
+      <a-button type="primary" @click="handleAddUser">新增用户</a-button>
+    </div>
+    <a-table size="small" :columns="columns" :data-source="useUserStore.userList" :pagination="false" bordered>
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'avatar'">
-          <img src="http://img.adoutu.com/article/1606320519924.jpg" alt="" style="max-width:36px;">
+          <!-- <img :src="text" alt="" style="width:60px;"> -->
+          <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
+            :customRequest="info => handleChange(info, record)" :show-upload-list="false"
+            :before-upload="beforeUpload" accept="image/*">
+            <img v-if="text" :src="text" alt="chat background" class="ant-upload-image" asp />
+            <div v-else>
+              <LoadingOutlined v-if="uploadLoading" />
+              <PlusOutlined v-else />
+              <div class="ant-upload-text">点击上传</div>
+            </div>
+          </a-upload>
         </template>
-
-        <template v-if="column.dataIndex === 'nickname'">
-          <a-input
-            v-model:value="dataSource[record.key]['nickname']"
-            style="margin: -5px 0"
-          />
+        <template v-if="column.dataIndex === 'nickname' && record.role != 'own'">
+          <a-input v-model:value="record.nickname" style="margin: -5px 0;text-align: center;" />
         </template>
-        <template v-else-if="column.dataIndex === 'operation'">
+        <template v-if="column.dataIndex === 'operation' && record.role != 'own'">
           <div class="editable-row-operations">
-            <a-typography-link @click="save(record.key)" v-if="true">选择</a-typography-link>
-            <a-typography-link v-else>已选</a-typography-link>
-            <a-popconfirm title="确认删除该用户？" @confirm="cancel(record.key)">
-              <a>删除</a>
+            <a-button type="link" block @click="handleSelectUser(record.id)"
+              v-if="record.id !== useUserStore.activeOther">选择</a-button>
+            <a-button type="link" block disabled v-else>已选</a-button>
+            <a-popconfirm title="确认删除该用户？" @confirm="handleDeleteUser(record.id)">
+              <!-- <a>删除</a> -->
+              <a-button danger size="small" type="primary" v-if="useUserStore.userList.length >= 2">删除</a-button>
             </a-popconfirm>
           </div>
         </template>
@@ -27,6 +38,12 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons-vue";
+import useStore from "@/store";
+const { useUserStore } = useStore();
+import { fileToBase64 } from "@/utils/utils";
+
 const props = defineProps({
   open: {
     type: Boolean,
@@ -34,66 +51,116 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['onClose'])
-
 const close = () => {
   emit("onClose")
 }
 
-import { cloneDeep } from 'lodash-es';
-import { reactive, ref } from 'vue';
 const columns = [
   {
     title: '头像',
     dataIndex: 'avatar',
-    width: '160px',
+    width: '80px',
     align: 'center',
   },
   {
     title: '昵称',
     dataIndex: 'nickname',
-    width: '160px',
     align: 'center',
   },
   {
     title: '操作',
     dataIndex: 'operation',
+    width: '140px',
     align: 'center',
   },
 ];
-const data = [];
-for (let i = 0; i < 6; i++) {
-  data.push({
-    key: i.toString(),
-    nickname: `Edrward ${i}`,
-  });
+
+const handleAddUser = () => {
+  useUserStore.addUser();
 }
-const dataSource = ref(data);
-const editableData = reactive({});
-const edit = key => {
-  editableData[key] = cloneDeep(dataSource.value.filter(item => key === item.key)[0]);
-  console.log('editableData: ', editableData);
+const handleSelectUser = (id) => {
+  useUserStore.selectUser(id);
+}
+const handleDeleteUser = (id) => {
+  useUserStore.deleteUser(id);
+}
+
+const fileList = ref([]);
+const uploadLoading = ref(false);
+const handleChange = (info, record) => {
+  uploadLoading.value = true;
+  fileToBase64(info.file).then((base64Data) => {
+    record.avatar = base64Data;
+    uploadLoading.value = false;
+  });
 };
-const save = key => {
-  Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
-  delete editableData[key];
-};
-const cancel = key => {
-  delete editableData[key];
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    toast({
+      type: "warning",
+      content: "只可上传JPG或PNG图片！",
+    });
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    toast({
+      type: "warning",
+      content: "图片大小需小于2MB！",
+    });
+  }
+  return isJpgOrPng && isLt2M;
 };
 </script>
 
 <style lang="less" scoped>
-.disclaimers-drawer {
-  p {
-    margin: 0 0 6px 0;
-    text-align: justify;
-    line-height: 1.2;
-    &:nth-of-type(1), &:nth-last-of-type(1) {
-      font-weight: bold;
+.user-manage {
+  .user-control {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+
+  .editable-row-operations {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .avatar-uploader {
+    color: red;
+
+    .ant-upload {
+      width: 60px !important;
+      height: 60px !important;
+    }
+
+    .ant-upload-select-picture-card {
+      i {
+        font-size: 32px;
+        color: #999;
+      }
+
+      .ant-upload-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .ant-upload-text {
+        margin-top: 8px;
+        color: #666;
+      }
     }
   }
 }
-.editable-row-operations a {
-  margin: 0 4px;
+</style>
+
+<style lang="less">
+.user-manage {
+  .ant-upload {
+    width: 60px !important;
+    height: 60px !important;
+  }
 }
 </style>

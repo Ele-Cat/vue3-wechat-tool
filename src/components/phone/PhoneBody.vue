@@ -3,7 +3,7 @@
     <div class="wechat-content">
       <div class="wechat-item wechat-item-right">
         <div class="wechat-item-avatar">
-          <img src="" alt="">
+          <img :src="ownAvatar" alt="">
         </div>
         <div class="wechat-item-text">
           你是谁
@@ -11,7 +11,7 @@
       </div>
       <div class="wechat-item">
         <div class="wechat-item-avatar">
-          <img src="" alt="">
+          <img :src="otherAvatar" alt="">
         </div>
         <div class="wechat-item-text">
           我叫小甜甜
@@ -21,7 +21,19 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import useStore from "@/store";
+import { computed } from "vue";
+const { useUserStore } = useStore();
+
+const ownAvatar = computed(() => {
+  return useUserStore.userList.length ? useUserStore.userList[0]['avatar'] : '';
+})
+const otherAvatar = computed(() => {
+  const user = useUserStore.userList.find(user => user.id === useUserStore.activeOther)
+  return user ? user['avatar'] : '微信用户';
+})
+</script>
 
 <style lang="less" scoped>
 .phone-body {

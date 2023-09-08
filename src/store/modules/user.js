@@ -5,17 +5,28 @@ export const useUserStore = defineStore("toolUser", {
     return {
       activeRole: "own",
       selectedOther: "",
-      userList: [
-        {
-          name: "你自己",
-          avatar: "http://img.adoutu.com/article/1606320519924.jpg",
-        },
-        {
-          name: "小甜甜",
-          avatar: "http://img.adoutu.com/article/1606320520101.jpg",
-        }
-      ],
+      userList: [],
+      activeOther: "",
     };
+  },
+  actions: {
+    addUser() {
+      this.userList.push({
+        nickname: "微信用户",
+        avatar: "/avatar/001.jpg",
+        role: "other",
+        id: "user-" + Date.now(),
+      })
+    },
+    selectUser(id) {
+      this.activeOther = id;
+    },
+    deleteUser(id) {
+      if (this.activeOther === id) {
+        this.activeOther = this.userList[1]['id'];
+      }
+      this.userList = this.userList.filter(user => user.id != id);
+    },
   },
   persist: {
     enabled: true,

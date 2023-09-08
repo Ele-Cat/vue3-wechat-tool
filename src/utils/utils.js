@@ -12,6 +12,24 @@ export function fileToBase64(file) {
   });
 }
 
+export async function urlToBase64(url) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const reader = new FileReader();
+        const blob = await response.blob();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      } else {
+        throw new Error('图片加载失败');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}
+
 /**
  * 获取时分下拉
  * @param {Number} num 

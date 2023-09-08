@@ -5,7 +5,7 @@
       <span v-if="appearance.unreadMessages">{{appearance.unreadMessages > 99 ? '99+' : appearance.unreadMessages}}</span>
     </div>
     <div class="phone-nav-center">
-      <span> <font>小甜甜</font> <i v-if="appearance.earphoneMode"></i> </span>
+      <span> <font>{{activeUserName}}</font> <i v-if="appearance.earphoneMode"></i> </span>
     </div>
     <div class="phone-nav-right">
       <div class="phone-nav-more">更多</div>
@@ -14,6 +14,14 @@
 </template>
 
 <script setup>
+import useStore from "@/store";
+import { computed } from "vue";
+const { useUserStore } = useStore();
+const activeUserName = computed(() => {
+  const user = useUserStore.userList.find(user => user.id === useUserStore.activeOther)
+  return user ? user['nickname'] : '微信用户';
+})
+
 const props = defineProps({
   appearance: {
     type: Object,
