@@ -22,8 +22,8 @@
 </template>
 
 <script setup>
-import useStore from "@/store";
 import { computed } from "vue";
+import useStore from "@/store";
 const { useUserStore } = useStore();
 
 const ownAvatar = computed(() => {

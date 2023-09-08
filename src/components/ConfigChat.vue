@@ -10,12 +10,12 @@
         </slot>
         <div class="user-select-box">
           <div class="user-item" :class="{active: useUserStore.activeRole === 'own'}" @click="changeRole('own')">
-            <img src="@/assets/images/content/user-face.png" alt="">
-            <p>你自己</p>
+            <img :src="ownInfo.avatar" alt="">
+            <p>{{ownInfo.nickname}}</p>
           </div>
           <div class="user-item" :class="{active: useUserStore.activeRole === 'other'}" @click="changeRole('other')">
-            <img src="@/assets/images/content/user-face.png" alt="">
-            <p>小甜甜</p>
+            <img :src="otherInfo.avatar" alt="">
+            <p>{{otherInfo.nickname}}</p>
           </div>
         </div>
       </a-form-item>
@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, computed } from "vue";
 import GenerateForm from "./common/GenerateForm.vue"
 import UserManage from "./common/UserManage.vue"
 import useStore from "@/store";
@@ -49,6 +49,14 @@ const userManageVisible = ref(false)
 const changeRole = (role) => {
   useUserStore.activeRole = role
 }
+
+const ownInfo = computed(() => {
+  return useUserStore.userList[0];
+})
+const otherInfo = computed(() => {
+  const user = useUserStore.userList.find(user => user.id === useUserStore.activeOther) || {}
+  return user;
+})
 
 const activeType = ref('text')
 const addTypeName = ref('')
@@ -86,7 +94,7 @@ const addTypes = reactive([
   }
 ])
 watch(() => [activeType, useUserStore], () => {
-  let sendRole = useUserStore.activeRole === 'own' ? '你自己发送：' : '对方发送：'
+  let sendRole = useUserStore.activeRole === 'own' ? '你自己发送：' : otherInfo.value.nickname + '发送：'
   addTypeName.value = sendRole + addTypes.find(item => item.value === activeType.value)['label']
 }, {
   immediate: true,
@@ -127,6 +135,8 @@ watch(() => [activeType, useUserStore], () => {
     }
     img {
       width: 36px;
+      height: 36px;
+      object-fit: cover;
       border-radius: 6px;
     }
     p {
@@ -155,8 +165,8 @@ watch(() => [activeType, useUserStore], () => {
 <style lang="less">
 .config-chat {
   .ant-tabs-nav-list {
-    justify-content: space-around;
-    width: 100%;
+    // justify-content: space-around;
+    // width: 100%;
   }
   .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
     margin: 0 0 0 18px;
