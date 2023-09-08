@@ -28,7 +28,7 @@
             <a-button type="link" block disabled v-else>已选</a-button>
             <a-popconfirm title="确认删除该用户？" @confirm="handleDeleteUser(record.id)">
               <!-- <a>删除</a> -->
-              <a-button danger size="small" type="primary" v-if="useUserStore.userList.length >= 2">删除</a-button>
+              <a-button danger size="small" type="primary" v-if="useUserStore.userList.length > 2">删除</a-button>
             </a-popconfirm>
           </div>
         </template>
