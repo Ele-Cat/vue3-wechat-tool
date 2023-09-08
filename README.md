@@ -31,20 +31,26 @@
 - [x] 使用说明
 - [ ]
 
-## 安装
+## 使用
+
+### 安装
 
 ```
-npm i
+npm install
 ```
 
-## 运行
+### 运行
 
 ```
-npm run serve
+yarn serve
 ```
 
-## 打包
+### 打包
 
 ```
-npm run build
+yarn build
 ```
+
+## 参考文档、博客
+
+- [js 实现图片转 base64 格式,并压缩上传](https://codeleading.com/article/74243318780/)
