@@ -4,11 +4,13 @@
     <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
     <div class="wtc-button" @click="handleGenerateVideo">生成视频</div>
   </div>
+
   <a-drawer :width="500" :title="drawerTitle" placement="right" :open="drawerVisible" @close="onClose">
     <template #extra>
       <a-button type="primary" @click="handleDownload">下载</a-button>
     </template>
     <img :src="imageUrl" v-if="imageUrl" alt="">
+    <img :src="gifUrl" v-if="gifUrl" alt="">
   </a-drawer>
 </template>
 
@@ -16,7 +18,9 @@
 import { ref } from "vue";
 import dayjs from "dayjs";
 import { toast } from "@/utils/feedback";
-import { useHtmlToImage } from '@/hooks/useHtmlToImage';
+import useStore from "@/store";
+const { useChatStore } = useStore();
+import { useHtmlToImage, useHtmlToGif } from '@/hooks/useHtmlToImage';
 const props = defineProps({
   phone: {
     type: Object,
@@ -31,11 +35,17 @@ const handleGeneratePng = () => {
   drawerVisible.value = true;
   drawerTitle.value = "生成图片";
 }
+const { gifUrl, captureHtmlToGif } = useHtmlToGif();
 const handleGenerateGif = () => {
-  toast({
-    type: "warning",
-    content: "生成动图功能开发中！",
-  });
+  captureHtmlToGif(props.phone);
+  useChatStore.chatList.push({
+    id: "chat-" + Date.now(),
+    type: "text",
+    content: "你是谁",
+    role: "own",
+  })
+  drawerVisible.value = true;
+  drawerTitle.value = "生成动图";
 }
 const handleGenerateVideo = () => {
   toast({
