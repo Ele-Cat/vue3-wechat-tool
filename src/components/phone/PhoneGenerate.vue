@@ -4,16 +4,32 @@
     <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
     <div class="wtc-button" @click="handleGenerateVideo">生成视频</div>
   </div>
+  <a-drawer :width="500" :title="drawerTitle" placement="right" :open="drawerVisible" @close="onClose">
+    <template #extra>
+      <a-button type="primary" @click="handleDownload">下载</a-button>
+    </template>
+    <img :src="imageUrl" v-if="imageUrl" alt="">
+  </a-drawer>
 </template>
 
 <script setup>
+import { ref } from "vue";
+import dayjs from "dayjs";
 import { toast } from "@/utils/feedback";
-
+import { useHtmlToImage } from '@/hooks/useHtmlToImage';
+const props = defineProps({
+  phone: {
+    type: Object,
+    default: () => {}
+  }
+})
+const { imageUrl, captureHtmlToImage } = useHtmlToImage();
+const drawerVisible = ref(false)
+const drawerTitle = ref('')
 const handleGeneratePng = () => {
-  toast({
-    type: "warning",
-    content: "生成图片功能开发中！",
-  });
+  captureHtmlToImage(props.phone);
+  drawerVisible.value = true;
+  drawerTitle.value = "生成图片";
 }
 const handleGenerateGif = () => {
   toast({
@@ -26,6 +42,22 @@ const handleGenerateVideo = () => {
     type: "warning",
     content: "生成视频功能开发中！",
   });
+}
+
+const onClose = () => {
+  drawerVisible.value = false;
+}
+
+const handleDownload = () => {
+  const link = document.createElement('a');
+  link.href = imageUrl.value;
+  link.download = `微信聊天图片 - ${dayjs().format('YYYYMMDDHHmmss')}.png`;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 </script>
 

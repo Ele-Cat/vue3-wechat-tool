@@ -2,7 +2,7 @@
   <perfect-scrollbar>
     <div class="wt-content">
       <div class="wt-preview">
-        <div class="phone-wrap">
+        <div class="phone-wrap" ref="phoneRef">
           <div class="phone-scale" :style="{ transform: `scale(${phoneScale})` }">
             <div id="phone" class="phone" :style="{ width: phoneWidth + 'px', height: phoneHeight + 'px' }">
               <PhoneBar :appearance="appearance" />
@@ -15,8 +15,8 @@
             </div>
           </div>
         </div>
-        <PhoneGenerate />
         <PhoneTools />
+        <PhoneGenerate :phone="phoneRef" />
       </div>
     </div>
   </perfect-scrollbar>
@@ -50,6 +50,8 @@ watch(() => useSystemStore.appearance, (newVal) => {
 }, {
   immediate: true,
 })
+
+const phoneRef = ref(null);
 </script>
 
 <style lang="less" scoped>
