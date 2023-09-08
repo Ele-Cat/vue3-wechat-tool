@@ -1,6 +1,7 @@
 <template>
   <a-drawer :width="480" title="用户管理" placement="left" :open="open" @close="close" class="user-manage">
     <div class="user-control">
+      已有{{ useUserStore.userList.length - 1 }}个用户
       <a-button type="primary" @click="handleAddUser">新增用户</a-button>
     </div>
     <a-table size="small" :columns="columns" :data-source="useUserStore.userList" :pagination="false" bordered>
@@ -23,9 +24,8 @@
         </template>
         <template v-if="column.dataIndex === 'operation' && record.role != 'own'">
           <div class="editable-row-operations">
-            <a-button type="link" block @click="handleSelectUser(record.id)"
-              v-if="record.id !== useUserStore.activeOther">选择</a-button>
-            <a-button type="link" block disabled v-else>已选</a-button>
+            <a-typography-link @click="handleSelectUser(record.id)" v-if="record.id !== useUserStore.activeOther">选择</a-typography-link>
+            <a-typography-text block disabled v-else>已选</a-typography-text>
             <a-popconfirm title="确认删除该用户？" @confirm="handleDeleteUser(record.id)">
               <!-- <a>删除</a> -->
               <a-button danger size="small" type="primary" v-if="useUserStore.userList.length > 2">删除</a-button>
@@ -59,7 +59,7 @@ const columns = [
   {
     title: '头像',
     dataIndex: 'avatar',
-    width: '80px',
+    width: '60px',
     align: 'center',
   },
   {
@@ -117,8 +117,10 @@ const beforeUpload = (file) => {
 .user-manage {
   .user-control {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
+    color: var(--theme-color);
   }
 
   .editable-row-operations {
@@ -159,8 +161,10 @@ const beforeUpload = (file) => {
 <style lang="less">
 .user-manage {
   .ant-upload {
-    width: 60px !important;
-    height: 60px !important;
+    width: 46px !important;
+    height: 46px !important;
+    margin-inline-end: 0 !important;
+    margin-bottom: 0 !important;
   }
 }
 </style>

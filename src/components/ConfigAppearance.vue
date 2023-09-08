@@ -68,16 +68,16 @@
             <div class="ant-upload-text">点击上传</div>
           </div>
         </a-upload>
-        <span style="font-size:12px;color:#999;">只可上传小于2M的JPG或PNG图片</span>
+        <span style="font-size:12px;color:#999;">只可上传小于1M的JPG或PNG图片</span>
       </a-form-item>
     </a-form>
   </perfect-scrollbar>
 </template>
 
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons-vue";
-import dayjs from "dayjs";
+// import { useFetch } from '@vueuse/core'
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";
 import { fileToBase64, toZeroStr } from "@/utils/utils";
 import { toast } from "@/utils/feedback";
@@ -105,6 +105,15 @@ const batteryFormatter = (value) => {
 const fileList = ref([]);
 const uploadLoading = ref(false);
 const handleChange = (info) => {
+  // 用vueuse useFetch上传图片到图床
+  // const formData = new FormData();
+  // formData.append('image', info.file);
+  // const { data } = await useFetch('https://tucdn.wpon.cn/api/upload', {
+  //   method: 'POST',
+  //   body: formData,
+  // }).json();
+  // const imgUrl = data.value.data.url;
+  // formState.value.chatBackground = imgUrl;
   uploadLoading.value = true;
   fileToBase64(info.file).then((base64Data) => {
     formState.value.chatBackground = base64Data;
@@ -119,11 +128,11 @@ const beforeUpload = (file) => {
       content: "只可上传JPG或PNG图片！",
     });
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
+  const isLt2M = file.size / 1024 / 1024 < 1;
   if (!isLt2M) {
     toast({
       type: "warning",
-      content: "图片大小需小于2MB！",
+      content: "图片大小需小于1MB！",
     });
   }
   return isJpgOrPng && isLt2M;

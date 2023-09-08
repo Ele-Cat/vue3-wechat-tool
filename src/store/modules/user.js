@@ -13,7 +13,7 @@ export const useUserStore = defineStore("toolUser", {
     addUser() {
       this.userList.push({
         nickname: "微信用户",
-        avatar: "/avatar/001.jpg",
+        avatar: "https://tucdn.wpon.cn/2023/09/08/37d305c1e3f7c.jpg",
         role: "other",
         id: "user-" + Date.now(),
       })

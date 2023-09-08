@@ -87,13 +87,13 @@ onMounted(async () => {
     useUserStore.userList = [
       {
         nickname: "你自己",
-        avatar: "https://tucdn.wpon.cn/2023/09/08/37d305c1e3f7c.jpg",
+        avatar: "https://tucdn.wpon.cn/2023/09/08/94e307cdfb535.jpg",
         role: "own",
         id: "user-0",
       },
       {
         nickname: "小甜甜",
-        avatar: "https://tucdn.wpon.cn/2023/09/08/94e307cdfb535.jpg",
+        avatar: "https://tucdn.wpon.cn/2023/09/08/37d305c1e3f7c.jpg",
         role: "other",
         id: "user-" + Date.now(),
       }
