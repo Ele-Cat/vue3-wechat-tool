@@ -1,5 +1,5 @@
 <template>
-  <div class="phone-body">
+  <div class="phone-body" @contextmenu="handlePhoneBodyContextMenu">
     <div class="wechat-content">
       <div class="wechat-item wechat-item-right">
         <div class="wechat-item-avatar">
@@ -33,6 +33,10 @@ const otherAvatar = computed(() => {
   const user = useUserStore.userList.find(user => user.id === useUserStore.activeOther)
   return user ? user['avatar'] : '微信用户';
 })
+
+const handlePhoneBodyContextMenu = (e) => {
+  e.preventDefault();
+}
 </script>
 
 <style lang="less" scoped>
@@ -64,6 +68,9 @@ const otherAvatar = computed(() => {
         display: flex;
         align-items: center;
         justify-content: center;
+        img {
+          max-width: 100%;
+        }
       }
       .wechat-item-text {
         background: #fff;

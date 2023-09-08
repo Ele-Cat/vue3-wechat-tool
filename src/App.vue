@@ -87,13 +87,13 @@ onMounted(async () => {
     useUserStore.userList = [
       {
         nickname: "你自己",
-        avatar: await urlToBase64("/avatar/001.jpg"),
+        avatar: "https://tucdn.wpon.cn/2023/09/08/37d305c1e3f7c.jpg",
         role: "own",
         id: "user-0",
       },
       {
         nickname: "小甜甜",
-        avatar: await urlToBase64("/avatar/002.jpg"),
+        avatar: "https://tucdn.wpon.cn/2023/09/08/94e307cdfb535.jpg",
         role: "other",
         id: "user-" + Date.now(),
       }
