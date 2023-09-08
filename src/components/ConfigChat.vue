@@ -69,7 +69,10 @@ const addTypes = reactive([
     label: "语音",
     value: "voice",
   }, {
-    label: "系统消息",
+    label: "视频邀请",
+    value: "systemMessages",
+  }, {
+    label: "语音邀请",
     value: "systemMessages",
   }, {
     label: "拍一拍",
