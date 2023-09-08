@@ -46,7 +46,7 @@ watch(() => useSystemStore.appearance, (newVal) => {
   const { width, height } = models.find(model => model.value === newVal.model)
   phoneWidth.value = width
   phoneHeight.value = height
-  phoneScale.value = (360 / width).toFixed(2)
+  useSystemStore.phoneScale = phoneScale.value = (360 / width).toFixed(2)
 }, {
   immediate: true,
 })

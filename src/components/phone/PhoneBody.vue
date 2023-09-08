@@ -1,20 +1,12 @@
 <template>
-  <div class="phone-body" @contextmenu="handlePhoneBodyContextMenu">
+  <div class="phone-body" ref="contentRef" @contextmenu="handlePhoneBodyContextMenu">
     <div class="wechat-content">
-      <div class="wechat-item wechat-item-right">
+      <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu="e => rightClicked(e, chat)">
         <div class="wechat-item-avatar">
-          <img :src="ownAvatar" alt="">
+          <img :src="chat.role === 'own' ? ownAvatar : otherAvatar" alt="">
         </div>
         <div class="wechat-item-text">
-          你是谁
-        </div>
-      </div>
-      <div class="wechat-item">
-        <div class="wechat-item-avatar">
-          <img :src="otherAvatar" alt="">
-        </div>
-        <div class="wechat-item-text">
-          我叫小甜甜
+          {{chat.content}}
         </div>
       </div>
     </div>
@@ -22,9 +14,10 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import useStore from "@/store";
-const { useUserStore } = useStore();
+const { useUserStore, useChatStore, useContextMenuStore } = useStore();
+import useAutoScrollBottom from "@/hooks/useAutoScrollBottom"
 
 const ownAvatar = computed(() => {
   return useUserStore.userList.length ? useUserStore.userList[0]['avatar'] : '';
@@ -37,6 +30,14 @@ const otherAvatar = computed(() => {
 const handlePhoneBodyContextMenu = (e) => {
   e.preventDefault();
 }
+
+const rightClicked = (e, chat) => {
+  e.preventDefault();
+  useContextMenuStore.showContextMenu(e.clientX, e.clientY, chat);
+};
+
+const contentRef = ref(null)
+useAutoScrollBottom(contentRef)
 </script>
 
 <style lang="less" scoped>
@@ -50,11 +51,13 @@ const handlePhoneBodyContextMenu = (e) => {
   overflow-x: hidden;
   overflow-y: scroll;
   .wechat-content {
-    padding: 36px;
     .wechat-item {
-      margin-bottom: 50px;
+      padding: 25px 36px;
       position: relative;
       display: flex;
+      &:hover, &.active {
+        background-color: rgba(0, 0, 0, .15);
+      }
       .wechat-item-avatar {
         width: 123px;
         height: 123px;

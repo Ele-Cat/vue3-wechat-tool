@@ -1,13 +1,13 @@
 <template>
   <a-card size="small" :bordered="true" :title="title">
     <a-form :model="formState">
-      <template v-if="type === 'text'">
-        <a-textarea v-model:value="formState.text" :autoSize="{ minRows: 3, maxRows: 6 }" />
+      <template v-if="useChatStore.activeType === 'text'">
+        <a-textarea placeholder="请输入文本" v-model:value="formState.text" :autoSize="{ minRows: 3, maxRows: 6 }" />
         <!-- <div class="emojis">
           <img :src="getAssetsFile(`/public/emoji/emoji_${i}.png`)" v-for="i in 2" :key="i" alt="">
         </div> -->
       </template>
-      <template v-else-if="type === 'image'">
+      <template v-else-if="useChatStore.activeType === 'image'">
         <a-upload-dragger v-model:fileList="fileList" name="image" :multiple="false" :show-upload-list="false"
           :customRequest="handleChange" :before-upload="beforeUpload" accept="image/*" @drop="handleDrop">
           <p class="ant-upload-drag-icon">
@@ -16,13 +16,13 @@
           <p class="ant-upload-text">点击拖动图片到此区域</p>
         </a-upload-dragger>
       </template>
-      <template v-else-if="type === 'transferAccounts'">
+      <template v-else-if="useChatStore.activeType === 'transferAccounts'">
         <a-input v-model:value="formState.phoneBattery" :autoSize="{ minRows: 3, maxRows: 6 }" />
       </template>
     </a-form>
     <template #actions>
-      <a-button block danger type="link" size="small">清空</a-button>
-      <a-button block type="link" size="small">发送</a-button>
+      <a-button block danger type="link" size="small" @click="handleClearChat">清空</a-button>
+      <a-button block type="link" size="small" @click="handleSentChat">发送</a-button>
     </template>
   </a-card>
 </template>
@@ -31,22 +31,39 @@
 import { reactive, ref } from "vue";
 import { InboxOutlined } from '@ant-design/icons-vue';
 import { toast } from "@/utils/feedback";
+import useStore from "@/store";
+const { useUserStore, useChatStore } = useStore();
 
 const props = defineProps({
   title: {
     type: String,
     default: "发送类型",
   },
-  type: {
-    type: String,
-    default: "text",
-  }
 })
 
 const formState = reactive({
   model: "ios",
   phoneBattery: 60,
 });
+
+const handleSentChat = () => {
+  if (!formState.text) {
+    toast({
+      type: "warning",
+      content: "请输入文本后发送",
+    })
+  }
+  useChatStore.sentChat({
+    type: useChatStore.activeType,
+    content: formState.text,
+    role: useUserStore.activeRole,
+  })
+  formState.text = ""
+}
+
+const handleClearChat = () => {
+  formState.text = ""
+}
 
 const fileList = ref([]);
 const handleChange = info => {

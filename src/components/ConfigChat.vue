@@ -21,10 +21,10 @@
       </a-form-item>
       <a-divider style="border-color: var(--theme-color)" />
       <a-form-item label="">
-        <a-tabs v-model:activeKey="activeType" size="small" tab-position="top" :style="{ width: '480px' }">
+        <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top" :style="{ width: '480px' }">
           <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
         </a-tabs>
-        <GenerateForm :title="addTypeName" :type="activeType" />
+        <GenerateForm :title="addTypeName" />
         <!-- <p>文本、图片、转账、红包、语音、系统消息、拍一拍、撤回消息、时间</p>
         <p>输入、表情</p>
         <p>拖动上传base64</p>
@@ -43,7 +43,7 @@ import { reactive, ref, watch, computed } from "vue";
 import GenerateForm from "./common/GenerateForm.vue"
 import UserManage from "./common/UserManage.vue"
 import useStore from "@/store";
-const { useUserStore } = useStore();
+const { useUserStore, useChatStore } = useStore();
 
 const userManageVisible = ref(false)
 const changeRole = (role) => {
@@ -58,7 +58,6 @@ const otherInfo = computed(() => {
   return user;
 })
 
-const activeType = ref('text')
 const addTypeName = ref('')
 const addTypes = reactive([
   {
@@ -93,9 +92,9 @@ const addTypes = reactive([
     value: "recallMessage",
   }
 ])
-watch(() => [activeType, useUserStore], () => {
+watch(() => [useChatStore.activeType, useUserStore], () => {
   let sendRole = useUserStore.activeRole === 'own' ? '你自己发送：' : otherInfo.value.nickname + '发送：'
-  addTypeName.value = sendRole + addTypes.find(item => item.value === activeType.value)['label']
+  addTypeName.value = sendRole + addTypes.find(item => item.value === useChatStore.activeType)['label']
 }, {
   immediate: true,
   deep: true,

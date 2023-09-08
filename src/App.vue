@@ -4,7 +4,7 @@
       colorPrimary: '#FFC600',
     },
   }" :locale="zhCN">
-    <a-layout>
+    <a-layout @click="handleAppClick">
       <a-layout-header :style="headerStyle">
         <WtHeader />
       </a-layout-header>
@@ -26,6 +26,7 @@
   <a-modal v-model:open="modalOpen" title="注意" @ok="handleModalOk" @cancel="handleModalCancel" cancelText="关闭" okText="我已知晓，关闭">
     <Instructions />
   </a-modal>
+  <ContextMenu />
 </template>
 
 <script setup>
@@ -39,9 +40,9 @@ import WtSider from "@/components/WtSider.vue"
 import WtContent from "@/components/WtContent.vue"
 import WtFooter from "@/components/WtFooter.vue"
 import Instructions from "@/components/common/Instructions.vue"
+import ContextMenu from "@/components/common/ContextMenu.vue"
 import useStore from "@/store";
-const { useSystemStore, useUserStore } = useStore();
-import { urlToBase64 } from "@/utils/utils";
+const { useSystemStore, useUserStore, useChatStore, useContextMenuStore } = useStore();
 
 const headerStyle = {
   height: '50px',
@@ -80,27 +81,46 @@ const handleModalCancel = e => {
 };
 !useSystemStore.hadDisclaimer && showDisclaimerModal();
 
-console.log('useUserStore.userList: ', useUserStore.userList);
 onMounted(async () => {
   if (!useUserStore.userList.length) {
     // 在这里初始化用户列表吧
     useUserStore.userList = [
       {
+        id: "user-0",
         nickname: "你自己",
         avatar: "https://tucdn.wpon.cn/2023/09/08/94e307cdfb535.jpg",
         role: "own",
-        id: "user-0",
       },
       {
+        id: "user-" + Date.now(),
         nickname: "小甜甜",
         avatar: "https://tucdn.wpon.cn/2023/09/08/37d305c1e3f7c.jpg",
         role: "other",
-        id: "user-" + Date.now(),
       }
     ]
     useUserStore.activeOther = useUserStore.userList[1]['id'];
   }
+  if (!useChatStore.chatList.length) {
+    useChatStore.chatList = [
+      {
+        id: "chat-1",
+        type: "text",
+        content: "你是谁",
+        role: "own",
+      },
+      {
+        id: "chat-2",
+        type: "text",
+        content: "我是小甜甜~",
+        role: "other",
+      }
+    ]
+  }
 })
+
+const handleAppClick = () => {
+  useContextMenuStore.hideContextMenu();
+}
 </script>
 
 <style lang="less" scoped>
