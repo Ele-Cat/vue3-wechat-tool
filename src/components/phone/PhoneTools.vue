@@ -17,7 +17,7 @@
 import { h } from 'vue';
 import { RotateLeftOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 import useStore from "@/store";
-const { useSystemStore } = useStore();
+const { useSystemStore, useChatStore } = useStore();
 import { toast } from "@/utils/feedback";
 
 const resetAppearance = () => {
@@ -29,9 +29,10 @@ const resetAppearance = () => {
 }
 
 const resetChat = () => {
+  useChatStore.chatList = [];
   toast({
     type: "warning",
-    content: "开发中！",
+    content: "清空对话成功！",
   });
 }
 </script>
