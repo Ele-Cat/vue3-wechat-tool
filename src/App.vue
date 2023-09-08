@@ -9,7 +9,7 @@
         <WtHeader />
       </a-layout-header>
       <a-layout class="content">
-        <a-layout-sider :style="siderStyle" width="480">
+        <a-layout-sider :style="siderStyle" width="600">
           <WtSider />
         </a-layout-sider>
         <a-layout-content :style="contentStyle">

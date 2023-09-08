@@ -1,5 +1,5 @@
 <template>
-  <perfect-scrollbar>
+  <perfect-scrollbar class="config-chat">
     <a-form :model="formState" layout="vertical">
       <a-form-item>
         <slot name="label">
@@ -21,7 +21,7 @@
       </a-form-item>
       <a-divider style="border-color: var(--theme-color)" />
       <a-form-item label="">
-        <a-tabs v-model:activeKey="activeType" size="small" tab-position="top" :style="{ width: '360px' }">
+        <a-tabs v-model:activeKey="activeType" size="small" tab-position="top" :style="{ width: '480px' }">
           <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
         </a-tabs>
         <GenerateForm :title="addTypeName" :type="activeType" />
@@ -146,5 +146,17 @@ watch(() => [activeType, useUserStore], () => {
   margin-top: -12px;
   font-size: 46px;
   color: #666;
+}
+</style>
+
+<style lang="less">
+.config-chat {
+  .ant-tabs-nav-list {
+    justify-content: space-around;
+    width: 100%;
+  }
+  .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+    margin: 0 0 0 18px;
+  }
 }
 </style>

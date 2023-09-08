@@ -33,28 +33,26 @@ const handleGenerateVideo = () => {
 .wt-ctrl {
   position: absolute;
   top: 50%;
-  right: -70px;
-  width: 60px;
+  right: -74px;
   transform: translate(0, -50%);
 
   .wtc-button {
-    width: 66px;
-    height: 30px;
     line-height: 28px;
     text-align: center;
+    padding: 0 8px;
     font-size: 12px;
-    background-image: linear-gradient(135deg, #ffe985 10%, #fa742b 100%);
-    background-image: linear-gradient(135deg, #ffa8a8 10%, #fcff00 100%);
-    background-image: linear-gradient(135deg, #3b2667 10%, #bc78ec 100%);
-    background-image: linear-gradient(135deg, #f6d242 10%, #ff52e5 100%);
     background-image: linear-gradient(135deg, #fd6e6a 10%, #ffc600 100%);
     border-radius: 6px;
-    margin-bottom: 10px;
     color: #ffffff;
     cursor: pointer;
-    transition: all 0.1s;
+    transition: all 0.5s ease;
+    &+.wtc-button {
+      margin-top: 10px;
+    }
     &:hover {
-      box-shadow: 0 0 20px inset #ffc600;
+      transition: all 0.5s ease;
+      box-shadow: 0 0 20px inset #fd6e6a;
+      background-image: linear-gradient(135deg, #ffc600 10%, #fd6e6a 100%);
     }
   }
 }
