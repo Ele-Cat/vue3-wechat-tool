@@ -2,10 +2,9 @@
   <a-card size="small" :bordered="true" :title="title">
     <a-form :model="formState">
       <template v-if="useChatStore.activeType === 'text'">
-        <a-textarea placeholder="请输入文本" v-model:value="formState.text" :autoSize="{ minRows: 3, maxRows: 6 }" />
+        <a-textarea ref="textareaRef" placeholder="请输入文本" v-model:value="formState.text" :autoSize="{ minRows: 3, maxRows: 6 }" />
         <div class="emojis">
           <Emoji @add="addEmoji" />
-          <!-- <img :src="`/public/emoji/emoji_${i}.png`" v-for="i in 2" :key="i" alt="" @click="handleEmojiClick(i)"> -->
         </div>
       </template>
       <template v-else-if="useChatStore.activeType === 'image'">
@@ -43,24 +42,25 @@ const props = defineProps({
   },
 })
 
+const textareaRef = ref(null);
+// 点击表情包的逻辑
 const addEmoji = (emoji) => {
-  formState.text = formState.text ? formState.text + `[${emoji}]` : `[${emoji}]`
-}
-
-let lastEditRange = reactive(null)
-const handleEmojiClick = (idx) => {
-  lastEditRange = window.getSelection().getRangeAt(0);
-  console.log('lastEditRange: ', lastEditRange);
-  if (lastEditRange) {
-    // 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态
-    selection.removeAllRanges()
-    selection.addRange(this.lastEditRange)
+  const inputEl = textareaRef.value.$el
+  const selectionStart = inputEl.selectionStart;
+  const selectionEnd = inputEl.selectionEnd;
+  if (!formState.text) {
+    formState.text = `[${emoji}]`
+  } else if (selectionStart === selectionEnd && selectionStart === 0) {
+    formState.text += `[${emoji}]`
+  } else if (selectionStart === selectionEnd && selectionStart !== 0) {
+    formState.text = formState.text.slice(0, selectionStart) + `[${emoji}]` + formState.text.slice(selectionStart)
+  } else if (selectionStart !== selectionEnd) {
+    formState.text = formState.text.slice(0, selectionStart) + `[${emoji}]` + formState.text.slice(selectionEnd)
   }
 }
 
 const formState = reactive({
-  model: "ios",
-  phoneBattery: 60,
+  text: "",
 });
 
 const handleSentChat = () => {

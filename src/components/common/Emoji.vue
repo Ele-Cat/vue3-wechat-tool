@@ -13,7 +13,6 @@ import emojiBase64 from "@/utils/emojiBase64";
 const emit = defineEmits()
 
 const handleEmojiClick = (emoji) => {
-  console.log('emoji: ', emoji);
   emit("add", emoji)
 }
 </script>

@@ -40,9 +40,9 @@ const rightClicked = (e, chat) => {
 const contentRef = ref(null)
 useAutoScrollBottom(contentRef)
 
+// 替换[emoji]为图片
 const renderText = (text) => {
   const replacedText = text.replace(/\[.*?\]/g, (match) => {
-    console.log('match: ', match);
     const emoticon = match.trim().replace('[', '').replace(']', '');
     if (emojiBase64.hasOwnProperty(emoticon)) {
       const imageUrl = emojiBase64[emoticon];
