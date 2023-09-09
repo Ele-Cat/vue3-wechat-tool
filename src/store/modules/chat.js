@@ -8,12 +8,10 @@ export const useChatStore = defineStore("toolChat", {
     };
   },
   actions: {
-    sentChat({role, type, content}) {
+    sentChat(chatInfo) {
       this.chatList.push({
         id: "chat-" + Date.now(),
-        type,
-        content,
-        role,
+        ...chatInfo,
       })
     },
     editChat() {

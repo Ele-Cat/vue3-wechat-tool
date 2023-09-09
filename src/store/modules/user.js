@@ -10,6 +10,15 @@ export const useUserStore = defineStore("toolUser", {
       activeOther: "",
     };
   },
+  getters: {
+    ownInfo() {
+      return this.userList[0];
+    },
+    otherInfo() {
+      const user = this.userList.find(user => user.id === this.activeOther) || {};
+      return user;
+    },
+  },
   actions: {
     addUser() {
       this.userList.push({

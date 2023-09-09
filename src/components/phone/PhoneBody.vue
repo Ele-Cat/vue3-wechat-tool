@@ -6,8 +6,21 @@
           <img :src="chat.role === 'own' ? ownAvatar : otherAvatar" alt="">
         </div>
         <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content)"></div>
-        <div class="wechat-item-text wechat-dialog-image" v-if="chat.type === 'image'">
+        <div class="wechat-item-text wechat-item-image" v-else-if="chat.type === 'image'">
           <img :src="chat.content" alt="">
+        </div>
+        <div class="wechat-item-text wechat-item-trans" v-else-if="chat.type === 'transferAccounts'">
+          <div class="wechat-item-trans-content">
+            <i></i> 
+            <div>
+              <span>¥{{ chat.money.toFixed(2) }}</span> 
+              <font v-if="!chat.content">转账给{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}</font>
+              <font v-else>{{ chat.content }}</font>
+            </div>
+          </div>
+          <div class="wechat-item-trans-bottom">
+            <span>微信转账</span>
+          </div>
         </div>
       </div>
     </div>
@@ -122,7 +135,7 @@ const renderText = (text) => {
           position: absolute;
           transform: rotate(45deg);
         }
-        &.wechat-dialog-image {
+        &.wechat-item-image {
           border: 1px #d5d5d5 solid;
           padding: 0;
           background: none !important;
@@ -133,6 +146,58 @@ const renderText = (text) => {
           }
           &:after {
             display: none;
+          }
+        }
+        &.wechat-item-trans {
+          background: #f79c46 !important;
+          width: 700px;
+          padding-top: 0;
+          padding-bottom: 0;
+          .wechat-item-trans-content {
+            display: flex;
+            height: 192px;
+            align-items: center;
+            position: relative;
+            i {
+              width: 120px;
+              height: 120px;
+              background: url(@/assets/images/content/wechat-trans-icon1.png) no-repeat;
+            }
+            div {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              margin-left: 30px;
+              overflow: hidden;
+              span {
+                font-size: 48px;
+                color: #fff;
+                margin-top: -9px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+              font {
+                font-size: 36px;
+                color: #fff;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+          .wechat-item-trans-bottom {
+            height: 71px;
+            align-items: center;
+            display: flex;
+            span {
+              font-size: 36px;
+              color: #faecda;
+            }
+          }
+          &:after {
+            content: '';
+            background: #f79c46 !important;
           }
         }
       }

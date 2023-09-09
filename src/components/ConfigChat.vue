@@ -10,12 +10,12 @@
         </slot>
         <div class="user-select-box">
           <div class="user-item" :class="{active: useUserStore.activeRole === 'own'}" @click="changeRole('own')">
-            <img :src="ownInfo.avatar" alt="">
-            <p>{{ownInfo.nickname}}</p>
+            <img :src="useUserStore.ownInfo.avatar" alt="">
+            <p>{{useUserStore.ownInfo.nickname}}</p>
           </div>
           <div class="user-item" :class="{active: useUserStore.activeRole === 'other'}" @click="changeRole('other')">
-            <img :src="otherInfo.avatar" alt="">
-            <p :title="otherInfo.nickname">{{otherInfo.nickname}}</p>
+            <img :src="useUserStore.otherInfo.avatar" alt="">
+            <p :title="useUserStore.otherInfo.nickname">{{useUserStore.otherInfo.nickname}}</p>
           </div>
         </div>
       </a-form-item>
@@ -47,14 +47,6 @@ const userManageVisible = ref(false)
 const changeRole = (role) => {
   useUserStore.activeRole = role
 }
-
-const ownInfo = computed(() => {
-  return useUserStore.userList[0];
-})
-const otherInfo = computed(() => {
-  const user = useUserStore.userList.find(user => user.id === useUserStore.activeOther) || {}
-  return user;
-})
 
 const addTypeName = ref('')
 const addTypes = reactive([
@@ -91,7 +83,7 @@ const addTypes = reactive([
   }
 ])
 watch(() => [useChatStore.activeType, useUserStore], () => {
-  let sendRole = useUserStore.activeRole === 'own' ? '你自己发送：' : otherInfo.value.nickname + '发送：'
+  let sendRole = useUserStore.activeRole === 'own' ? '你自己发送：' : useUserStore.otherInfo.nickname + '发送：'
   addTypeName.value = sendRole + addTypes.find(item => item.value === useChatStore.activeType)['label']
 }, {
   immediate: true,

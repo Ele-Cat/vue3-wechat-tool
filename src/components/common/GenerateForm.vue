@@ -32,10 +32,10 @@
       </template>
       <template v-else-if="useChatStore.activeType === 'transferAccounts'">
         <a-form-item label="转账金额">
-          <a-input v-model:value="formState.transferAmount" />
+          <a-input-number :min="0" :precision="2" v-model:value="formState.transferAmount" placeholder="请输入转账金额" />
         </a-form-item>
         <a-form-item label="转账备注">
-          <a-input v-model:value="formState.transferRemarks" />
+          <a-input v-model:value="formState.transferRemarks" placeholder="请输入转账备注" />
         </a-form-item>
       </template>
     </a-form>
@@ -90,7 +90,7 @@ const addEmoji = (emoji) => {
 };
 
 const handleSentChat = () => {
-  if (!formState.text) {
+  if (!formState.text && useChatStore.activeType === "text") {
     toast({
       type: "warning",
       content: "请输入文本后发送",
@@ -99,14 +99,20 @@ const handleSentChat = () => {
   }
   useChatStore.sentChat({
     type: useChatStore.activeType,
-    content: formState.text,
+    money: formState.transferAmount,
+    content: useChatStore.activeType === "text" ? formState.text : formState.transferRemarks,
     role: useUserStore.activeRole,
   });
-  formState.text = "";
+  handleClearChat();
 };
 
 const handleClearChat = () => {
-  formState.text = "";
+  if (useChatStore.activeType === "text") {
+    formState.text = "";
+  } else if (useChatStore.activeType === "transferAccounts") {
+    formState.transferAmount = 88;
+    formState.transferRemarks = "";
+  }
 };
 
 const fileList = ref([]);
@@ -154,6 +160,9 @@ const beforeUpload = (file) => {
   }
   .ant-upload-drag-hover {
     background-color: #90F7EC;
+  }
+  .ant-input-number {
+    width: 100%;
   }
 }
 </style>
