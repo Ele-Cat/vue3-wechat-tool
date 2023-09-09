@@ -20,7 +20,7 @@
         <WtFooter />
       </a-layout-footer> -->
     </a-layout>
-    <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg' alt='Fork me on Gitee' /></a>
+    <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg?color=ffc800' alt='Fork me on Gitee' /></a>
   </a-config-provider>
 
   <a-modal v-model:open="modalOpen" title="注意" @ok="handleModalOk" @cancel="handleModalCancel" cancelText="关闭" okText="我已知晓，关闭">
@@ -38,7 +38,7 @@ dayjs.locale('zh-cn');
 import WtHeader from "@/components/WtHeader.vue"
 import WtSider from "@/components/WtSider.vue"
 import WtContent from "@/components/WtContent.vue"
-import WtFooter from "@/components/WtFooter.vue"
+// import WtFooter from "@/components/WtFooter.vue"
 import Instructions from "@/components/common/Instructions.vue"
 import ContextMenu from "@/components/common/ContextMenu.vue"
 import useStore from "@/store";

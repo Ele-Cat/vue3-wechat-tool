@@ -83,7 +83,7 @@ const addTypes = reactive([
   }
 ])
 watch(() => [useChatStore.activeType, useUserStore], () => {
-  let sendRole = useUserStore.activeRole === 'own' ? '你自己发送：' : useUserStore.otherInfo.nickname + '发送：'
+  let sendRole = useUserStore.activeRole === 'own' ? '你自己：' : `${useUserStore.otherInfo.nickname}：`
   addTypeName.value = sendRole + addTypes.find(item => item.value === useChatStore.activeType)['label']
 }, {
   immediate: true,

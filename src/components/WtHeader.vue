@@ -2,7 +2,6 @@
   <div class="wt-header">
     <p data-text="微信对话生成器">微信对话生成器</p>
   </div>
-  WtHeader
 </template>
 
 <script setup>
@@ -13,12 +12,12 @@
 .wt-header {
   width: 100%;
   height: 100%;
-  // background-image: radial-gradient(
-  //   ellipse farthest-side at 40% 0%,
-  //   #455a64 0%,
-  //   #263238 60%,
-  //   #1a2327 100%
-  // );
+  background-image: radial-gradient(
+    ellipse farthest-side at 40% 0%,
+    #455a64 0%,
+    #263238 60%,
+    #1a2327 100%
+  );
   display: flex;
 }
 
@@ -26,9 +25,9 @@ p {
   position: relative;
   margin: auto;
   font-size: 32px;
+  top: -2px;
   letter-spacing: 0.2em;
   display: inline-block;
-  line-height: 1;
   font-weight: bold;
   white-space: nowrap;
   color: transparent;
