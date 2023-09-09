@@ -4,7 +4,7 @@
       <template v-if="useChatStore.activeType === 'text'">
         <a-textarea placeholder="请输入文本" v-model:value="formState.text" :autoSize="{ minRows: 3, maxRows: 6 }" />
         <div class="emojis">
-          <Emoji />
+          <Emoji @add="addEmoji" />
           <!-- <img :src="`/public/emoji/emoji_${i}.png`" v-for="i in 2" :key="i" alt="" @click="handleEmojiClick(i)"> -->
         </div>
       </template>
@@ -42,6 +42,10 @@ const props = defineProps({
     default: "发送类型",
   },
 })
+
+const addEmoji = (emoji) => {
+  formState.text = formState.text ? formState.text + `[${emoji}]` : `[${emoji}]`
+}
 
 let lastEditRange = reactive(null)
 const handleEmojiClick = (idx) => {
