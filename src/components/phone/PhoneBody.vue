@@ -5,9 +5,7 @@
         <div class="wechat-item-avatar">
           <img :src="chat.role === 'own' ? ownAvatar : otherAvatar" alt="">
         </div>
-        <div class="wechat-item-text">
-          {{chat.content}}
-        </div>
+        <div class="wechat-item-text" v-html="renderText(chat.content)"></div>
       </div>
     </div>
   </div>
@@ -18,6 +16,7 @@ import { computed, ref } from "vue";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore } = useStore();
 import useAutoScrollBottom from "@/hooks/useAutoScrollBottom"
+import emojiBase64 from "@/utils/emojiBase64";
 
 const ownAvatar = computed(() => {
   return useUserStore.userList.length ? useUserStore.userList[0]['avatar'] : '';
@@ -40,6 +39,20 @@ const rightClicked = (e, chat) => {
 
 const contentRef = ref(null)
 useAutoScrollBottom(contentRef)
+
+const renderText = (text) => {
+  const replacedText = text.replace(/\[.*?\]/g, (match) => {
+    console.log('match: ', match);
+    const emoticon = match.trim().replace('[', '').replace(']', '');
+    if (emojiBase64.hasOwnProperty(emoticon)) {
+      const imageUrl = emojiBase64[emoticon];
+      return `<img class="emoji-img" style="width:68px;margin:0 4px;vertical-align:top;" src="data:image/png;base64,${imageUrl}" alt="${emoticon}">`;
+    }
+    return match;
+  })
+  
+  return replacedText;
+}
 </script>
 
 <style lang="less" scoped>
@@ -91,6 +104,10 @@ useAutoScrollBottom(contentRef)
         position: relative;
         line-height: normal;
         min-height: 123px;
+        .emoji-img {
+          width: 24px !important;
+          height: 24px !important;
+        }
         &:after {
           content: '';
           background: #fff;

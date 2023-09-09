@@ -121,7 +121,7 @@ export const phoneSignals = [
   },
 ];
 
-export const emojis = [
+export const emojiList = [
   "微笑",
   "撇嘴",
   "色",
