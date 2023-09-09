@@ -19,21 +19,19 @@
           </div>
         </div>
       </a-form-item>
-      <a-divider style="border-color: var(--theme-color)" />
-      <a-form-item label="">
-        <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top" :style="{ width: '680px' }">
-          <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
-        </a-tabs>
-        <GenerateForm :title="addTypeName" />
-        <!-- <p>文本、图片、转账、红包、语音、系统消息、拍一拍、撤回消息、时间</p>
-        <p>输入、表情</p>
-        <p>拖动上传base64</p>
-        <p>转账金额、备注</p>
-        <p>红包金额、备注</p>
-        <p>语音时间、是否已读</p>
-        <p>系统消息</p> -->
-      </a-form-item>
     </a-form>
+    <a-divider style="border-color: var(--theme-color)" />
+    <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top" :style="{ width: 'calc(100% - 20px)' }">
+      <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
+    </a-tabs>
+    <GenerateForm :title="addTypeName" />
+    <!-- <p>文本、图片、转账、红包、语音、系统消息、拍一拍、撤回消息、时间</p>
+    <p>输入、表情</p>
+    <p>拖动上传base64</p>
+    <p>转账金额、备注</p>
+    <p>红包金额、备注</p>
+    <p>语音时间、是否已读</p>
+    <p>系统消息</p> -->
   </perfect-scrollbar>
   <UserManage :open="userManageVisible" @close="userManageVisible = false" />
 </template>

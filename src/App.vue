@@ -9,7 +9,7 @@
         <WtHeader />
       </a-layout-header>
       <a-layout class="content">
-        <a-layout-sider :style="siderStyle" :width="useSystemStore.activeMenu === 'chat' ? 800 : 480">
+        <a-layout-sider :style="siderStyle" :width="useSystemStore.activeMenu === 'chat' ? 640 : 480">
           <WtSider />
         </a-layout-sider>
         <a-layout-content :style="contentStyle">

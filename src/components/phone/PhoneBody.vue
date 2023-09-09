@@ -5,7 +5,10 @@
         <div class="wechat-item-avatar">
           <img :src="chat.role === 'own' ? ownAvatar : otherAvatar" alt="">
         </div>
-        <div class="wechat-item-text" v-html="renderText(chat.content)"></div>
+        <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content)"></div>
+        <div class="wechat-item-text wechat-dialog-image" v-if="chat.type === 'image'">
+          <img :src="chat.content" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -118,6 +121,19 @@ const renderText = (text) => {
           left: -12px;
           position: absolute;
           transform: rotate(45deg);
+        }
+        &.wechat-dialog-image {
+          border: 1px #d5d5d5 solid;
+          padding: 0;
+          background: none !important;
+          overflow: hidden;
+          img {
+            max-width: 420px;
+            max-height: 420px;
+          }
+          &:after {
+            display: none;
+          }
         }
       }
       &.wechat-item-right {

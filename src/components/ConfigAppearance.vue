@@ -47,11 +47,11 @@
       <a-form-item label="聊天背景">
         <a-upload
           v-model:file-list="fileList"
-          name="avatar"
+          name="chatBackground"
           list-type="picture-card"
           class="avatar-uploader"
-          :customRequest="handleChange"
           :show-upload-list="false"
+          :customRequest="handleChange"
           :before-upload="beforeUpload"
           accept="image/*"
         >
