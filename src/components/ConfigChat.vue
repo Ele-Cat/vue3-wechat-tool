@@ -21,7 +21,7 @@
       </a-form-item>
     </a-form>
     <a-divider style="border-color: var(--theme-color)" />
-    <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top" :style="{ width: 'calc(100% - 20px)' }">
+    <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top">
       <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
     </a-tabs>
     <GenerateForm :title="addTypeName" />
