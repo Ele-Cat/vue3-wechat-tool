@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { otherAvatar } from "@/utils/avatar";
 
 export const useUserStore = defineStore("toolUser", {
   state: () => {
@@ -13,7 +14,7 @@ export const useUserStore = defineStore("toolUser", {
     addUser() {
       this.userList.push({
         nickname: "微信用户",
-        avatar: "https://tucdn.wpon.cn/2023/09/08/37d305c1e3f7c.jpg",
+        avatar: otherAvatar,
         role: "other",
         id: "user-" + Date.now(),
       })

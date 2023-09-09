@@ -4,7 +4,7 @@
       colorPrimary: '#FFC600',
     },
   }" :locale="zhCN">
-    <a-layout @click="handleAppClick">
+    <a-layout @click="handleAppClick" @contextmenu="handleAppContextMenu">
       <a-layout-header :style="headerStyle">
         <WtHeader />
       </a-layout-header>
@@ -16,9 +16,9 @@
           <WtContent />
         </a-layout-content>
       </a-layout>
-      <a-layout-footer :style="footerStyle">
+      <!-- <a-layout-footer :style="footerStyle">
         <WtFooter />
-      </a-layout-footer>
+      </a-layout-footer> -->
     </a-layout>
     <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg' alt='Fork me on Gitee' /></a>
   </a-config-provider>
@@ -43,6 +43,7 @@ import Instructions from "@/components/common/Instructions.vue"
 import ContextMenu from "@/components/common/ContextMenu.vue"
 import useStore from "@/store";
 const { useSystemStore, useUserStore, useChatStore, useContextMenuStore } = useStore();
+import { ownAvatar, otherAvatar } from "@/utils/avatar";
 
 const headerStyle = {
   height: '50px',
@@ -88,13 +89,13 @@ onMounted(async () => {
       {
         id: "user-0",
         nickname: "你自己",
-        avatar: "https://tucdn.wpon.cn/2023/09/08/94e307cdfb535.jpg",
+        avatar: ownAvatar,
         role: "own",
       },
       {
         id: "user-" + Date.now(),
         nickname: "小甜甜",
-        avatar: "https://tucdn.wpon.cn/2023/09/08/37d305c1e3f7c.jpg",
+        avatar: otherAvatar,
         role: "other",
       }
     ]
@@ -120,13 +121,18 @@ onMounted(async () => {
 
 const handleAppClick = () => {
   useContextMenuStore.hideContextMenu();
+  useContextMenuStore.activeChat = {};
+}
+const handleAppContextMenu = (e) => {
+  useContextMenuStore.hideContextMenu();
+  useContextMenuStore.activeChat = {};
 }
 </script>
 
 <style lang="less" scoped>
 @import url(//at.alicdn.com/t/c/font_4238507_tn4gdu3795p.css);
 .content {
-  height: calc(100vh - 90px);
+  height: calc(100vh - 50px);
 }
 .widget {
   position: fixed;

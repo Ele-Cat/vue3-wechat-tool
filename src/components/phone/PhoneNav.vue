@@ -76,7 +76,14 @@ const props = defineProps({
       font-size: 51px;
       display: flex;
       align-items: center;
+      justify-content: center;
       font-weight: 500;
+      font {
+        max-width: 600px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       i {
         width: 31px;
         height: 42px;

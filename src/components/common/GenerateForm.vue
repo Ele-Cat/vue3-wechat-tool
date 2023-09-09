@@ -3,9 +3,10 @@
     <a-form :model="formState">
       <template v-if="useChatStore.activeType === 'text'">
         <a-textarea placeholder="请输入文本" v-model:value="formState.text" :autoSize="{ minRows: 3, maxRows: 6 }" />
-        <!-- <div class="emojis">
-          <img :src="getAssetsFile(`/public/emoji/emoji_${i}.png`)" v-for="i in 2" :key="i" alt="">
-        </div> -->
+        <div class="emojis">
+          <Emoji />
+          <!-- <img :src="`/public/emoji/emoji_${i}.png`" v-for="i in 2" :key="i" alt="" @click="handleEmojiClick(i)"> -->
+        </div>
       </template>
       <template v-else-if="useChatStore.activeType === 'image'">
         <a-upload-dragger v-model:fileList="fileList" name="image" :multiple="false" :show-upload-list="false"
@@ -33,6 +34,7 @@ import { InboxOutlined } from '@ant-design/icons-vue';
 import { toast } from "@/utils/feedback";
 import useStore from "@/store";
 const { useUserStore, useChatStore } = useStore();
+import Emoji from "./Emoji.vue";
 
 const props = defineProps({
   title: {
@@ -40,6 +42,17 @@ const props = defineProps({
     default: "发送类型",
   },
 })
+
+let lastEditRange = reactive(null)
+const handleEmojiClick = (idx) => {
+  lastEditRange = window.getSelection().getRangeAt(0);
+  console.log('lastEditRange: ', lastEditRange);
+  if (lastEditRange) {
+    // 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态
+    selection.removeAllRanges()
+    selection.addRange(this.lastEditRange)
+  }
+}
 
 const formState = reactive({
   model: "ios",
@@ -52,6 +65,7 @@ const handleSentChat = () => {
       type: "warning",
       content: "请输入文本后发送",
     })
+    return
   }
   useChatStore.sentChat({
     type: useChatStore.activeType,

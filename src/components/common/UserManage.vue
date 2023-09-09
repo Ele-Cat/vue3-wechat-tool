@@ -20,7 +20,7 @@
           </a-upload>
         </template>
         <template v-if="column.dataIndex === 'nickname' && record.role != 'own'">
-          <a-input v-model:value="record.nickname" style="margin: -5px 0;text-align: center;" />
+          <a-input v-model:value="record.nickname" maxlength="20" style="margin: -5px 0;text-align: center;" />
         </template>
         <template v-if="column.dataIndex === 'operation' && record.role != 'own'">
           <div class="editable-row-operations">
@@ -125,8 +125,11 @@ const beforeUpload = (file) => {
 
   .editable-row-operations {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    .ant-btn {
+      margin-left: 10px;
+    }
   }
 
   .avatar-uploader {

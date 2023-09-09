@@ -15,7 +15,7 @@
           </div>
           <div class="user-item" :class="{active: useUserStore.activeRole === 'other'}" @click="changeRole('other')">
             <img :src="otherInfo.avatar" alt="">
-            <p>{{otherInfo.nickname}}</p>
+            <p :title="otherInfo.nickname">{{otherInfo.nickname}}</p>
           </div>
         </div>
       </a-form-item>
@@ -140,6 +140,10 @@ watch(() => [useChatStore.activeType, useUserStore], () => {
     }
     p {
       margin: 4px 0 0 0;
+      max-width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

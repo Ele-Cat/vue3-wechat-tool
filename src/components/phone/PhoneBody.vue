@@ -1,7 +1,7 @@
 <template>
-  <div class="phone-body" ref="contentRef" @contextmenu="handlePhoneBodyContextMenu">
+  <div class="phone-body" ref="contentRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
-      <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu="e => rightClicked(e, chat)">
+      <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu.stop="e => rightClicked(e, chat)">
         <div class="wechat-item-avatar">
           <img :src="chat.role === 'own' ? ownAvatar : otherAvatar" alt="">
         </div>
@@ -29,6 +29,8 @@ const otherAvatar = computed(() => {
 
 const handlePhoneBodyContextMenu = (e) => {
   e.preventDefault();
+  useContextMenuStore.hideContextMenu();
+  useContextMenuStore.activeChat = {};
 }
 
 const rightClicked = (e, chat) => {
