@@ -158,10 +158,6 @@ watch(() => [useChatStore.activeType, useUserStore], () => {
 
 <style lang="less">
 .config-chat {
-  .ant-tabs-nav-list {
-    // justify-content: space-around;
-    // width: 100%;
-  }
   .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
     margin: 0 0 0 18px;
   }
