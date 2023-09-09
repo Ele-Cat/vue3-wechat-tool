@@ -119,7 +119,7 @@ const beforeUpload = (file) => {
   display: flex;
   flex-wrap: wrap;
   // justify-content: space-around;
-  max-height: 126px;
+  max-height: 136px;
   overflow-y: auto;
 
   img {

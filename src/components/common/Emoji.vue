@@ -1,6 +1,5 @@
 <template>
   <div class="emoji_wrap" style="margin-top: 10px">
-    <!-- <a v-for="(emoji, index) in emojis" :key="index" :style="{backgroundImage: `url(../../assets/emoji/emoji_${index + 1}.png)`}" :title="emoji" @click="handleEmojiClick(emoji)"> -->
     <a v-for="(emoji, index) in emojiList" :key="index" :title="emoji" @click="handleEmojiClick(emoji)">
       <img :src="'data:image/png;base64,' + emojiBase64[emoji]" alt="">
       <p>{{ emoji }}</p>
@@ -28,9 +27,6 @@ const handleEmojiClick = (emoji) => {
     width: 24px;
     height: 24px;
     margin: 4px 5px;
-    // background-image: url(@/assets/emoji/emoji_1.png) !important;
-    background-size: 24px 24px;
-    background-repeat: no-repeat;
     img {
       width: 100%;
       height: 100%;

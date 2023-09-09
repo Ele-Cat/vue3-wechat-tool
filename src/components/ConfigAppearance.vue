@@ -55,12 +55,12 @@
           :before-upload="beforeUpload"
           accept="image/*"
         >
+          <CloseCircleOutlined v-if="formState.chatBackground" class="img-remove" title="移除聊天背景" @click.stop="removeChatBackground" />
           <img
             v-if="formState.chatBackground"
             :src="formState.chatBackground"
             alt="chat background"
             class="ant-upload-image"
-            asp
           />
           <div v-else>
             <LoadingOutlined v-if="uploadLoading" />
@@ -76,7 +76,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons-vue";
+import { LoadingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
 // import { useFetch } from '@vueuse/core'
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";
 import { fileToBase64, toZeroStr } from "@/utils/utils";
@@ -137,6 +137,10 @@ const beforeUpload = (file) => {
   }
   return isJpgOrPng && isLt2M;
 };
+
+const removeChatBackground = () => {
+  formState.value.chatBackground = ""
+}
 </script>
 
 <style lang="less" scoped>
@@ -169,6 +173,19 @@ const beforeUpload = (file) => {
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+
+      .img-remove {
+        position: absolute;
+        left: 90px;
+        top: -8px;
+        border-radius: 50%;
+        background-color: #FFFFFF;
+        font-size: 22px;
+        color: #F05F57;
+        &:hover {
+          color: red;
+        }
       }
 
       .ant-upload-text {
