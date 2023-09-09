@@ -3,7 +3,7 @@
     <div class="wechat-content">
       <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu.stop="e => rightClicked(e, chat)">
         <div class="wechat-item-avatar">
-          <img :src="chat.role === 'own' ? ownAvatar : otherAvatar" alt="">
+          <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
         </div>
         <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content)"></div>
         <div class="wechat-item-text wechat-item-image" v-else-if="chat.type === 'image'">
@@ -28,19 +28,11 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore } = useStore();
 import useAutoScrollBottom from "@/hooks/useAutoScrollBottom"
 import emojiBase64 from "@/utils/emojiBase64";
-
-const ownAvatar = computed(() => {
-  return useUserStore.userList.length ? useUserStore.userList[0]['avatar'] : '';
-})
-const otherAvatar = computed(() => {
-  const user = useUserStore.userList.find(user => user.id === useUserStore.activeOther)
-  return user ? user['avatar'] : '微信用户';
-})
 
 const handlePhoneBodyContextMenu = (e) => {
   e.preventDefault();
