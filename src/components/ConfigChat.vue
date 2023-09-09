@@ -21,7 +21,7 @@
       </a-form-item>
       <a-divider style="border-color: var(--theme-color)" />
       <a-form-item label="">
-        <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top" :style="{ width: '480px' }">
+        <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top" :style="{ width: '680px' }">
           <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
         </a-tabs>
         <GenerateForm :title="addTypeName" />
@@ -118,7 +118,7 @@ watch(() => [useChatStore.activeType, useUserStore], () => {
   margin-top: 6px;
   .user-item {
     width: 49.5%;
-    height: 80px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -133,14 +133,15 @@ watch(() => [useChatStore.activeType, useUserStore], () => {
       color: var(--theme-color);
     }
     img {
-      width: 36px;
-      height: 36px;
+      width: 56px;
+      height: 56px;
       object-fit: cover;
       border-radius: 6px;
     }
     p {
-      margin: 4px 0 0 0;
+      margin: 2px 0 0 0;
       max-width: 80%;
+      font-size: 16px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

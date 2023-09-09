@@ -8,7 +8,9 @@
       </div>
     </div>
     <div class="wt-config">
-      <component :is="configComponents[useSystemStore.activeMenu]" />
+      <keep-alive>
+        <component :is="configComponents[useSystemStore.activeMenu]" />
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -79,6 +81,7 @@ const configComponents = reactive({
   }
 }
 .wt-config {
+  width: calc(100% - 80px);
   flex: 1;
   padding: 20px;
 }
