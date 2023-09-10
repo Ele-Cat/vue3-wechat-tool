@@ -14,8 +14,8 @@
             <i></i> 
             <div>
               <span>¥{{ chat.money.toFixed(2) }}</span> 
-              <font v-if="!chat.content">转账给{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}</font>
-              <font v-else>{{ chat.content }}</font>
+              <span class="font" v-if="!chat.content">转账给{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}</span>
+              <span class="font" v-else>{{ chat.content }}</span>
             </div>
           </div>
           <div class="wechat-item-trans-bottom">
@@ -190,7 +190,7 @@ const renderText = (text) => {
                 overflow: hidden;
                 text-overflow: ellipsis;
               }
-              font {
+              .font {
                 font-size: 36px;
                 color: #fff;
                 white-space: nowrap;

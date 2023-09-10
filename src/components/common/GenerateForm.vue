@@ -57,15 +57,15 @@
       <template v-else-if="useChatStore.activeType === 'time'">
         <a-form-item label="选择时间">
           <div class="datetime-select">
-            <a-select :options="toYearStr()" v-model:value="formState.year" allowClear></a-select>
-            <a-select :options="toArr(13, false, 1, '月')" v-model:value="formState.month" allowClear></a-select>
-            <a-select :options="toArr(32, false, 1, '日')" v-model:value="formState.date" allowClear></a-select>
-            <a-select :options="weeks" v-model:value="formState.week" allowClear></a-select>
+            <a-select :options="toYearStr()" v-model:value="formState.datetime.year" allowClear></a-select>
+            <a-select :options="toArr(13, false, 1, '月')" v-model:value="formState.datetime.month" allowClear></a-select>
+            <a-select :options="toArr(32, false, 1, '日')" v-model:value="formState.datetime.date" allowClear></a-select>
+            <a-select :options="weeks" v-model:value="formState.datetime.week" allowClear></a-select>
           </div> 
           <div class="datetime-select">
-            <a-select :options="morningAfternoon" v-model:value="formState.ap" allowClear></a-select>
-            <a-select :options="toArr(24)" v-model:value="formState.hour"></a-select>
-            <a-select :options="toArr(60)" v-model:value="formState.minute"></a-select>
+            <a-select :options="morningAfternoon" v-model:value="formState.datetime.ap" allowClear></a-select>
+            <a-select :options="toArr(24)" v-model:value="formState.datetime.hour"></a-select>
+            <a-select :options="toArr(60)" v-model:value="formState.datetime.minute"></a-select>
           </div>
           预览：<span class="time-preview">{{ selectTime }}</span>
         </a-form-item>
@@ -83,7 +83,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { watch, reactive, ref } from "vue";
 import { InboxOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 import useStore from "@/store";
@@ -108,13 +108,19 @@ const formState = reactive({
   redEnvelopeRemarks: "",
   radioDuration: 2,
   radioReaded: true,
-  hour: dayjs().get('hour'),
-  minute: ('00' + dayjs().get('minute')).slice(-2),
+  datetime: {
+    hour: dayjs().get('hour'),
+    minute: ('00' + dayjs().get('minute')).slice(-2),
+  },
 });
 
-const selectTime = computed(() => {
-  const showColon = formState.hour && formState.minute ? ":" : ""
-  return `${formState.year || ""}${formState.month || ""}${formState.date || ""} ${formState.week || ""} ${formState.ap || ""}${formState.hour || ""}${showColon}${formState.minute || ""}`
+const selectTime = ref("")
+watch(() => formState.datetime, (newVal) => {
+  const showColon = newVal.hour && newVal.minute ? ":" : ""
+  selectTime.value =  `${newVal.year || ""}${newVal.month || ""}${newVal.date || ""} ${newVal.week || ""} ${newVal.ap || ""}${newVal.hour || ""}${showColon}${newVal.minute || ""}`
+}, {
+  immediate: true,
+  deep: true,
 })
 
 const textareaRef = ref(null);
@@ -156,7 +162,7 @@ const handleSentChat = () => {
     duration = formState.radioDuration;
     readed = formState.radioReaded;
   } else if (useChatStore.activeType === "time") {
-    content = selectTime;
+    content = selectTime.value;
   }
   useChatStore.sentChat({
     type: useChatStore.activeType,

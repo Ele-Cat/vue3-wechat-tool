@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, shallowRef } from "vue";
 import ConfigAppearance from "./ConfigAppearance.vue";
 import ConfigChat from "./ConfigChat.vue";
 import ConfigInstructions from "./ConfigInstructions.vue";
@@ -40,7 +40,7 @@ const handleMenuClick = (menu) => {
   useSystemStore.activeMenu = menu.value
 }
 
-const configComponents = reactive({
+const configComponents = shallowRef({
   appearance: ConfigAppearance,
   chat: ConfigChat,
   instructions: ConfigInstructions,

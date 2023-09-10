@@ -28,10 +28,10 @@ const props = defineProps({
     default: false,
   }
 })
-const emit = defineEmits(['onClose'])
+const emit = defineEmits(['close']);
 
 const close = () => {
-  emit("onClose")
+  emit("close");
 }
 </script>
 

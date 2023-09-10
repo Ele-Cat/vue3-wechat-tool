@@ -1,6 +1,6 @@
 <template>
   <perfect-scrollbar class="config-chat">
-    <a-form :model="formState" layout="vertical">
+    <a-form layout="vertical">
       <a-form-item>
         <slot name="label">
           <div class="config-label">

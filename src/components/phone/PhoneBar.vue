@@ -5,7 +5,7 @@
     <div class="phone-wifi" :class="['phone-wifi-s' + appearance.wifiSignal]" v-if="appearance.networkType === 'wifi'">wifi</div>
     <div class="phone-no-wifi" v-else>{{appearance.networkType}}G</div>
     <div class="phone-battery" :class="{'phone-battery-charge': appearance.isCharging}">
-      <span> <font :style="{width: appearance.phoneBattery + '%'}">电量</font> <i></i> </span>
+      <span class="battery-box"> <span class="battery-width" :style="{width: appearance.phoneBattery + '%'}">电量</span> <i></i> </span>
     </div>
   </div>
 </template>
@@ -79,11 +79,11 @@ const props = defineProps({
     position: relative;
     padding: 7px;
     padding-right: 16px;
-    span {
+    .battery-box {
       position: absolute;
       left: 7px;
       right: 16px;
-      font {
+      .battery-width {
         height: 22px;
         background: #000;
         width: 50%;

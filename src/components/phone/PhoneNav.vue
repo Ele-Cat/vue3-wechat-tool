@@ -5,7 +5,7 @@
       <span v-if="appearance.unreadMessages">{{appearance.unreadMessages > 99 ? '99+' : appearance.unreadMessages}}</span>
     </div>
     <div class="phone-nav-center">
-      <span> <font>{{activeUserName}}</font> <i v-if="appearance.earphoneMode"></i> </span>
+      <span class="center-span"> <span class="user-name">{{activeUserName}}</span> <i v-if="appearance.earphoneMode"></i> </span>
     </div>
     <div class="phone-nav-right">
       <div class="phone-nav-more">更多</div>
@@ -72,13 +72,13 @@ const props = defineProps({
     flex: 1;
     display: flex;
     justify-content: center;
-    span {
+    .center-span {
       font-size: 51px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 500;
-      font {
+      .user-name {
         max-width: 600px;
         overflow: hidden;
         text-overflow: ellipsis;
