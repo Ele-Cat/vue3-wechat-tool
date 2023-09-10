@@ -14,9 +14,9 @@
   height: 100%;
   background-image: radial-gradient(
     ellipse farthest-side at 40% 0%,
-    #455a64 0%,
+    #1a2327 0%,
     #263238 60%,
-    #1a2327 100%
+    #455a64 100%
   );
   display: flex;
 }

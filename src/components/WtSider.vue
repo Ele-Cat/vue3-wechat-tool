@@ -55,7 +55,7 @@ const configComponents = reactive({
   .menu-box {
     width: 80px;
     height: 100%;
-    background-color: #F1F1F1;
+    background-color: #455a64;
 
     .menu-item {
       display: flex;
@@ -65,7 +65,7 @@ const configComponents = reactive({
       height: 80px;
       cursor: pointer;
       transition: all .3s;
-      color: #333;
+      color: #DDD;
 
       i {
         font-size: 24px;
