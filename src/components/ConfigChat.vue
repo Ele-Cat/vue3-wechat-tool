@@ -65,22 +65,23 @@ const addTypes = reactive([
   }, {
     label: "语音",
     value: "radio",
-  }, {
-    label: "视频邀请",
-    value: "video",
-  }, {
-    label: "语音邀请",
-    value: "systemMessages",
-  }, {
-    label: "拍一拍",
-    value: "takeAPat",
+  // }, {
+  //   label: "视频邀请",
+  //   value: "video",
+  // }, {
+  //   label: "语音邀请",
+  //   value: "systemMessages",
+  // }, {
+  //   label: "拍一拍",
+  //   value: "takeAPat",
   }, {
     label: "时间",
     value: "time",
-  }, {
-    label: "撤回消息",
-    value: "recallMessage",
-  }
+  }, 
+  // {
+  //   label: "撤回消息",
+  //   value: "recallMessage",
+  // }
 ])
 watch(() => [useChatStore.activeType, useUserStore], () => {
   let sendRole = useUserStore.activeRole === 'own' ? '你自己：' : `${useUserStore.otherInfo.nickname}：`
