@@ -1,7 +1,7 @@
 <template>
   <a-config-provider :theme="{
     token: {
-      colorPrimary: '#FFC600',
+      colorPrimary: '#FD6585',
     },
   }" :locale="zhCN">
     <a-layout @click="handleAppClick" @contextmenu="handleAppContextMenu">
@@ -20,7 +20,7 @@
         <WtFooter />
       </a-layout-footer> -->
     </a-layout>
-    <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg?color=ffc800' alt='Fork me on Gitee' /></a>
+    <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg?color=FD6585' alt='Fork me on Gitee' /></a>
   </a-config-provider>
 
   <a-modal v-model:open="modalOpen" title="注意" @ok="handleModalOk" @cancel="handleModalCancel" cancelText="关闭" okText="我已知晓，关闭">

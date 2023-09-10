@@ -29,7 +29,7 @@ const onClose = () => {
     line-height: 1.4;
 
     &.text-red {
-      color: #F05F57;
+      color: #FD6585;
     }
   }
 
