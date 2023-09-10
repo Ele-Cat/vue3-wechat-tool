@@ -222,7 +222,7 @@ const beforeUpload = (file) => {
     align-items: center;
     margin-bottom: 6px;
     .ant-select {
-      width: 80px;
+      width: 88px;
       margin-right: 4px;
       &:not(&:nth-of-type(1)) {
         margin-left: 10px;
