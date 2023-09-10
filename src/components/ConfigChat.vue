@@ -64,10 +64,10 @@ const addTypes = reactive([
     value: "redEnvelope",
   }, {
     label: "语音",
-    value: "voice",
+    value: "radio",
   }, {
     label: "视频邀请",
-    value: "systemMessages",
+    value: "video",
   }, {
     label: "语音邀请",
     value: "systemMessages",

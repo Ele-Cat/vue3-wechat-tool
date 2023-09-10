@@ -38,6 +38,22 @@
           <a-input v-model:value="formState.transferRemarks" placeholder="请输入转账备注" />
         </a-form-item>
       </template>
+      <template v-else-if="useChatStore.activeType === 'redEnvelope'">
+        <a-form-item label="红包金额">
+          <a-input-number :min="0" :max="520" :precision="2" v-model:value="formState.redEnvelopeAmount" placeholder="请输入转账金额" />
+        </a-form-item>
+        <a-form-item label="红包备注">
+          <a-input v-model:value="formState.redEnvelopeRemarks" placeholder="请输入转账备注" />
+        </a-form-item>
+      </template>
+      <template v-else-if="useChatStore.activeType === 'radio'">
+        <a-form-item label="语音时长">
+          <a-input-number :min="0" :max="60" :precision="0" v-model:value="formState.radioDuration" placeholder="请输入语音时长" />
+        </a-form-item>
+        <a-form-item label="是否已读">
+          <a-switch v-model:checked="formState.radioReaded" />
+        </a-form-item>
+      </template>
     </a-form>
     <template #actions v-if="!['image'].includes(useChatStore.activeType)">
       <a-button block danger type="link" size="small" @click="handleClearChat"
@@ -70,6 +86,10 @@ const formState = reactive({
   text: "",
   transferAmount: 88,
   transferRemarks: "",
+  redEnvelopeAmount: 88,
+  redEnvelopeRemarks: "",
+  radioDuration: 2,
+  radioReaded: true,
 });
 
 const textareaRef = ref(null);
@@ -97,10 +117,26 @@ const handleSentChat = () => {
     });
     return;
   }
+  let content = formState.text;
+  let money = 0;
+  let duration = 0;
+  let readed = 0;
+  if (useChatStore.activeType === "transferAccounts") {
+    content = formState.transferRemarks;
+    money = formState.transferAmount;
+  } else if (useChatStore.activeType === "redEnvelope") {
+    content = formState.redEnvelopeRemarks;
+    money = formState.redEnvelopeAmount;
+  } else if (useChatStore.activeType === "radio") {
+    duration = formState.radioDuration;
+    readed = formState.radioReaded;
+  }
   useChatStore.sentChat({
     type: useChatStore.activeType,
-    money: formState.transferAmount,
-    content: useChatStore.activeType === "text" ? formState.text : formState.transferRemarks,
+    money,
+    content,
+    duration,
+    readed,
     role: useUserStore.activeRole,
   });
   handleClearChat();
@@ -112,6 +148,9 @@ const handleClearChat = () => {
   } else if (useChatStore.activeType === "transferAccounts") {
     formState.transferAmount = 88;
     formState.transferRemarks = "";
+  } else if (useChatStore.activeType === "redEnvelope") {
+    formState.redEnvelopeAmount = 88;
+    formState.redEnvelopeRemarks = "";
   }
 };
 

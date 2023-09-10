@@ -22,6 +22,24 @@
             <span>微信转账</span>
           </div>
         </div>
+        <div class="wechat-item-text wechat-item-trans" v-else-if="chat.type === 'redEnvelope'">
+          <div class="wechat-item-trans-content wechat-item-redp-content">
+            <i></i> 
+            <div>
+              <!-- <span>¥{{ chat.money.toFixed(2) }}</span>  -->
+              <span>{{ chat.content || "恭喜发财，大吉大利" }}</span>
+            </div>
+          </div>
+          <div class="wechat-item-trans-bottom">
+            <span>微信红包</span>
+          </div>
+        </div>
+        <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'radio'">
+          <i></i> 
+          <span>{{ chat.duration }}"</span>
+          <div :style="{width: chat.duration * 5 + 'px'}"></div>
+          <em v-if="!chat.readed"></em>
+        </div>
       </div>
     </div>
   </div>
@@ -178,6 +196,13 @@ const renderText = (text) => {
               }
             }
           }
+          .wechat-item-redp-content {
+            i {
+              width: 102px;
+              margin-left: 9px;
+              background: url(@/assets/images/content/wechat-trans-icon3.png) no-repeat;
+            }
+          }
           .wechat-item-trans-bottom {
             height: 71px;
             align-items: center;
@@ -190,6 +215,29 @@ const renderText = (text) => {
           &:after {
             content: '';
             background: #f79c46 !important;
+          }
+        }
+        &.wechat-item-voice {
+          display: flex;
+          align-items: center;
+          span {
+            font-size: 42px;
+            padding-right: 20px;
+          }
+          i {
+            width: 34px;
+            height: 49px;
+            background: url(@/assets/images/content/wechat-voice-icon1.png) no-repeat;
+            margin-right: 30px;
+            margin-left: 16px;
+          }
+          em {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #e75e58;
+            position: absolute;
+            right: -61px;
           }
         }
       }
@@ -208,6 +256,21 @@ const renderText = (text) => {
             right: -10px;
             border-top-right-radius: 4px;
             border-bottom-left-radius: 0;
+          }
+          &.wechat-item-voice {
+            flex-direction: row-reverse;
+            span {
+              padding-left: 20px;
+              padding-right: 0;
+            }
+            i {
+              background: url(@/assets/images/content/wechat-voice-icon2.png) no-repeat;
+              margin-left: 30px;
+              margin-right: 16px;
+            }
+            em {
+              left: -61px;
+            }
           }
         }
       }
