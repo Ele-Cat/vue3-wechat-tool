@@ -18,8 +18,8 @@
       </a-form-item>
       <a-form-item label="系统时间">
         <div class="phone-time">
-          <a-select :options="toZeroStr(24)" v-model:value="formState.phoneTimeHour"></a-select>:
-          <a-select :options="toZeroStr(60)" v-model:value="formState.phoneTimeMinute"></a-select>
+          <a-select :options="toArr(24)" v-model:value="formState.phoneTimeHour"></a-select>:
+          <a-select :options="toArr(60)" v-model:value="formState.phoneTimeMinute"></a-select>
         </div>
       </a-form-item>
       <a-form-item label="是否充电">
@@ -79,7 +79,7 @@ import { ref, watch } from "vue";
 import { LoadingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
 // import { useFetch } from '@vueuse/core'
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";
-import { fileToBase64, toZeroStr } from "@/utils/utils";
+import { fileToBase64, toArr } from "@/utils/utils";
 import { toast } from "@/utils/feedback";
 import useStore from "@/store";
 const { useSystemStore } = useStore();

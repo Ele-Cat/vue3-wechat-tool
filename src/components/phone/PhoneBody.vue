@@ -2,7 +2,7 @@
   <div class="phone-body" ref="contentRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
       <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu.stop="e => rightClicked(e, chat)">
-        <div class="wechat-item-avatar">
+        <div class="wechat-item-avatar" v-if="!['time'].includes(chat.type)">
           <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
         </div>
         <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content)"></div>
@@ -39,6 +39,9 @@
           <span>{{ chat.duration }}"</span>
           <div :style="{width: chat.duration * 5 + 'px'}"></div>
           <em v-if="!chat.readed"></em>
+        </div>
+        <div class="wechat-item-notice" v-else-if="chat.type === 'time'">
+          <span>{{ chat.content }}</span>
         </div>
       </div>
     </div>
@@ -273,6 +276,13 @@ const renderText = (text) => {
             }
           }
         }
+      }
+      .wechat-item-notice {
+        font-size: 36px;
+        color: #a6a6a6;
+        display: flex;
+        justify-content: center;
+        flex: 1;
       }
     }
   }

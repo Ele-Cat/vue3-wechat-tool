@@ -35,12 +35,28 @@ export async function urlToBase64(url) {
  * @param {Number} num 
  * @returns 
  */
-export function toZeroStr(num) {
+export function toArr(num, zero = true, start = 0, unit = "") {
   let res = [];
-  for (let i = 0; i < num; i++) {
+  for (let i = start; i < num; i++) {
     let obj = {
-      label: ('00' + i).slice(-2),
-      value: ('00' + i).slice(-2),
+      label: zero ? ('00' + i).slice(-2) : i + unit,
+      value: zero ? ('00' + i).slice(-2) : i + unit,
+    };
+    res.push(obj)
+  }
+  return res || []
+}
+
+/**
+ * 获取年份下拉
+ * @returns 
+ */
+export function toYearStr() {
+  let res = [];
+  for (let i = 2018; i < 2048; i++) {
+    let obj = {
+      label: i + "年",
+      value: i + "年",
     };
     res.push(obj)
   }

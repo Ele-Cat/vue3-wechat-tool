@@ -121,6 +121,52 @@ export const phoneSignals = [
   },
 ];
 
+export const weeks = [
+  {
+    label: "周一",
+    value: "周一",
+  },
+  {
+    label: "周二",
+    value: "周二",
+  },
+  {
+    label: "周三",
+    value: "周三",
+  },
+  {
+    label: "周四",
+    value: "周四",
+  },
+  {
+    label: "周五",
+    value: "周五",
+  },
+  {
+    label: "周六",
+    value: "周六",
+  },
+  {
+    label: "周日",
+    value: "周日",
+  },
+  {
+    label: "昨天",
+    value: "昨天",
+  },
+];
+
+export const morningAfternoon = [
+  {
+    label: "上午",
+    value: "上午",
+  },
+  {
+    label: "下午",
+    value: "下午",
+  },
+]
+
 export const emojiList = [
   "微笑",
   "撇嘴",

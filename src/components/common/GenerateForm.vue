@@ -54,6 +54,22 @@
           <a-switch v-model:checked="formState.radioReaded" />
         </a-form-item>
       </template>
+      <template v-else-if="useChatStore.activeType === 'time'">
+        <a-form-item label="选择时间">
+          <div class="datetime-select">
+            <a-select :options="toYearStr()" v-model:value="formState.year" allowClear></a-select>
+            <a-select :options="toArr(13, false, 1, '月')" v-model:value="formState.month" allowClear></a-select>
+            <a-select :options="toArr(32, false, 1, '日')" v-model:value="formState.date" allowClear></a-select>
+            <a-select :options="weeks" v-model:value="formState.week" allowClear></a-select>
+          </div> 
+          <div class="datetime-select">
+            <a-select :options="morningAfternoon" v-model:value="formState.ap" allowClear></a-select>
+            <a-select :options="toArr(24)" v-model:value="formState.hour"></a-select>
+            <a-select :options="toArr(60)" v-model:value="formState.minute"></a-select>
+          </div>
+          预览：<span class="time-preview">{{ selectTime }}</span>
+        </a-form-item>
+      </template>
     </a-form>
     <template #actions v-if="!['image'].includes(useChatStore.activeType)">
       <a-button block danger type="link" size="small" @click="handleClearChat"
@@ -67,11 +83,13 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { InboxOutlined } from "@ant-design/icons-vue";
+import dayjs from "dayjs";
 import useStore from "@/store";
 const { useUserStore, useChatStore } = useStore();
-import { fileToBase64 } from "@/utils/utils";
+import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
+import { weeks, morningAfternoon } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
 import Emoji from "./Emoji.vue";
 
@@ -90,7 +108,14 @@ const formState = reactive({
   redEnvelopeRemarks: "",
   radioDuration: 2,
   radioReaded: true,
+  hour: dayjs().get('hour'),
+  minute: ('00' + dayjs().get('minute')).slice(-2),
 });
+
+const selectTime = computed(() => {
+  const showColon = formState.hour && formState.minute ? ":" : ""
+  return `${formState.year || ""}${formState.month || ""}${formState.date || ""} ${formState.week || ""} ${formState.ap || ""}${formState.hour || ""}${showColon}${formState.minute || ""}`
+})
 
 const textareaRef = ref(null);
 // 点击表情包的逻辑
@@ -130,6 +155,8 @@ const handleSentChat = () => {
   } else if (useChatStore.activeType === "radio") {
     duration = formState.radioDuration;
     readed = formState.radioReaded;
+  } else if (useChatStore.activeType === "time") {
+    content = selectTime;
   }
   useChatStore.sentChat({
     type: useChatStore.activeType,
@@ -189,6 +216,22 @@ const beforeUpload = (file) => {
       width: 22px;
       margin: 4px 5px;
     }
+  }
+  .datetime-select {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    .ant-select {
+      width: 80px;
+      margin-right: 4px;
+      &:not(&:nth-of-type(1)) {
+        margin-left: 10px;
+      }
+    }
+  }
+  .time-preview {
+    font-size: 18px;
+    color: var(--theme-color);
   }
 }
 </style>
