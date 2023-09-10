@@ -25,7 +25,6 @@ p {
   position: relative;
   margin: auto;
   font-size: 32px;
-  top: -2px;
   letter-spacing: 0.2em;
   display: inline-block;
   font-weight: bold;
