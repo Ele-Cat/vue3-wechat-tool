@@ -36,22 +36,23 @@
 
 - #### 安装
 
-```
-npm install
-```
+  ```
+  npm install
+  ```
 
 - #### 运行
 
-```
-yarn serve
-```
+  ```
+  yarn serve
+  ```
 
 - #### 打包
+
   打包前请注意将`.env.production`的`VITE_BASE_PATH`修改为`/`
 
-```
-yarn build
-```
+  ```
+  yarn build
+  ```
 
 ## 参考文档、博客
 
