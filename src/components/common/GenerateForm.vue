@@ -14,9 +14,8 @@
               <Emoji @add="addEmoji" />
             </template>
             <template #fallback>
-              <div class="emoji-loading">
-                <LoadingOutlined :style="{fontSize:28 + 'px',color: 'var(--theme-color)'}" />
-                <p>表情包加载中...</p>
+              <div class="default-loading">
+                <a-spin tip="加载中..."></a-spin>
               </div>
             </template>
           </Suspense>
@@ -228,14 +227,6 @@ const beforeUpload = (file) => {
     // justify-content: space-around;
     max-height: 136px;
     overflow-y: auto;
-    .emoji-loading {
-      flex: 1;
-      height: 136px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
     img {
       width: 22px;
       margin: 4px 5px;
