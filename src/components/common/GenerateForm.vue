@@ -9,7 +9,17 @@
           :autoSize="{ minRows: 3, maxRows: 6 }"
         />
         <div class="emojis">
-          <Emoji @add="addEmoji" />
+          <Suspense>
+            <template #default>
+              <Emoji @add="addEmoji" />
+            </template>
+            <template #fallback>
+              <div class="emoji-loading">
+                <LoadingOutlined :style="{fontSize:28 + 'px',color: 'var(--theme-color)'}" />
+                <p>表情包加载中...</p>
+              </div>
+            </template>
+          </Suspense>
         </div>
       </template>
       <template v-else-if="useChatStore.activeType === 'image'">
@@ -83,15 +93,16 @@
 </template>
 
 <script setup>
-import { watch, reactive, ref } from "vue";
-import { InboxOutlined } from "@ant-design/icons-vue";
+import { watch, reactive, ref, defineAsyncComponent } from "vue";
+import { InboxOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 import useStore from "@/store";
 const { useUserStore, useChatStore } = useStore();
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
 import { weeks, morningAfternoon } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
-import Emoji from "./Emoji.vue";
+// import Emoji from "./Emoji.vue";
+const Emoji = defineAsyncComponent(() => import('./Emoji.vue'));
 
 const props = defineProps({
   title: {
@@ -217,7 +228,14 @@ const beforeUpload = (file) => {
     // justify-content: space-around;
     max-height: 136px;
     overflow-y: auto;
-
+    .emoji-loading {
+      flex: 1;
+      height: 136px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
     img {
       width: 22px;
       margin: 4px 5px;
