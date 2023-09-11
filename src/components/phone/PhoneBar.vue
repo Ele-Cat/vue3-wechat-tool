@@ -1,5 +1,5 @@
 <template>
-  <div class="phone-bar">
+  <div class="phone-bar" :class="{dark: appearance.darkMode}">
     <div class="phone-time">{{ appearance.phoneTimeHour }}:{{ appearance.phoneTimeMinute }}</div>
     <div class="phone-sigle" :class="['phone-sigle-v' + appearance.phoneSignal]">信号</div>
     <div class="phone-wifi" :class="['phone-wifi-s' + appearance.wifiSignal]" v-if="appearance.networkType === 'wifi'">wifi</div>
@@ -28,6 +28,9 @@ const props = defineProps({
   position: relative;
   z-index: 99999;
   background-color: #ededed;
+  // &.dark {
+  //   background-color: #111111;
+  // }
 
   .phone-time {
     font-size: 45px;

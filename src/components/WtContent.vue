@@ -86,6 +86,9 @@ const phoneRef = ref(null);
       }
 
       .phone {
+        font-family: SF Pro, PingFang SC;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
         background-color: #EDEDED;
         position: relative;
         font-size: 36px;
