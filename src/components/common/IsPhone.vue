@@ -10,7 +10,7 @@ import { toast } from "@/utils/feedback";
 import { copyText } from '@/utils/utils';
 
 const copy = () => {
-  copyText('https://ele-cat.gitee.io/vue3-wechat-tool/')
+  copyText("https://ele-cat.gitee.io/vue3-wechat-tool/");
   toast({
     type: "success",
     content: "复制成功！",
