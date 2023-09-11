@@ -8,13 +8,16 @@
       <a-layout-header :style="headerStyle">
         <WtHeader />
       </a-layout-header>
-      <a-layout class="content">
+      <a-layout class="content" v-if="!isPhone">
         <a-layout-sider :style="siderStyle" :width="useSystemStore.activeMenu === 'chat' ? 640 : 480">
           <WtSider />
         </a-layout-sider>
         <a-layout-content :style="contentStyle">
           <WtContent />
         </a-layout-content>
+      </a-layout>
+      <a-layout class="content" v-else>
+        <IsPhone />
       </a-layout>
       <!-- <a-layout-footer :style="footerStyle">
         <WtFooter />
@@ -30,7 +33,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
@@ -41,6 +44,7 @@ import WtContent from "@/components/WtContent.vue"
 // import WtFooter from "@/components/WtFooter.vue"
 import Instructions from "@/components/common/Instructions.vue"
 import ContextMenu from "@/components/common/ContextMenu.vue"
+import IsPhone from "@/components/common/IsPhone.vue"
 import useStore from "@/store";
 const { useSystemStore, useUserStore, useChatStore, useContextMenuStore } = useStore();
 import { ownAvatar, otherAvatar } from "@/utils/avatar";
@@ -82,7 +86,7 @@ const handleModalCancel = e => {
 };
 !useSystemStore.hadDisclaimer && showDisclaimerModal();
 
-onMounted(async () => {
+onMounted(() => {
   if (!useUserStore.userList.length) {
     // 在这里初始化用户列表吧
     useUserStore.userList = [
@@ -117,6 +121,11 @@ onMounted(async () => {
       }
     ]
   }
+  handleResize();
+  window.addEventListener('resize', handleResize);
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
 })
 
 const handleAppClick = () => {
@@ -126,6 +135,11 @@ const handleAppClick = () => {
 const handleAppContextMenu = (e) => {
   useContextMenuStore.hideContextMenu();
   useContextMenuStore.activeChat = {};
+}
+
+const isPhone = ref(false);
+const handleResize = () => {
+  isPhone.value = window.innerWidth <= 640;
 }
 </script>
 

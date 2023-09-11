@@ -38,9 +38,9 @@ const close = () => {
 <style lang="less" scoped>
 .disclaimers-drawer {
   p {
-    margin: 0 0 6px 0;
+    margin: 0 0 4px 0;
     text-align: justify;
-    line-height: 1.2;
+    line-height: 1.4;
     &:nth-of-type(1), &:nth-last-of-type(1) {
       font-weight: bold;
     }

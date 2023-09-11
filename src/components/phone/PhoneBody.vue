@@ -85,6 +85,9 @@ const renderText = (text) => {
 </script>
 
 <style lang="less" scoped>
+::-webkit-scrollbar {
+  display: none;
+}
 .phone-body {
   position: absolute;
   top: 264px;
