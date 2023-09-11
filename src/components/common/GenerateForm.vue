@@ -57,15 +57,15 @@
       <template v-else-if="useChatStore.activeType === 'time'">
         <a-form-item label="选择时间">
           <div class="datetime-select">
-            <a-select :options="toYearStr()" v-model:value="formState.datetime.year" allowClear></a-select>
-            <a-select :options="toArr(13, false, 1, '月')" v-model:value="formState.datetime.month" allowClear></a-select>
-            <a-select :options="toArr(32, false, 1, '日')" v-model:value="formState.datetime.date" allowClear></a-select>
-            <a-select :options="weeks" v-model:value="formState.datetime.week" allowClear></a-select>
+            <a-select :options="toYearStr()" v-model:value="formState.datetime.year" placeholder="年" allowClear></a-select>
+            <a-select :options="toArr(13, false, 1, '月')" v-model:value="formState.datetime.month" placeholder="月" allowClear></a-select>
+            <a-select :options="toArr(32, false, 1, '日')" v-model:value="formState.datetime.date" placeholder="日" allowClear></a-select>
+            <a-select :options="weeks" v-model:value="formState.datetime.week" placeholder="周/昨天" allowClear></a-select>
           </div> 
           <div class="datetime-select">
-            <a-select :options="morningAfternoon" v-model:value="formState.datetime.ap" allowClear></a-select>
-            <a-select :options="toArr(24)" v-model:value="formState.datetime.hour"></a-select>
-            <a-select :options="toArr(60)" v-model:value="formState.datetime.minute"></a-select>
+            <a-select :options="morningAfternoon" v-model:value="formState.datetime.ap" placeholder="上下午" allowClear></a-select>
+            <a-select :options="toArr(24)" v-model:value="formState.datetime.hour" placeholder="小时"></a-select>
+            <a-select :options="toArr(60)" v-model:value="formState.datetime.minute" placeholder="分钟"></a-select>
           </div>
           预览：<span class="time-preview">{{ selectTime }}</span>
         </a-form-item>
@@ -109,7 +109,7 @@ const formState = reactive({
   radioDuration: 2,
   radioReaded: true,
   datetime: {
-    hour: dayjs().get('hour'),
+    hour: ('00' + dayjs().get('hour')).slice(-2),
     minute: ('00' + dayjs().get('minute')).slice(-2),
   },
 });
@@ -228,7 +228,7 @@ const beforeUpload = (file) => {
     align-items: center;
     margin-bottom: 6px;
     .ant-select {
-      width: 88px;
+      width: 90px;
       margin-right: 4px;
       &:not(&:nth-of-type(1)) {
         margin-left: 10px;
