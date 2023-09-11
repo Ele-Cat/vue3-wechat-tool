@@ -13,7 +13,16 @@
           <WtSider />
         </a-layout-sider>
         <a-layout-content :style="contentStyle">
-          <WtContent />
+          <Suspense>
+            <template #default>
+              <WtContent />
+            </template>
+            <template #fallback>
+              <div class="default-loading">
+                <a-spin tip="加载中..."></a-spin>
+              </div>
+            </template>
+          </Suspense>
         </a-layout-content>
       </a-layout>
       <a-layout class="content" v-else>
@@ -33,14 +42,15 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, defineAsyncComponent } from 'vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
 import WtHeader from "@/components/WtHeader.vue"
 import WtSider from "@/components/WtSider.vue"
-import WtContent from "@/components/WtContent.vue"
+// import WtContent from "@/components/WtContent.vue"
+const WtContent = defineAsyncComponent(() => import('@/components/WtContent.vue'));
 // import WtFooter from "@/components/WtFooter.vue"
 import Instructions from "@/components/common/Instructions.vue"
 import ContextMenu from "@/components/common/ContextMenu.vue"
