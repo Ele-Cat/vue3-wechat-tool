@@ -71,14 +71,14 @@ useAutoScrollBottom(contentRef)
 
 // 替换[emoji]为图片
 const renderText = (text) => {
-  const replacedText = text.replace(/\[.*?\]/g, (match) => {
+  let replacedText = text.replace(/\[.*?\]/g, (match) => {
     const emoticon = match.trim().replace('[', '').replace(']', '');
     if (emojiBase64.hasOwnProperty(emoticon)) {
       const imageUrl = emojiBase64[emoticon];
-      return `<img class="emoji-img" style="width:68px;margin:0 4px;vertical-align:top;" src="data:image/png;base64,${imageUrl}" alt="${emoticon}">`;
+      return `<img class="emoji-img" style="width:58px;margin:8px 4px 2px;vertical-align:bottom;" src="data:image/png;base64,${imageUrl}" alt="${emoticon}">`;
     }
     return match;
-  })
+  }).replace(/\n/g, "<br />");
   
   return replacedText;
 }

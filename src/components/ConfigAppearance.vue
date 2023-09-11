@@ -77,6 +77,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { LoadingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
+import dayjs from "dayjs";
 // import { useFetch } from '@vueuse/core'
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";
 import { fileToBase64, toArr } from "@/utils/utils";
@@ -91,6 +92,9 @@ watch(() => useSystemStore.appearance, (newVal) => {
   immediate: true,
   deep: true,
 })
+
+formState.value.phoneTimeHour = ('00' + dayjs().get('hour')).slice(-2)
+formState.value.phoneTimeMinute = ('00' + dayjs().get('minute')).slice(-2)
 
 const labelCol = {
   style: {
