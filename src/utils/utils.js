@@ -63,6 +63,15 @@ export function toYearStr() {
   return res || []
 }
 
-export const getAssetsFile = (url) => {
-  return new URL(`${url}`, import.meta.url).href
+/**
+ * 复制功能
+ * @param {String} text 被复制的文本
+ */
+export function copyText(text) {
+  var textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
 }
