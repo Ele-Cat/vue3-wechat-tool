@@ -1,5 +1,5 @@
 <template>
-  <a-drawer :width="500" title="免责声明" placement="right" :open="open" @close="close" class="disclaimers-drawer">
+  <a-drawer width="80vw" title="免责声明" placement="right" :open="open" @close="close" class="disclaimers-drawer">
     <p>请注意以下条款和条件，以规避您的风险和损失。如果您不同意本声明，请立即离开本网站。如果您继续访问和使用本网站，则表示您已经阅读、理解并同意接受本声明的所有条款和条件。</p>
     <p>1. 本网站所提供的任何内容和服务仅供用户个人学习、研究和测试之用，不得作为商业用途。本网站的所有信息未来可能会随时更新和更改，不保证其准确性、完整性、及时性、适用性、稳定性和可靠性 ；</p>
     <p>2. 不得利用本服务故意或者过失的从事危害国家安全和社会公共利益、扰乱经济秩序和社会秩序、侵犯他人合法权益等法律、行政法规禁止的活动，请勿输入、生成并发布、输出、传播涉及国家法律法规禁止以下内容：</p>

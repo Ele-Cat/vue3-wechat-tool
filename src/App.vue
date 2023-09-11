@@ -26,7 +26,7 @@
     <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg?color=FD6585' alt='Fork me on Gitee' /></a>
   </a-config-provider>
 
-  <a-modal v-model:open="modalOpen" title="注意" @ok="handleModalOk" @cancel="handleModalCancel" cancelText="关闭" okText="我已知晓，关闭">
+  <a-modal v-model:open="modalOpen" title="注意" :maskClosable="false" @ok="handleModalOk" @cancel="handleModalCancel" cancelText="关闭" okText="我已知晓，关闭">
     <Instructions />
   </a-modal>
   <ContextMenu />
