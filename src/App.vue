@@ -12,7 +12,7 @@
         <a-layout-sider :style="siderStyle" :width="useSystemStore.activeMenu === 'chat' ? 640 : 480">
           <WtSider />
         </a-layout-sider>
-        <a-layout-content :style="contentStyle">
+        <a-layout-content>
           <Suspense>
             <template #default>
               <WtContent />
@@ -28,9 +28,6 @@
       <a-layout class="content" v-else>
         <IsPhone />
       </a-layout>
-      <!-- <a-layout-footer :style="footerStyle">
-        <WtFooter />
-      </a-layout-footer> -->
     </a-layout>
     <a href='https://gitee.com/ele-cat/vue3-wechat-tool' target="_blank" class="widget"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/widgets/widget_1.svg?color=FD6585' alt='Fork me on Gitee' /></a>
   </a-config-provider>
@@ -51,7 +48,6 @@ import WtHeader from "@/components/WtHeader.vue"
 import WtSider from "@/components/WtSider.vue"
 // import WtContent from "@/components/WtContent.vue"
 const WtContent = defineAsyncComponent(() => import('@/components/WtContent.vue'));
-// import WtFooter from "@/components/WtFooter.vue"
 import Instructions from "@/components/common/Instructions.vue"
 import ContextMenu from "@/components/common/ContextMenu.vue"
 import IsPhone from "@/components/common/IsPhone.vue"
@@ -66,21 +62,9 @@ const headerStyle = {
   backgroundColor: '#F1F1F1',
 };
 
-const contentStyle = {
-  backgroundColor: '#FFFFFF',
-};
-
 const siderStyle = {
   paddingInline: 0,
   backgroundColor: '#F9F9F9',
-};
-
-const footerStyle = {
-  textAlign: 'center',
-  height: '40px',
-  lineHeight: '40px',
-  padding: 0,
-  backgroundColor: '#F1F1F1',
 };
 
 const modalOpen = ref(false);
@@ -97,8 +81,8 @@ const handleModalCancel = e => {
 !useSystemStore.hadDisclaimer && showDisclaimerModal();
 
 onMounted(() => {
+  // 在这里初始化数据
   if (!useUserStore.userList.length) {
-    // 在这里初始化用户列表吧
     useUserStore.userList = [
       {
         id: "user-0",
@@ -157,6 +141,13 @@ const handleResize = () => {
 @import url(//at.alicdn.com/t/c/font_4238507_tn4gdu3795p.css);
 .content {
   height: calc(100vh - 50px);
+  background-color: #FFFFFF;
+  background-image: linear-gradient(
+    90deg,rgba(159,219,252,.15) 3%,transparent 0),linear-gradient(
+    1turn,rgba(159,219,252,.15) 3%,transparent 0);
+  background-size: 20px 20px;
+  background-position: 50%;
+  background-attachment: fixed;
 }
 .widget {
   position: fixed;

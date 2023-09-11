@@ -60,31 +60,20 @@ const phoneRef = ref(null);
   justify-content: space-around;
   height: 100%;
   padding: 10px;
-  background-image: linear-gradient(
-    90deg,rgba(159,219,252,.15) 3%,transparent 0),linear-gradient(
-    1turn,rgba(159,219,252,.15) 3%,transparent 0);
-  background-size: 20px 20px;
-  background-position: 50%;
-  background-attachment: fixed;
-
   .wt-skeleton {
     width: 40%;
     padding: 10px;
     background-color: #F1F1F1;
   }
-
   .wt-preview {
     position: relative;
 
     .phone-wrap {
       width: 360px;
       height: 100%;
-
-      // background-color: #E0E0E0;
       .phone-scale {
         transform-origin: 0 0;
       }
-
       .phone {
         font-family: SF Pro, PingFang SC;
         font-weight: 400;
@@ -92,7 +81,6 @@ const phoneRef = ref(null);
         background-color: #EDEDED;
         position: relative;
         font-size: 36px;
-
         .phone-bg {
           display: flex;
           align-items: center;
