@@ -70,12 +70,12 @@
   yarn build
   ```
 
-## Author
+## 作者
 
 👤 **ele-cat**
 
-- 博客: https://ele-cat.gitee.io/
-- Github: [@ele-cat](https://github.com/ele-cat)
+- 博客: <a href='https://ele-cat.gitee.io/' target="_blank">https://ele-cat.gitee.io/</a>
+- Github: <a href='https://github.com/ele-cat' target="_blank">@ele-cat</a>
 
 ## 支持
 
@@ -83,14 +83,11 @@
 
 ## 许可证
 
-Copyright © 2023 [ele-cat](https://gitee.com/ele-cat).<br />
+Copyright © 2023 <a href='https://gitee.com/ele-cat' target="_blank">ele-cat</a>.<br />
 
-本程序为 📝[MIT License](https://gitee.com/ele-cat/vue3-wechat-tool/blob/master/LICENSE) 许可证.
-<a href="https://gitee.com/ele-cat/vue3-wechat-tool/blob/master/LICENSE" target="_blank">
-<img alt="License: MIT License" src="https://img.shields.io/badge/License-MIT License-yellow.svg" />
-</a>
+本程序为 📝<a href='https://gitee.com/ele-cat/vue3-wechat-tool/blob/master/LICENSE' target="_blank">MIT License</a> 许可证.
 
 ## 参考文档、博客
 
-- [js 实现图片转 base64 格式,并压缩上传](https://codeleading.com/article/74243318780/)
-- [vue 中利用 gif.js 实现 GIF 动图下载](https://blog.csdn.net/weixin_43695894/article/details/125205715)
+- <a href='https://codeleading.com/article/74243318780/' target="_blank">js 实现图片转 base64 格式,并压缩上传</a>
+- <a href='https://blog.csdn.net/weixin_43695894/article/details/125205715' target="_blank">vue 中利用 gif.js 实现 GIF 动图下载</a>
