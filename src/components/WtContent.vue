@@ -2,7 +2,7 @@
   <perfect-scrollbar>
     <div class="wt-content">
       <div class="wt-preview">
-        <div class="phone-wrap" ref="phoneRef">
+        <div class="phone-wrap" ref="phoneRef" :style="{height: wrapperHeight + 'px'}">
           <div class="phone-scale" :style="{ transform: `scale(${phoneScale})` }">
             <div id="phone" class="phone" :style="{ width: phoneWidth + 'px', height: phoneHeight + 'px' }">
               <PhoneBar :appearance="appearance" />
@@ -34,10 +34,11 @@ import PhoneBottom from "./phone/PhoneBottom.vue";
 import PhoneGenerate from "./phone/PhoneGenerate.vue"
 import PhoneTools from "./phone/PhoneTools.vue"
 
-const phoneWidth = ref(1200)
-const phoneHeight = ref(2700)
+const phoneWidth = ref(1125)
+const phoneHeight = ref(2436)
 const phoneScale = ref(1)
 const appearance = ref({})
+const wrapperHeight = ref(0)
 watch(() => useSystemStore.appearance, (newVal) => {
   // ios:1125*2436
   // android:1224*2700
@@ -47,6 +48,7 @@ watch(() => useSystemStore.appearance, (newVal) => {
   phoneWidth.value = width
   phoneHeight.value = height
   useSystemStore.phoneScale = phoneScale.value = (360 / width).toFixed(2)
+  wrapperHeight.value = parseInt(height * phoneScale.value)
 }, {
   immediate: true,
 })
@@ -58,6 +60,7 @@ const phoneRef = ref(null);
 .wt-content {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   height: 100%;
   padding: 10px;
   .wt-skeleton {
