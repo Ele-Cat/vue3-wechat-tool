@@ -1,13 +1,12 @@
-<h1 align="center">Welcome to vue3-wechat-tool 👋</h1>
-<p>
+<h1 align="center">微信对话生成器 👋</h1>
+<div align="center">
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
-  <a href="https://gitee.com/ele-cat/vue3-wechat-tool" target="_blank">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
-  </a>
+  <a href='https://gitee.com/ele-cat/vue3-wechat-tool/stargazers' target="_blank"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/badge/star.svg?theme=dark' alt='star'></img></a>
+  <a href='https://gitee.com/ele-cat/vue3-wechat-tool/members' target="_blank"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/badge/fork.svg?theme=dark' alt='fork'></img></a>
   <a href="https://gitee.com/ele-cat/vue3-wechat-tool/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT License" src="https://img.shields.io/badge/License-MIT License-yellow.svg" />
   </a>
-</p>
+</div>
 
 > 使用 Vite + Vue3 + AntDesignVue + Pinia 搭建的在线微信对话生成器
 
