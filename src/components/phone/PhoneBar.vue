@@ -96,7 +96,7 @@ const props = defineProps({
       }
     }
     &.phone-battery-charge {
-      font {
+      .battery-width {
         background: #65c466;
       }
       i {
