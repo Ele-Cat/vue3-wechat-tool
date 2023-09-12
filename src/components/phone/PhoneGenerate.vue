@@ -30,18 +30,22 @@ import { useHtmlToImage, useHtmlToGif } from '@/hooks/useHtmlToImage';
 const { imageUrl, captureHtmlToImage } = useHtmlToImage();
 const drawerVisible = ref(false)
 const drawerTitle = ref('')
+
+// 生成图片
 const handleGeneratePng = () => {
   const phoneWrap = document.querySelector('.phone-wrap');
   captureHtmlToImage(phoneWrap);
   drawerVisible.value = true;
   drawerTitle.value = "生成图片";
 }
+
+// 生成长图
 const handleGenerateLongPng = async () => {
   const wechatContent = document.querySelector('.wechat-content')
   const phoneWrap = document.querySelector('.phone-wrap')
   const phone = document.querySelector('#phone')
   const phoneBody = document.querySelector('.phone-body')
-  const phoneRealHeight = wechatContent.scrollHeight + 264 + 269
+  const phoneRealHeight = useSystemStore.phoneHeight > wechatContent.scrollHeight + 264 + 269 ? useSystemStore.phoneHeight : wechatContent.scrollHeight + 264 + 269;
   phone.style.height = phoneRealHeight + "px"
   phoneBody.scrollTop = 0
 
