@@ -20,6 +20,9 @@
         <div class="phone-time">
           <a-select :options="toArr(24)" v-model:value="formState.phoneTimeHour"></a-select>:
           <a-select :options="toArr(60)" v-model:value="formState.phoneTimeMinute"></a-select>
+          <a-tooltip title="是否跟随当前设备时间" placement="right">
+            <a-switch v-model:checked="formState.timeFollowSystem" />
+          </a-tooltip>
         </div>
       </a-form-item>
       <a-form-item label="是否充电">
@@ -75,7 +78,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onUnmounted, ref, watch } from "vue";
 import { LoadingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 // import { useFetch } from '@vueuse/core'
@@ -85,16 +88,26 @@ import { toast } from "@/utils/feedback";
 import useStore from "@/store";
 const { useSystemStore } = useStore();
 
-const formState = ref({});
-watch(() => useSystemStore.appearance, (newVal) => {
-  formState.value = newVal
-}, {
-  immediate: true,
-  deep: true,
+let timer = null;
+onUnmounted(() => {
+  timer && clearInterval(timer);
 })
 
-formState.value.phoneTimeHour = ('00' + dayjs().get('hour')).slice(-2)
-formState.value.phoneTimeMinute = ('00' + dayjs().get('minute')).slice(-2)
+const formState = ref({});
+formState.value = useSystemStore.appearance
+
+watch(() => useSystemStore.appearance.timeFollowSystem, (newVal) => {
+  if (newVal) {
+    timer = setInterval(() => {
+      formState.value.phoneTimeHour = ('00' + dayjs().get('hour')).slice(-2)
+      formState.value.phoneTimeMinute = ('00' + dayjs().get('minute')).slice(-2)
+    }, 1000)
+  } else {
+    timer && clearInterval(timer);
+  }
+}, {
+  immediate: true,
+})
 
 const labelCol = {
   style: {
@@ -155,7 +168,7 @@ const removeChatBackground = () => {
     justify-content: space-between;
     align-items: center;
     .ant-select {
-      width: 48%;
+      width: 38%;
     }
   }
   .ant-input-number {

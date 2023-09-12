@@ -41,7 +41,7 @@
       </template>
       <template v-else-if="useChatStore.activeType === 'transferAccounts'">
         <a-form-item label="转账金额">
-          <a-input-number :min="0" :precision="2" v-model:value="formState.transferAmount" placeholder="请输入转账金额" />
+          <a-input-number :min="0" :max="999999999" :precision="2" v-model:value="formState.transferAmount" placeholder="请输入转账金额" />
         </a-form-item>
         <a-form-item label="转账备注">
           <a-input v-model:value="formState.transferRemarks" placeholder="请输入转账备注" />

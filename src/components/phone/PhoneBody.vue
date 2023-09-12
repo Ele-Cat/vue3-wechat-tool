@@ -1,7 +1,7 @@
 <template>
   <div class="phone-body" ref="contentRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
-      <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu.stop="e => rightClicked(e, chat)">
+      <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice': ['time'].includes(chat.type), 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu.stop="e => rightClicked(e, chat)">
         <div class="wechat-item-avatar" v-if="!['time'].includes(chat.type)">
           <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
         </div>
@@ -188,7 +188,7 @@ const renderText = (text) => {
               span {
                 font-size: 48px;
                 color: #fff;
-                margin-top: -9px;
+                margin-top: -5px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -280,12 +280,18 @@ const renderText = (text) => {
           }
         }
       }
-      .wechat-item-notice {
-        font-size: 36px;
-        color: #a6a6a6;
-        display: flex;
+      &.wechat-item-notice {
+        padding: 12px 38px;
         justify-content: center;
-        flex: 1;
+        .wechat-item-notice {
+          font-size: 36px;
+          color: #a6a6a6;
+          justify-content: center;
+          padding: 8px 16px;
+          background-color: rgba(255, 255, 255, 0.35);
+          color: #333333;
+          border-radius: 6px;
+        }
       }
     }
   }

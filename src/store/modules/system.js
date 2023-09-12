@@ -8,6 +8,7 @@ const appearance = {
   phoneSignal: "4",
   phoneTimeHour: "12",
   phoneTimeMinute: "21",
+  timeFollowSystem: false,
   isCharging: false,
   phoneBattery: 60,
   earphoneMode: true,
