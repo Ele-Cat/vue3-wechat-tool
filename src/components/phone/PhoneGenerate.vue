@@ -6,8 +6,8 @@
     <a-tooltip title="顾名思义" placement="right">
       <div class="wtc-button" @click="handleGenerateLongPng">生成长图</div>
     </a-tooltip>
-    <!-- <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
-    <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
+    <!-- <div class="wtc-button" @click="handleGenerateGif">生成动图</div> -->
+    <!-- <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
 
   <a-drawer :width="500" :title="drawerTitle" placement="right" :open="drawerVisible" @close="onClose">
@@ -15,17 +15,19 @@
       <a-button type="primary" @click="handleDownload">下载</a-button>
     </template>
     <img :src="imageUrl" v-if="imageUrl" alt="">
-    <!-- <img :src="gifUrl" v-if="gifUrl" alt=""> -->
+    <img :src="gifUrl" v-if="gifUrl" alt="">
   </a-drawer>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import dayjs from "dayjs";
 import { toast } from "@/utils/feedback";
 import useStore from "@/store";
 const { useChatStore, useSystemStore } = useStore();
 import { useHtmlToImage, useHtmlToGif } from '@/hooks/useHtmlToImage';
+import html2canvas from 'html2canvas';
+import GIF from 'gif.js';
 
 const { imageUrl, captureHtmlToImage } = useHtmlToImage();
 const drawerVisible = ref(false)
@@ -58,18 +60,64 @@ const handleGenerateLongPng = async () => {
   phone.style.height = useSystemStore.phoneHeight + "px";
 }
 
-const { gifUrl, captureHtmlToGif } = useHtmlToGif();
+// const { gifUrl, captureHtmlToGif } = useHtmlToGif();
+// 生成动图
+let gifTimer = null;
+onUnmounted(() => {
+  gifTimer && clearInterval(gifTimer);
+})
+const gifUrl = ref("")
 const handleGenerateGif = () => {
-  captureHtmlToGif(props.phone);
-  useChatStore.chatList.push({
-    id: "chat-" + Date.now(),
-    type: "text",
-    content: "你是谁",
-    role: "own",
-  })
-  drawerVisible.value = true;
-  drawerTitle.value = "生成动图";
+  const element = document.querySelector('.phone-wrap');
+  // drawerVisible.value = true;
+  // drawerTitle.value = "生成动图";
+  const duration = 5000; // 设置录制时长，单位为毫秒
+  gifTimer = setInterval(() => {
+    useChatStore.chatList.push({
+      id: "chat-" + Date.now(),
+      type: "text",
+      content: "你是谁" + Date.now(),
+      role: "own",
+    })
+  }, 1000)
+    
+  html2canvas(element).then(canvas => {
+    const gif = new GIF(); // 创建GIF对象
+    gif.addFrame(canvas, { delay: 200 }); // 添加帧到GIF，可以设置延迟时间
+
+    // 下载GIF到本地
+    gif.on('finished', function(blob) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'converted.gif';
+      a.click();
+    });
+
+    // 或者显示在页面上
+    // gif.on('finished', function(blob) {
+    //   console.log(123);
+    //   const url = URL.createObjectURL(blob);
+    //   gifUrl.value = url;
+    // });
+
+    // 定时停止录制
+    setTimeout(() => {
+      gif.render();
+    }, duration);
+  });
+  // captureHtmlToGif(props.phone);
+  // useChatStore.chatList.push({
+  //   id: "chat-" + Date.now(),
+  //   type: "text",
+  //   content: "你是谁",
+  //   role: "own",
+  // })
+  // drawerVisible.value = true;
+  // drawerTitle.value = "生成动图";
 }
+
+// 生成视频
 const handleGenerateVideo = () => {
   toast({
     type: "warning",
