@@ -1,6 +1,11 @@
 <template>
   <div class="wt-ctrl">
-    <div class="wtc-button" @click="handleGeneratePng">生成图片</div>
+    <a-tooltip title="滚动到哪截到哪" placement="right">
+      <div class="wtc-button" @click="handleGeneratePng">生成图片</div>
+    </a-tooltip>
+    <a-tooltip title="顾名思义" placement="right">
+      <div class="wtc-button" @click="handleGenerateLongPng">生成长图</div>
+    </a-tooltip>
     <!-- <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
     <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
@@ -19,22 +24,36 @@ import { ref } from "vue";
 import dayjs from "dayjs";
 import { toast } from "@/utils/feedback";
 import useStore from "@/store";
-const { useChatStore } = useStore();
+const { useChatStore, useSystemStore } = useStore();
 import { useHtmlToImage, useHtmlToGif } from '@/hooks/useHtmlToImage';
-const props = defineProps({
-  phone: {
-    type: Object,
-    default: () => {}
-  }
-})
+
 const { imageUrl, captureHtmlToImage } = useHtmlToImage();
 const drawerVisible = ref(false)
 const drawerTitle = ref('')
 const handleGeneratePng = () => {
-  captureHtmlToImage(props.phone);
+  const phoneWrap = document.querySelector('.phone-wrap');
+  captureHtmlToImage(phoneWrap);
   drawerVisible.value = true;
   drawerTitle.value = "生成图片";
 }
+const handleGenerateLongPng = async () => {
+  const wechatContent = document.querySelector('.wechat-content')
+  const phoneWrap = document.querySelector('.phone-wrap')
+  const phone = document.querySelector('#phone')
+  const phoneBody = document.querySelector('.phone-body')
+  const phoneRealHeight = wechatContent.scrollHeight + 264 + 269
+  phone.style.height = phoneRealHeight + "px"
+  phoneBody.scrollTop = 0
+
+  captureHtmlToImage(phoneWrap, {
+    height: phoneRealHeight * 0.32,
+  });
+  drawerVisible.value = true;
+  drawerTitle.value = "生成长图";
+
+  phone.style.height = useSystemStore.phoneHeight + "px";
+}
+
 const { gifUrl, captureHtmlToGif } = useHtmlToGif();
 const handleGenerateGif = () => {
   captureHtmlToGif(props.phone);

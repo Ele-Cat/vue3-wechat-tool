@@ -5,8 +5,8 @@ import GIF from 'gif.js';
 export function useHtmlToImage() {
   const imageUrl = ref('');
 
-  const captureHtmlToImage = async (element) => {
-    const canvas = await html2canvas(element);
+  const captureHtmlToImage = async (element, params = {}) => {
+    const canvas = await html2canvas(element, {...params});
     imageUrl.value = canvas.toDataURL();
   };
 

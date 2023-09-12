@@ -2,7 +2,7 @@
   <perfect-scrollbar>
     <div class="wt-content">
       <div class="wt-preview">
-        <div class="phone-wrap" ref="phoneRef" :style="{height: wrapperHeight + 'px'}">
+        <div class="phone-wrap" :style="{height: wrapperHeight + 'px'}">
           <div class="phone-scale" :style="{ transform: `scale(${phoneScale})` }">
             <div id="phone" class="phone" :style="{ width: phoneWidth + 'px', height: phoneHeight + 'px' }">
               <PhoneBar :appearance="appearance" />
@@ -16,7 +16,7 @@
           </div>
         </div>
         <PhoneTools />
-        <PhoneGenerate :phone="phoneRef" />
+        <PhoneGenerate />
       </div>
     </div>
   </perfect-scrollbar>
@@ -45,15 +45,13 @@ watch(() => useSystemStore.appearance, (newVal) => {
   // 做缩放是为了在预览时好看，同时在生成图片、视频时高清
   appearance.value = newVal
   const { width, height } = models.find(model => model.value === newVal.model)
-  phoneWidth.value = width
-  phoneHeight.value = height
+  useSystemStore.phoneWidth = phoneWidth.value = width
+  useSystemStore.phoneHeight = phoneHeight.value = height
   useSystemStore.phoneScale = phoneScale.value = (360 / width).toFixed(2)
   wrapperHeight.value = parseInt(height * phoneScale.value)
 }, {
   immediate: true,
 })
-
-const phoneRef = ref(null);
 </script>
 
 <style lang="less" scoped>
@@ -61,7 +59,6 @@ const phoneRef = ref(null);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 100%;
   padding: 10px;
   .wt-skeleton {
     width: 40%;

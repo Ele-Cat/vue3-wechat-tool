@@ -1,5 +1,5 @@
 <template>
-  <div class="phone-body" ref="contentRef" @contextmenu.stop="handlePhoneBodyContextMenu">
+  <div class="phone-body" ref="phoneBodyRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
       <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice': ['time'].includes(chat.type), 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu.stop="e => rightClicked(e, chat)">
         <div class="wechat-item-avatar" v-if="!['time'].includes(chat.type)">
@@ -66,8 +66,8 @@ const rightClicked = (e, chat) => {
   useContextMenuStore.showContextMenu(e.clientX, e.clientY, chat);
 };
 
-const contentRef = ref(null)
-useAutoScrollBottom(contentRef)
+const phoneBodyRef = ref(null)
+useAutoScrollBottom(phoneBodyRef)
 
 // 替换[emoji]为图片
 const renderText = (text) => {
@@ -85,9 +85,9 @@ const renderText = (text) => {
 </script>
 
 <style lang="less" scoped>
-::-webkit-scrollbar {
-  display: none;
-}
+// ::-webkit-scrollbar {
+//   display: none;
+// }
 .phone-body {
   position: absolute;
   top: 264px;

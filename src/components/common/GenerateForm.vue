@@ -115,7 +115,7 @@ const formState = reactive({
   transferAmount: 88,
   transferRemarks: "",
   redEnvelopeAmount: 88,
-  redEnvelopeRemarks: "",
+  redEnvelopeRemarks: "恭喜发财，大吉大利",
   radioDuration: 2,
   radioReaded: true,
   datetime: {
@@ -151,22 +151,22 @@ const addEmoji = (emoji) => {
 };
 
 const handleSentChat = () => {
-  if (!formState.text && useChatStore.activeType === "text") {
+  if (!formState.text.trim() && useChatStore.activeType === "text") {
     toast({
       type: "warning",
       content: "请输入文本后发送",
     });
     return;
   }
-  let content = formState.text;
+  let content = formState.text.trim();
   let money = 0;
   let duration = 0;
   let readed = 0;
   if (useChatStore.activeType === "transferAccounts") {
-    content = formState.transferRemarks;
+    content = formState.transferRemarks.trim();
     money = formState.transferAmount;
   } else if (useChatStore.activeType === "redEnvelope") {
-    content = formState.redEnvelopeRemarks;
+    content = formState.redEnvelopeRemarks.trim();
     money = formState.redEnvelopeAmount;
   } else if (useChatStore.activeType === "radio") {
     duration = formState.radioDuration;
@@ -193,7 +193,7 @@ const handleClearChat = () => {
     formState.transferRemarks = "";
   } else if (useChatStore.activeType === "redEnvelope") {
     formState.redEnvelopeAmount = 88;
-    formState.redEnvelopeRemarks = "";
+    formState.redEnvelopeRemarks = "恭喜发财，大吉大利";
   }
 };
 
