@@ -1,8 +1,8 @@
 <template>
   <div class="wt-ctrl">
     <div class="wtc-button" @click="handleGeneratePng">生成图片</div>
-    <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
-    <div class="wtc-button" @click="handleGenerateVideo">生成视频</div>
+    <!-- <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
+    <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
 
   <a-drawer :width="500" :title="drawerTitle" placement="right" :open="drawerVisible" @close="onClose">
@@ -10,7 +10,7 @@
       <a-button type="primary" @click="handleDownload">下载</a-button>
     </template>
     <img :src="imageUrl" v-if="imageUrl" alt="">
-    <img :src="gifUrl" v-if="gifUrl" alt="">
+    <!-- <img :src="gifUrl" v-if="gifUrl" alt=""> -->
   </a-drawer>
 </template>
 
