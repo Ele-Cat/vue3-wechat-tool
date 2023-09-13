@@ -1,20 +1,20 @@
-<h1 align="center">微信对话生成器 👋</h1>
+<h1 align="center">在线微信对话生成器 👋</h1>
 
 > 使用 Vite + Vue3 + AntDesignVue + Pinia 搭建的在线微信对话生成器
 
 <div align="center">
-  <h4>本程序是一款聊天记录制作工具，可以模拟微信聊天，可以管理不同用户角色进行对话，同时支持发送文字、图片、语音、红包、转账等类型信息。可以将聊天内容一键生成为图片、长图、动图和视频。【<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线预览地址</a>】</h4>
+  <h4>本程序是一款微信聊天记录制作工具，可以模拟微信聊天、管理不同用户角色进行对话，同时支持发送文字、图片、语音、红包、转账等类型信息。可以将聊天内容一键生成为图片、长图、动图和视频。【<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线预览地址</a>】</h4>
   <h4>全量开源，更多好玩的功能欢迎提出Issues，敬请期待！</h4>
 </div>
 
 <div align="center">
   <a href='https://gitee.com/ele-cat/vue3-wechat-tool/stargazers' target="_blank"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/badge/star.svg?theme=dark' alt='star'></img></a>
   <a href='https://gitee.com/ele-cat/vue3-wechat-tool/members' target="_blank"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/badge/fork.svg?theme=dark' alt='fork'></img></a>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-red.svg?cacheSeconds=2592000" />
 </div>
 
-<!-- ### ✨<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">使用教程</a> -->
-
+<!-- <img alt="欢迎⭐️" src="https://img.shields.io/badge/欢迎-⭐️-blue.svg?cacheSeconds=2592000" /> -->
+### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程</a>
+### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#开发教程' target="_blank">开发教程</a>
 ### ✨<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线预览</a>
 
 ## 使用
@@ -65,9 +65,11 @@
     - [ ] 聊天输入框可输入文字
   - [x] 对话内容右键菜单
   - [x] 对话内容上移、下移【右键菜单】
-  - [x] 对话内容删除【右键菜单】
+  - [x] 对话内容移除【右键菜单】
   - [ ] 对话内容修改【右键菜单】
   - [ ] 对话内容播放延时【右键菜单】【生成动图、视频时，自定义距上条对话内容播放的延时时间】
+  - [x] 重置外观
+  - [x] 清空对话
   - [ ] 一键生成对话【即下方模板管理】
   - [x] 生成图片
   - [x] 生成长图
