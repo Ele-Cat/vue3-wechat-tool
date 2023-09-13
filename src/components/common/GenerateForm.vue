@@ -55,14 +55,7 @@
           <a-input v-model:value="formState.redEnvelopeRemarks" placeholder="请输入转账备注" />
         </a-form-item>
       </template>
-      <template v-else-if="useChatStore.activeType === 'receive'">
-        <a-form-item label="领取选择">
-          <a-select v-model:value="formState.receive" placeholder="请选择要领取的转账或红包" allowClear>
-            <a-select-option v-for="item in useChatStore.receiveList(useUserStore.activeRole)" :key="item.value" :data-id="item.value" :value="item.value" @mouseenter="handleReceiveEnter" @mouseleave="handleReceiveLeave">{{ item.label }}</a-select-option>
-          </a-select>
-        </a-form-item>
-      </template>
-      <template v-else-if="useChatStore.activeType === 'radio'">
+      <template v-else-if="useChatStore.activeType === 'voice'">
         <a-form-item label="语音时长">
           <a-input-number :min="0" :max="60" :precision="0" v-model:value="formState.radioDuration" placeholder="请输入语音时长" />
         </a-form-item>
@@ -88,12 +81,8 @@
       </template>
     </a-form>
     <template #actions v-if="!['image'].includes(useChatStore.activeType)">
-      <a-button block danger type="link" size="small" @click="handleClearChat"
-        >清空</a-button
-      >
-      <a-button block type="link" size="small" @click="handleSentChat"
-        >发送</a-button
-      >
+      <a-button block danger type="link" size="small" @click="handleClearChat">清空</a-button>
+      <a-button block type="link" size="small" @click="handleSentChat">发送</a-button>
     </template>
   </a-card>
 </template>
@@ -165,30 +154,35 @@ const handleSentChat = () => {
     });
     return;
   }
-  let content = formState.text.trim();
-  let money = 0;
-  let duration = 0;
-  let readed = 0;
-  if (useChatStore.activeType === "transferAccounts") {
-    content = formState.transferRemarks.trim();
-    money = formState.transferAmount;
+  let tempObj = {}
+  if (useChatStore.activeType === "text") {
+    tempObj = {
+      content: formState.text.trim(),
+    }
+  } else if (useChatStore.activeType === "transferAccounts") {
+    tempObj = {
+      content: formState.transferRemarks.trim(),
+      money: formState.transferAmount
+    }
   } else if (useChatStore.activeType === "redEnvelope") {
-    content = formState.redEnvelopeRemarks.trim();
-    money = formState.redEnvelopeAmount;
-  } else if (useChatStore.activeType === "radio") {
-    duration = formState.radioDuration;
-    readed = formState.radioReaded;
+    tempObj = {
+      content: formState.redEnvelopeRemarks.trim(),
+      money: formState.redEnvelopeAmount
+    }
+  } else if (useChatStore.activeType === "voice") {
+    tempObj = {
+      duration: formState.radioDuration,
+      received: formState.radioReaded
+    }
   } else if (useChatStore.activeType === "time") {
-    content = selectTime.value;
+    tempObj = {
+      content: selectTime.value,
+    }
   }
-  useChatStore.sentChat({
+  useChatStore.sentChat(Object.assign({}, {
     type: useChatStore.activeType,
-    money,
-    content,
-    duration,
-    readed,
     role: useUserStore.activeRole,
-  });
+  }, {...tempObj}));
   handleClearChat();
 };
 

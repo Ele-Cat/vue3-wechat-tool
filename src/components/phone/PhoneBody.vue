@@ -1,8 +1,8 @@
 <template>
   <div class="phone-body" ref="phoneBodyRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
-      <div class="wechat-item" :id="chat.id" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice': ['time'].includes(chat.type), 'active': useContextMenuStore.activeChatId === chat.id}" @contextmenu.stop="e => rightClicked(e, chat.id)">
-        <div class="wechat-item-avatar" v-if="!['time'].includes(chat.type)">
+      <div class="wechat-item" :id="chat.id" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice-box': !showAvatar(chat), 'active': useContextMenuStore.activeChatId === chat.id}" @contextmenu.stop="e => rightClicked(e, chat.id)">
+        <div class="wechat-item-avatar" v-if="showAvatar(chat)">
           <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
         </div>
         <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content)"></div>
@@ -22,35 +22,27 @@
             <span>微信转账</span>
           </div>
         </div>
-        <div class="wechat-item-text wechat-item-trans" v-else-if="chat.type === 'redEnvelope'">
+        <div class="wechat-item-text wechat-item-trans" :class="{'wechat-item-trans-received': chat.received}" v-else-if="chat.type === 'redEnvelope'">
           <div class="wechat-item-trans-content wechat-item-redp-content">
             <i></i> 
             <div>
               <!-- <span>¥{{ chat.money.toFixed(2) }}</span>  -->
               <span>{{ chat.content || "恭喜发财，大吉大利" }}</span>
+              <span class="font" v-if="chat.received">已领取</span>
             </div>
           </div>
           <div class="wechat-item-trans-bottom">
             <span>微信红包</span>
           </div>
         </div>
-        <div class="wechat-item-text wechat-item-trans" v-else-if="chat.type === 'receive'">
-          领取
-          <!-- <div class="wechat-item-trans-content wechat-item-redp-content">
-            <i></i> 
-            <div>
-              <span>{{ chat.content || "恭喜发财，大吉大利" }}</span>
-            </div>
-          </div>
-          <div class="wechat-item-trans-bottom">
-            <span>微信红包</span>
-          </div> -->
+        <div class="wechat-item-notice" v-else-if="chat.type === 'receive' && chat.receivedChatType === 'redEnvelope'">
+          <i></i>{{ chat.role === 'own' ? "你" : useUserStore.otherInfo.nickname }}领取了{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}的<em>红包</em>
         </div>
-        <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'radio'">
+        <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'voice'">
           <i></i> 
           <span>{{ chat.duration }}"</span>
           <div :style="{width: chat.duration * 5 + 'px'}"></div>
-          <em v-if="!chat.readed"></em>
+          <em v-if="!chat.received"></em>
         </div>
         <div class="wechat-item-notice" v-else-if="chat.type === 'time'">
           <span>{{ chat.content }}</span>
@@ -95,18 +87,21 @@ const renderText = (text) => {
   return replacedText;
 }
 
-watch(() => useContextMenuStore.activeChatId, (newVal) => {
-  if (newVal) {
-    const targetElement = document.getElementById(newVal);
-    if (targetElement) {
-      // 使用scrollIntoView方法将目标元素滚动到可见区域
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
-  }
-})
+// watch(() => useContextMenuStore.activeChatId, (newVal) => {
+//   if (newVal) {
+//     const targetElement = document.getElementById(newVal);
+//     if (targetElement) {
+//       targetElement.scrollIntoView({
+//         behavior: "smooth",
+//         block: "center",
+//       });
+//     }
+//   }
+// })
+
+const showAvatar = (chat) => {
+  return !['time'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 
+}
 </script>
 
 <style lang="less" scoped>
@@ -224,6 +219,7 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                margin-top: 4px;
               }
             }
           }
@@ -246,6 +242,22 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
           &:after {
             content: '';
             background: #f79c46 !important;
+          }
+        }
+        &.wechat-item-trans-received {
+          background: #f8e2c6 !important;
+          .wechat-item-trans-content {
+            i {
+              background: url(@/assets/images/content/wechat-trans-icon4.png) no-repeat;
+            }
+          }
+          .wechat-item-trans-bottom {
+            span {
+              color: #FFFFFF;
+            }
+          }
+          &:after {
+            background: #f8e2c6 !important;
           }
         }
         &.wechat-item-voice {
@@ -305,7 +317,7 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
           }
         }
       }
-      &.wechat-item-notice {
+      &.wechat-item-notice-box {
         padding: 12px 38px;
         justify-content: center;
         .wechat-item-notice {
@@ -313,9 +325,20 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
           color: #a6a6a6;
           justify-content: center;
           padding: 8px 16px;
-          background-color: rgba(255, 255, 255, 0.35);
-          color: #333333;
           border-radius: 6px;
+          display: flex;
+          align-items: center;
+          i {
+            width: 45px;
+            height: 51px;
+            background: url(@/assets/images/content/wechat-redp-icon1.png) no-repeat;
+            margin-right: 18px;
+            margin-top: -5px;
+          }
+          em {
+            font-style: normal;
+            color: #ef9d49;
+          }
         }
       }
     }

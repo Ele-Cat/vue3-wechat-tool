@@ -21,9 +21,17 @@ export const useChatStore = defineStore("toolChat", {
         return {
           label: chat.content || content,
           value: chat.id,
+          disabled: chat.received,
         }
       });
       return receiveList;
+    },
+    receiveChat(chatId) {
+      this.chatList.map(chat => {
+        if (chat.id === chatId) {
+          chat.received = true;
+        }
+      })
     },
     sentChat(chatInfo) {
       this.chatList.push({

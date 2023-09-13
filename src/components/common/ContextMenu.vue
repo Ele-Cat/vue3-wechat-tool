@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { ref, watch } from 'vue';
 import useStore from '@/store';
 const { useContextMenuStore, useChatStore } = useStore();
 import { toast } from "@/utils/feedback";
@@ -18,6 +18,7 @@ import { toast } from "@/utils/feedback";
 // 点击菜单条目
 const handleMenuClick = (type) => {
   const activeChatId = useContextMenuStore.activeChatId
+  const activeChatInfo = useChatStore.chatList.find(chat => chat.id === activeChatId);
   const activeChatIndex = useChatStore.chatList.findIndex(chat => chat.id === activeChatId);
   if (type === "moveUp") {
     if (activeChatIndex === 0) {
@@ -39,6 +40,14 @@ const handleMenuClick = (type) => {
       const item = useChatStore.chatList.splice(activeChatIndex, 1);
       useChatStore.chatList.splice(activeChatIndex + 1, 0, item[0]);
     }
+  } else if (type === "receive") {
+    useChatStore.sentChat(Object.assign({}, {
+      type: "receive",
+      role: activeChatInfo.role === "own" ? "other" : "own",
+      receivedChatId: activeChatId,
+      receivedChatType: activeChatInfo["type"]
+    }));
+    useChatStore.receiveChat(activeChatId);
   } else if (type === "delete") {
     useChatStore.chatList.splice(activeChatIndex, 1);
   }
@@ -47,21 +56,50 @@ const handleMenuClick = (type) => {
 }
 
 // 根据点击的对象展示对应的菜单列表
-const contextMenuList = reactive([
-  {
-    label: "上移",
-    value: "moveUp",
-  },
-  {
-    label: "下移",
-    value: "moveDown",
-  },
-  {
-    label: "移除",
-    value: "delete",
-    borderTop: true,
+const contextMenuList = ref([])
+
+watch(() => useContextMenuStore.activeChatId, (newVal) => {
+  if (newVal) {
+    const chatInfo = useChatStore.chatList.find(chat => chat.id === useContextMenuStore.activeChatId);
+    if (["transferAccounts", "redEnvelope"].includes(chatInfo.type) && !chatInfo.received) {
+      contextMenuList.value = [
+        {
+          label: "上移",
+          value: "moveUp",
+        },
+        {
+          label: "下移",
+          value: "moveDown",
+        },
+        {
+          label: "领取",
+          value: "receive",
+        },
+        {
+          label: "移除",
+          value: "delete",
+          borderTop: true,
+        }
+      ]
+    } else {
+      contextMenuList.value = [
+        {
+          label: "上移",
+          value: "moveUp",
+        },
+        {
+          label: "下移",
+          value: "moveDown",
+        },
+        {
+          label: "移除",
+          value: "delete",
+          borderTop: true,
+        }
+      ]
+    }
   }
-])
+})
 </script>
 
 <style lang="less" scoped>
