@@ -55,6 +55,13 @@
           <a-input v-model:value="formState.redEnvelopeRemarks" placeholder="请输入转账备注" />
         </a-form-item>
       </template>
+      <template v-else-if="useChatStore.activeType === 'receive'">
+        <a-form-item label="领取选择">
+          <a-select v-model:value="formState.receive" placeholder="请选择要领取的转账或红包" allowClear>
+            <a-select-option v-for="item in useChatStore.receiveList(useUserStore.activeRole)" :key="item.value" :data-id="item.value" :value="item.value" @mouseenter="handleReceiveEnter" @mouseleave="handleReceiveLeave">{{ item.label }}</a-select-option>
+          </a-select>
+        </a-form-item>
+      </template>
       <template v-else-if="useChatStore.activeType === 'radio'">
         <a-form-item label="语音时长">
           <a-input-number :min="0" :max="60" :precision="0" v-model:value="formState.radioDuration" placeholder="请输入语音时长" />
@@ -96,7 +103,7 @@ import { watch, reactive, ref, defineAsyncComponent } from "vue";
 import { InboxOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 import useStore from "@/store";
-const { useUserStore, useChatStore } = useStore();
+const { useUserStore, useChatStore, useContextMenuStore } = useStore();
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
 import { weeks, morningAfternoon } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
@@ -217,6 +224,13 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
+
+const handleReceiveEnter = (e) => {
+  useContextMenuStore.activeChatId = e.target.dataset.id
+}
+const handleReceiveLeave = (e) => {
+  useContextMenuStore.activeChatId = ""
+}
 </script>
 
 <style lang="less" scoped>

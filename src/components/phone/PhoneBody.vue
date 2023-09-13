@@ -1,7 +1,7 @@
 <template>
   <div class="phone-body" ref="phoneBodyRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
-      <div class="wechat-item" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice': ['time'].includes(chat.type), 'active': useContextMenuStore.activeChat.id === chat.id}" @contextmenu.stop="e => rightClicked(e, chat)">
+      <div class="wechat-item" :id="chat.id" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice': ['time'].includes(chat.type), 'active': useContextMenuStore.activeChatId === chat.id}" @contextmenu.stop="e => rightClicked(e, chat.id)">
         <div class="wechat-item-avatar" v-if="!['time'].includes(chat.type)">
           <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
         </div>
@@ -34,6 +34,18 @@
             <span>微信红包</span>
           </div>
         </div>
+        <div class="wechat-item-text wechat-item-trans" v-else-if="chat.type === 'receive'">
+          领取
+          <!-- <div class="wechat-item-trans-content wechat-item-redp-content">
+            <i></i> 
+            <div>
+              <span>{{ chat.content || "恭喜发财，大吉大利" }}</span>
+            </div>
+          </div>
+          <div class="wechat-item-trans-bottom">
+            <span>微信红包</span>
+          </div> -->
+        </div>
         <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'radio'">
           <i></i> 
           <span>{{ chat.duration }}"</span>
@@ -49,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore } = useStore();
 import useAutoScrollBottom from "@/hooks/useAutoScrollBottom"
@@ -58,12 +70,12 @@ import emojiBase64 from "@/utils/emojiBase64";
 const handlePhoneBodyContextMenu = (e) => {
   e.preventDefault();
   useContextMenuStore.hideContextMenu();
-  useContextMenuStore.activeChat = {};
+  useContextMenuStore.activeChatId = "";
 }
 
-const rightClicked = (e, chat) => {
+const rightClicked = (e, chatId) => {
   e.preventDefault();
-  useContextMenuStore.showContextMenu(e.clientX, e.clientY, chat);
+  useContextMenuStore.showContextMenu(e.clientX, e.clientY, chatId);
 };
 
 const phoneBodyRef = ref(null)
@@ -82,6 +94,19 @@ const renderText = (text) => {
   
   return replacedText;
 }
+
+watch(() => useContextMenuStore.activeChatId, (newVal) => {
+  if (newVal) {
+    const targetElement = document.getElementById(newVal);
+    if (targetElement) {
+      // 使用scrollIntoView方法将目标元素滚动到可见区域
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }
+})
 </script>
 
 <style lang="less" scoped>

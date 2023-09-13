@@ -17,8 +17,8 @@ import { toast } from "@/utils/feedback";
 
 // 点击菜单条目
 const handleMenuClick = (type) => {
-  const activeChat = useContextMenuStore.activeChat
-  const activeChatIndex = useChatStore.chatList.findIndex(chat => chat.id === activeChat.id);
+  const activeChatId = useContextMenuStore.activeChatId
+  const activeChatIndex = useChatStore.chatList.findIndex(chat => chat.id === activeChatId);
   if (type === "moveUp") {
     if (activeChatIndex === 0) {
       toast({
@@ -42,7 +42,7 @@ const handleMenuClick = (type) => {
   } else if (type === "delete") {
     useChatStore.chatList.splice(activeChatIndex, 1);
   }
-  useContextMenuStore.activeChat = "";
+  useContextMenuStore.activeChatId = "";
   useContextMenuStore.menuVisible = false;
 }
 

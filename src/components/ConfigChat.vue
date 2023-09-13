@@ -63,6 +63,9 @@ const addTypes = reactive([
     label: "红包",
     value: "redEnvelope",
   }, {
+    label: "领取",
+    value: "receive",
+  }, {
     label: "语音",
     value: "radio",
   // }, {

@@ -7,7 +7,24 @@ export const useChatStore = defineStore("toolChat", {
       activeType: "text",
     };
   },
+  getters: {
+  },
   actions: {
+    /**
+     * 可领取的列表【红包、转账】，只能领取对方发送的
+     * @param {*} activeRole 当前角色
+     * @returns 
+     */
+    receiveList(activeRole) {
+      let receiveList = this.chatList.filter(chat => ["transferAccounts", "redEnvelope"].includes(chat.type) && chat.role != activeRole).map(chat => {
+        let content = chat.type === "transferAccounts" ? "转账" : "红包"
+        return {
+          label: chat.content || content,
+          value: chat.id,
+        }
+      });
+      return receiveList;
+    },
     sentChat(chatInfo) {
       this.chatList.push({
         id: "chat-" + Date.now(),

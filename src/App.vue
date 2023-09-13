@@ -126,11 +126,11 @@ onUnmounted(() => {
 
 const handleAppClick = () => {
   useContextMenuStore.hideContextMenu();
-  useContextMenuStore.activeChat = {};
+  useContextMenuStore.activeChatId = "";
 }
 const handleAppContextMenu = (e) => {
   useContextMenuStore.hideContextMenu();
-  useContextMenuStore.activeChat = {};
+  useContextMenuStore.activeChatId = "";
 }
 
 const isPhone = ref(false);

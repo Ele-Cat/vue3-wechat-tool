@@ -6,7 +6,9 @@
     <a-tooltip title="顾名思义" placement="right">
       <div class="wtc-button" @click="handleGenerateLongPng">生成长图</div>
     </a-tooltip>
-    <!-- <div class="wtc-button" @click="handleGenerateGif">生成动图</div> -->
+    <!-- <a-tooltip title="生成动图前有一系列的配置" placement="right">
+      <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
+    </a-tooltip> -->
     <!-- <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
 
@@ -67,45 +69,54 @@ onUnmounted(() => {
   gifTimer && clearInterval(gifTimer);
 })
 const gifUrl = ref("")
-const handleGenerateGif = () => {
+const handleGenerateGif = async () => {
   const element = document.querySelector('.phone-wrap');
   // drawerVisible.value = true;
   // drawerTitle.value = "生成动图";
-  const duration = 5000; // 设置录制时长，单位为毫秒
-  gifTimer = setInterval(() => {
+
+  let canvas = await html2canvas(element)
+  const gif = new GIF({
+    quality: 100,
+  }); // 创建GIF对象
+  let counter = 1;
+  gifTimer = setInterval(async() => {
+    counter++;
+    if (counter >= 5) {
+      clearInterval(gifTimer)
+      gif.render();
+    }
     useChatStore.chatList.push({
       id: "chat-" + Date.now(),
       type: "text",
       content: "你是谁" + Date.now(),
       role: "own",
     })
+    canvas = await html2canvas(element)
+    gif.addFrame(canvas, { delay: 1000, copy: true }); // 添加帧到GIF，可以设置延迟时间
   }, 1000)
-    
-  html2canvas(element).then(canvas => {
-    const gif = new GIF(); // 创建GIF对象
-    gif.addFrame(canvas, { delay: 200 }); // 添加帧到GIF，可以设置延迟时间
 
-    // 下载GIF到本地
-    gif.on('finished', function(blob) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'converted.gif';
-      a.click();
-    });
-
-    // 或者显示在页面上
-    // gif.on('finished', function(blob) {
-    //   console.log(123);
-    //   const url = URL.createObjectURL(blob);
-    //   gifUrl.value = url;
-    // });
-
-    // 定时停止录制
-    setTimeout(() => {
-      gif.render();
-    }, duration);
+  // 下载GIF到本地
+  gif.on('finished', function(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'converted.gif';
+    a.click();
+    clearInterval(gifTimer);
   });
+
+  // 或者显示在页面上
+  // gif.on('finished', function(blob) {
+  //   console.log(123);
+  //   const url = URL.createObjectURL(blob);
+  //   gifUrl.value = url;
+  // });
+
+  // 定时停止录制
+  // setTimeout(() => {
+  //   gif.render();
+  // }, duration);
+
   // captureHtmlToGif(props.phone);
   // useChatStore.chatList.push({
   //   id: "chat-" + Date.now(),
