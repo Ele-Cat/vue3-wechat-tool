@@ -9,12 +9,13 @@
         <div class="wechat-item-text wechat-item-image" v-else-if="chat.type === 'image'">
           <img :src="chat.content" alt="">
         </div>
-        <div class="wechat-item-text wechat-item-trans" v-else-if="chat.type === 'transferAccounts'">
+        <div class="wechat-item-text wechat-item-trans" :class="{'wechat-item-trans-received': chat.received}" v-else-if="chat.type === 'transferAccounts'">
           <div class="wechat-item-trans-content">
             <i></i> 
             <div>
               <span>¥{{ chat.money.toFixed(2) }}</span> 
-              <span class="font" v-if="!chat.content">转账给{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}</span>
+              <span class="font" v-if="chat.received">已被领取</span>
+              <span class="font" v-else-if="!chat.content">转账给{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}</span>
               <span class="font" v-else>{{ chat.content }}</span>
             </div>
           </div>
@@ -37,6 +38,18 @@
         </div>
         <div class="wechat-item-notice" v-else-if="chat.type === 'receive' && chat.receivedChatType === 'redEnvelope'">
           <i></i>{{ chat.role === 'own' ? "你" : useUserStore.otherInfo.nickname }}领取了{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}的<em>红包</em>
+        </div>
+        <div class="wechat-item-text wechat-item-trans wechat-item-trans-received" v-else-if="chat.type === 'receive' && chat.receivedChatType === 'transferAccounts'">
+          <div class="wechat-item-trans-content">
+            <i></i> 
+            <div>
+              <span>¥{{ chat.money.toFixed(2) }}</span> 
+              <span class="font">已收款</span>
+            </div>
+          </div>
+          <div class="wechat-item-trans-bottom">
+            <span>微信转账</span>
+          </div>
         </div>
         <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'voice'">
           <i></i> 
@@ -247,6 +260,11 @@ const showAvatar = (chat) => {
         &.wechat-item-trans-received {
           background: #f8e2c6 !important;
           .wechat-item-trans-content {
+            i {
+              background: url(@/assets/images/content/wechat-trans-icon2.png) no-repeat;
+            }
+          }
+          .wechat-item-redp-content {
             i {
               background: url(@/assets/images/content/wechat-trans-icon4.png) no-repeat;
             }

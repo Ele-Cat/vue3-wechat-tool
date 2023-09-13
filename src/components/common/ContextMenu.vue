@@ -44,6 +44,7 @@ const handleMenuClick = (type) => {
     useChatStore.sentChat(Object.assign({}, {
       type: "receive",
       role: activeChatInfo.role === "own" ? "other" : "own",
+      money: activeChatInfo.money,
       receivedChatId: activeChatId,
       receivedChatType: activeChatInfo["type"]
     }));
