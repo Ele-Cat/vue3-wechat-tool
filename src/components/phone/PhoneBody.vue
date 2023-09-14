@@ -5,7 +5,7 @@
         <div class="wechat-item-avatar" v-if="showAvatar(chat)">
           <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
         </div>
-        <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content)"></div>
+        <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content, emojiBase64)"></div>
         <div class="wechat-item-text wechat-item-image" v-else-if="chat.type === 'image'">
           <img :src="chat.content" alt="">
         </div>
@@ -69,7 +69,8 @@
 import { ref, watch } from "vue";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore } = useStore();
-import useAutoScrollBottom from "@/hooks/useAutoScrollBottom"
+import useAutoScrollBottom from "@/hooks/useAutoScrollBottom";
+import { renderText } from "@/utils/utils";
 import emojiBase64 from "@/utils/emojiBase64";
 
 const handlePhoneBodyContextMenu = (e) => {
@@ -85,20 +86,6 @@ const rightClicked = (e, chatId) => {
 
 const phoneBodyRef = ref(null)
 useAutoScrollBottom(phoneBodyRef)
-
-// 替换[emoji]为图片
-const renderText = (text) => {
-  let replacedText = text.replace(/\[.*?\]/g, (match) => {
-    const emoticon = match.trim().replace('[', '').replace(']', '');
-    if (emojiBase64.hasOwnProperty(emoticon)) {
-      const imageUrl = emojiBase64[emoticon];
-      return `<img class="emoji-img" style="width:58px;margin:8px 4px 2px;vertical-align:bottom;" src="data:image/png;base64,${imageUrl}" alt="${emoticon}">`;
-    }
-    return match;
-  }).replace(/\n/g, "<br />");
-  
-  return replacedText;
-}
 
 // watch(() => useContextMenuStore.activeChatId, (newVal) => {
 //   if (newVal) {

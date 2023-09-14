@@ -14,6 +14,7 @@ const appearance = {
   earphoneMode: true,
   unreadMessages: 1,
   voiceMode: false,
+  syncInputText: true,
   chatBackground: "",
 }
 

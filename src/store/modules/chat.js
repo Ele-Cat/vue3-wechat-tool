@@ -5,6 +5,7 @@ export const useChatStore = defineStore("toolChat", {
     return {
       chatList: [], // 聊天列表
       activeType: "text",
+      inputText: "",
     };
   },
   getters: {

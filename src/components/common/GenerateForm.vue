@@ -1,12 +1,13 @@
 <template>
   <a-card size="small" :bordered="true" :title="title" class="generate-form">
-    <a-form :model="formState" :label-col="{ style: { width: '80px' }}" >
+    <a-form :model="formState" :label-col="{ style: { width: '80px' }}">
       <template v-if="useChatStore.activeType === 'text'">
         <a-textarea
           ref="textareaRef"
           placeholder="请输入文本"
           v-model:value="formState.text"
           :autoSize="{ minRows: 3, maxRows: 6 }"
+          @change="handleTextInput"
         />
         <div class="emojis">
           <Suspense>
@@ -144,7 +145,11 @@ const addEmoji = (emoji) => {
   } else if (selectionStart !== selectionEnd) {
     formState.text = formState.text.slice(0, selectionStart) + `[${emoji}]` + formState.text.slice(selectionEnd);
   }
+  useChatStore.inputText = formState.text;
 };
+const handleTextInput = () => {
+  useChatStore.inputText = formState.text;
+}
 
 const handleSentChat = () => {
   if (!formState.text.trim() && useChatStore.activeType === "text") {
@@ -188,7 +193,7 @@ const handleSentChat = () => {
 
 const handleClearChat = () => {
   if (useChatStore.activeType === "text") {
-    formState.text = "";
+    useChatStore.inputText = formState.text = "";
   } else if (useChatStore.activeType === "transferAccounts") {
     formState.transferAmount = 88;
     formState.transferRemarks = "";

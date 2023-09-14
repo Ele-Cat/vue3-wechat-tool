@@ -75,3 +75,20 @@ export function copyText(text) {
   document.execCommand('copy');
   document.body.removeChild(textarea);
 }
+
+/**
+ * 获得的文本转换为文本+表情包的 v-html
+ * @param {String} text 文本
+ */
+export function renderText(text, emojiBase64) {
+  let replacedText = text.replace(/\[.*?\]/g, (match) => {
+    const emoticon = match.trim().replace('[', '').replace(']', '');
+    if (emojiBase64.hasOwnProperty(emoticon)) {
+      const imageUrl = emojiBase64[emoticon];
+      return `<img class="emoji-img" style="width:58px;margin:8px 4px 2px;vertical-align:bottom;" src="data:image/png;base64,${imageUrl}" alt="${emoticon}">`;
+    }
+    return match;
+  }).replace(/\n/g, "<br />");
+  
+  return replacedText;
+}
