@@ -45,12 +45,7 @@
         <a-input-number v-model:value="formState.unreadMessages" :min="0" :max="10000" />
       </a-form-item>
       <a-form-item label="语音模式">
-        <a-row type="flex" justify="space-between">
-          <a-switch v-model:checked="formState.voiceMode" />
-          <a-tooltip title="非语音模式下，手机聊天输入框同步展示文本">
-            <a-switch v-if="!formState.voiceMode" v-model:checked="formState.syncInputText" />
-          </a-tooltip>
-        </a-row>
+        <a-switch v-model:checked="formState.voiceMode" />
       </a-form-item>
       <a-form-item label="聊天背景">
         <ImageEditor :imageInfo="imageInfo" :aspectRatio="aspectRatio" :allowClear="true" tip="只可上传小于1M的JPG或PNG图片" @use="handleUse"></ImageEditor>
