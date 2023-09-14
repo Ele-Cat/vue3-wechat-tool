@@ -71,7 +71,13 @@ import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore } = useStore();
 import useAutoScrollBottom from "@/hooks/useAutoScrollBottom";
 import { renderText } from "@/utils/utils";
-import emojiBase64 from "@/utils/emojiBase64";
+
+const props = defineProps({
+  emojiBase64: {
+    type: Object,
+    default: () => {},
+  },
+})
 
 const handlePhoneBodyContextMenu = (e) => {
   e.preventDefault();

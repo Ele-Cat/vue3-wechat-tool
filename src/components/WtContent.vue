@@ -10,8 +10,8 @@
               <div class="phone-bg">
                 <img :src="useSystemStore.appearance.chatBackground" class="phone-bg-for-height" />
               </div>
-              <PhoneBody />
-              <PhoneBottom :appearance="appearance" />
+              <PhoneBody :emojiBase64="emojiBase64" />
+              <PhoneBottom :appearance="appearance" :emojiBase64="emojiBase64" />
             </div>
           </div>
         </div>
@@ -33,6 +33,7 @@ import PhoneBody from "./phone/PhoneBody.vue";
 import PhoneBottom from "./phone/PhoneBottom.vue";
 import PhoneGenerate from "./phone/PhoneGenerate.vue"
 import PhoneTools from "./phone/PhoneTools.vue"
+import emojiBase64 from "@/utils/emojiBase64";
 
 const phoneWidth = ref(1125)
 const phoneHeight = ref(2436)

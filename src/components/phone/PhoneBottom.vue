@@ -4,7 +4,7 @@
       <div class="wechat-bottom-icon" :class="[appearance.voiceMode ? 'wechat-voice-say-icon' : 'wechat-voice-icon']">
         语音
       </div>
-      <div class="wechat-input" :class="{'wechat-input-say': appearance.voiceMode, 'wechat-input-sync': appearance.syncInputText}" v-html="wechatInput"></div>
+      <div class="wechat-input" :class="{'wechat-input-say': appearance.voiceMode, 'wechat-input-sync': !appearance.voiceMode && appearance.syncInputText}" v-html="wechatInput"></div>
       <div class="wechat-bottom-icon wechat-emoji-icon">表情</div>
       <div class="wechat-bottom-icon" :class="[appearance.syncInputText && useChatStore.inputText && useUserStore.activeRole === 'own' ? 'wechat-bottom-sync': 'wechat-more-icon']">发送</div>
     </div>
@@ -17,13 +17,16 @@ import { ref, watch } from "vue"
 import useStore from "@/store";
 const { useChatStore, useUserStore } = useStore();
 import { renderText } from "@/utils/utils";
-import emojiBase64 from "@/utils/emojiBase64";
 
 const props = defineProps({
   appearance: {
     type: Object,
     default: () => {},
-  }
+  },
+  emojiBase64: {
+    type: Object,
+    default: () => {},
+  },
 })
 
 const wechatInput = ref("")
@@ -33,7 +36,7 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
   } else if (useUserStore.activeRole === "other") {
     wechatInput.value = ""
   } else {
-    wechatInput.value = renderText(useChatStore.inputText, emojiBase64)
+    wechatInput.value = renderText(useChatStore.inputText, props.emojiBase64)
   }
 })
 </script>
