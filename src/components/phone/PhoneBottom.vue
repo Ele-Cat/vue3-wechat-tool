@@ -6,7 +6,7 @@
       </div>
       <div class="wechat-input" :class="{'wechat-input-say': appearance.voiceMode, 'wechat-input-sync': !appearance.voiceMode && appearance.syncInputText}" v-html="wechatInput"></div>
       <div class="wechat-bottom-icon wechat-emoji-icon">表情</div>
-      <div class="wechat-bottom-icon" :class="[appearance.syncInputText && useChatStore.inputText && useUserStore.activeRole === 'own' ? 'wechat-bottom-sync': 'wechat-more-icon']">发送</div>
+      <div class="wechat-bottom-icon" :class="[!appearance.voiceMode && appearance.syncInputText && useChatStore.inputText && useUserStore.activeRole === 'own' ? 'wechat-bottom-sync': 'wechat-more-icon']">发送</div>
     </div>
     <div class="phone-bottom-bar"><i>返回桌面</i></div>
   </div>
@@ -38,6 +38,8 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
   } else {
     wechatInput.value = renderText(useChatStore.inputText, props.emojiBase64)
   }
+}, {
+  immediate: true,
 })
 </script>
 

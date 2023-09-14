@@ -48,6 +48,7 @@ export const useChatStore = defineStore("toolChat", {
     strategies: [
       {
         storage: localStorage,
+        paths: ["chatList", "activeType"],
       },
     ],
   },
