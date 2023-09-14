@@ -140,7 +140,7 @@ const handleResize = () => {
 </script>
 
 <style lang="less" scoped>
-@import url(//at.alicdn.com/t/c/font_4238507_tn4gdu3795p.css);
+@import url(//at.alicdn.com/t/c/font_4238507_is5sbfgeqfc.css);
 .content {
   height: calc(100vh - 50px);
   background-color: #FFFFFF;

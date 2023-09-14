@@ -7,7 +7,7 @@
             <div id="phone" class="phone" :style="{ width: phoneWidth + 'px', height: phoneHeight + 'px' }">
               <PhoneBar :appearance="appearance" />
               <PhoneNav :appearance="appearance" />
-              <div class="phone-bg">
+              <div class="phone-bg" v-if="useSystemStore.appearance.chatBackground">
                 <img :src="useSystemStore.appearance.chatBackground" class="phone-bg-for-height" />
               </div>
               <PhoneBody :emojiBase64="emojiBase64" />

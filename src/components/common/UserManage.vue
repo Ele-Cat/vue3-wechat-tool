@@ -12,16 +12,6 @@
             width: 46,
             height: 46,
           }" :aspectRatio="1" @use="url => handleUse(url, record)"></ImageEditor>
-          <!-- <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
-            :customRequest="info => handleChange(info, record)" :show-upload-list="false"
-            :before-upload="beforeUpload" accept="image/*">
-            <img v-if="text" :src="text" alt="chat background" class="ant-upload-image" asp />
-            <div v-else>
-              <LoadingOutlined v-if="uploadLoading" />
-              <PlusOutlined v-else />
-              <div class="ant-upload-text">点击上传</div>
-            </div>
-          </a-upload> -->
         </template>
         <template v-if="column.dataIndex === 'nickname' && record.role != 'own'">
           <a-input v-model:value="record.nickname" maxlength="20" style="margin: -5px 0;text-align: center;" />
@@ -31,7 +21,6 @@
             <a-typography-link @click="handleSelectUser(record.id)" v-if="record.id !== useUserStore.activeOther">选择</a-typography-link>
             <a-typography-text block disabled v-else>已选</a-typography-text>
             <a-popconfirm title="确认删除该用户？" @confirm="handleDeleteUser(record.id)">
-              <!-- <a>删除</a> -->
               <a-button danger size="small" type="primary" v-if="useUserStore.userList.length > 2">删除</a-button>
             </a-popconfirm>
           </div>
@@ -89,33 +78,6 @@ const handleSelectUser = (id) => {
 const handleDeleteUser = (id) => {
   useUserStore.deleteUser(id);
 }
-
-const fileList = ref([]);
-const uploadLoading = ref(false);
-const handleChange = (info, record) => {
-  uploadLoading.value = true;
-  fileToBase64(info.file).then((base64Data) => {
-    record.avatar = base64Data;
-    uploadLoading.value = false;
-  });
-};
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    toast({
-      type: "warning",
-      content: "只可上传JPG或PNG图片！",
-    });
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    toast({
-      type: "warning",
-      content: "图片大小需小于2MB！",
-    });
-  }
-  return isJpgOrPng && isLt2M;
-};
 
 const handleUse = (url, record) => {
   record.avatar = url;

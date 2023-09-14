@@ -1,5 +1,8 @@
 <template>
   <div class="wt-ctrl">
+    <a-tooltip title="将当前对话保存为模板" placement="right">
+      <div class="wtc-button" @click="handleSaveTemplate">存为模板</div>
+    </a-tooltip>
     <a-tooltip title="滚动到哪截到哪" placement="right">
       <div class="wtc-button" @click="handleGeneratePng">生成图片</div>
     </a-tooltip>
@@ -12,6 +15,14 @@
     <!-- <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
 
+  <a-modal v-model:open="addTemplateModalVisible" centered title="保存模板" :width="400" @cancel="handleTemplateCancel" @ok="handleTemplateOk">
+    <a-form :model="formState" :label-col="{ style: { width: '80px' }}">
+      <a-form-item label="模板标题" style="margin-top:40px;">
+        <a-input v-model:value="formState.templateTitle" placeholder="请输入模板标题" />
+      </a-form-item>
+    </a-form>
+  </a-modal>
+
   <a-drawer :width="500" :title="drawerTitle" placement="right" :open="drawerVisible" @close="onClose">
     <template #extra>
       <a-button type="primary" @click="handleDownload">下载</a-button>
@@ -22,14 +33,44 @@
 </template>
 
 <script setup>
-import { onUnmounted, ref } from "vue";
+import { onUnmounted, reactive, ref } from "vue";
 import dayjs from "dayjs";
 import { toast } from "@/utils/feedback";
 import useStore from "@/store";
-const { useChatStore, useSystemStore } = useStore();
+const { useChatStore, useSystemStore, useTemplateStore } = useStore();
 import { useHtmlToImage, useHtmlToGif } from '@/hooks/useHtmlToImage';
 import html2canvas from 'html2canvas';
 import GIF from 'gif.js';
+
+// 将当前对话保存为模板
+const formState = reactive({
+  templateTitle: "",
+})
+const addTemplateModalVisible = ref(false);
+const handleSaveTemplate = () => {
+  formState.templateTitle = `聊天模板${dayjs().format("YYYY-MM-DD HH:mm:ss")}`
+  addTemplateModalVisible.value = true;
+}
+// 保存模板
+const handleTemplateOk = () => {
+  if (!formState.templateTitle.trim()) {
+    toast({
+      type: "warning",
+      content: "请输入模板标题",
+    });
+    return;
+  }
+  useTemplateStore.addTemplate(formState.templateTitle, useChatStore.chatList);
+  addTemplateModalVisible.value = false;
+  toast({
+    type: "success",
+    content: "模板保存成功，请在模板管理栏目查看",
+  });
+}
+// 取消保存
+const handleTemplateCancel = () => {
+  addTemplateModalVisible.value = false;
+}
 
 const { imageUrl, captureHtmlToImage } = useHtmlToImage();
 const drawerVisible = ref(false)
