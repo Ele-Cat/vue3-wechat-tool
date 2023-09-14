@@ -96,7 +96,7 @@ const handleUse = (url) => {
 }
 const aspectRatio = ref(1)
 watch(() => [useSystemStore.phoneWidth, useSystemStore.phoneHeight], (newVal) => {
-  aspectRatio.value = (newVal[0] / newVal[1]).toFixed(2)
+  aspectRatio.value = +(newVal[0] / newVal[1]).toFixed(2)
 }, {
   immediate: true,
 })

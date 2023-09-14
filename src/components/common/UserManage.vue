@@ -7,7 +7,12 @@
     <a-table size="small" :columns="columns" :data-source="useUserStore.userList" :pagination="false" bordered>
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'avatar'">
-          <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
+          <ImageEditor :imageInfo="{
+            url: text,
+            width: 46,
+            height: 46,
+          }" :aspectRatio="1" @use="url => handleUse(url, record)"></ImageEditor>
+          <!-- <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
             :customRequest="info => handleChange(info, record)" :show-upload-list="false"
             :before-upload="beforeUpload" accept="image/*">
             <img v-if="text" :src="text" alt="chat background" class="ant-upload-image" asp />
@@ -16,7 +21,7 @@
               <PlusOutlined v-else />
               <div class="ant-upload-text">点击上传</div>
             </div>
-          </a-upload>
+          </a-upload> -->
         </template>
         <template v-if="column.dataIndex === 'nickname' && record.role != 'own'">
           <a-input v-model:value="record.nickname" maxlength="20" style="margin: -5px 0;text-align: center;" />
@@ -42,6 +47,7 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import useStore from "@/store";
 const { useUserStore } = useStore();
 import { fileToBase64 } from "@/utils/utils";
+import ImageEditor from "@/components/common/ImageEditor.vue";
 
 const props = defineProps({
   open: {
@@ -110,6 +116,10 @@ const beforeUpload = (file) => {
   }
   return isJpgOrPng && isLt2M;
 };
+
+const handleUse = (url, record) => {
+  record.avatar = url;
+}
 </script>
 
 <style lang="less" scoped>

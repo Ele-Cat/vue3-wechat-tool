@@ -13,7 +13,7 @@
   <a-modal :title="title" v-model:open="cropperVisible" :width="860" :footer="null" :maskClosable="false" @cancel="handleCancel" destroyOnClose>
     <a-row :gutter="20">
       <a-col :span="16">
-        <cropper ref="cropperRef" :src="initImage" class="cropper" :min-height="400" :min-width="400" :stencil-props="{
+        <cropper ref="cropperRef" :src="initImage" class="cropper" :min-height="200" :min-width="200" :stencil-props="{
           aspectRatio,
         }" @change="change" />
         <div style="margin-top:20px">
@@ -41,8 +41,8 @@
           <span>预览</span>
           <img :src="previewImg" :width="200" alt="">
           <a-space>
-            <a-button :disabled="!previewImg" @click="handleDownload">下载到本地</a-button>
             <a-button :disabled="!previewImg" type="primary" @click="handleUse">使用</a-button>
+            <a-button :disabled="!previewImg" v-if="showDownload" @click="handleDownload">下载到本地</a-button>
           </a-space>
         </a-space>
       </a-col>
@@ -89,31 +89,50 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // 接收的最大文件大小
   limitSize: {
     type: Number,
     default: 1,
   },
+  // 接收的文件类型
   limitAccept: {
     type: Array,
     default: () => ['image/jpeg', 'image/png'],
   },
+  // 文件类型不对时的提示
   limitAcceptText: {
     type: String,
     default: "只可上传JPG或PNG图片！",
   },
+  // 上传图片提示文字
   tip: {
     type: String,
     default: "",
   },
+  // 是否显示下载到本地按钮
+  showDownload: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const emits = defineEmits(['use'])
 
+const cropperVisible = ref(false);
+const handleUse = (flag = true) => {
+  cropperVisible.value = false
+  emits('use', flag ? previewImg.value : "")
+  handleCancel();
+}
+
 const initImage = ref("")
-watch(() => props.imageInfo.url, (newVal) => {
-  initImage.value = newVal;
+watch(() => cropperVisible.value, (newVal) => {
+  if (newVal) {
+    initImage.value = props.imageInfo.url;
+  }
 }, {
   immediate: true,
+  deep: true,
 })
 const handleChange = (info) => {
   fileToBase64(info.file).then((base64Data) => {
@@ -147,13 +166,6 @@ const handleRotate = (angle) => {
 const previewImg = ref("")
 const change = ({ coordinates, canvas }) => {
   previewImg.value = canvas.toDataURL();
-}
-
-const cropperVisible = ref(false);
-const handleUse = (flag = true) => {
-  cropperVisible.value = false
-  emits('use', flag ? previewImg.value : "")
-  handleCancel();
 }
 
 const handleDownload = () => {
