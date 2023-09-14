@@ -1,6 +1,6 @@
 <template>
   <perfect-scrollbar>
-    <a-form :model="formState" :label-col="labelCol" class="config-appearance">
+    <a-form :model="formState" :label-col="{style: {width: '80px'}}" class="config-appearance">
       <a-form-item label="机型">
         <a-select :options="models" v-model:value="formState.model" disabled></a-select>
       </a-form-item>
@@ -31,7 +31,7 @@
       <a-form-item label="手机电量">
         <a-row :gutter="12">
           <a-col :span="16">
-            <a-slider v-model:value="formState.phoneBattery" :tip-formatter="batteryFormatter" :min="0" :max="100" />
+            <a-slider v-model:value="formState.phoneBattery" :tip-formatter="value => `${value}%`" :min="0" :max="100" />
           </a-col>
           <a-col :span="8">
             <a-input-number v-model:value="formState.phoneBattery" :min="0" :max="100" />
@@ -48,45 +48,22 @@
         <a-switch v-model:checked="formState.voiceMode" />
       </a-form-item>
       <a-form-item label="聊天背景">
-        <a-upload
-          v-model:file-list="fileList"
-          name="chatBackground"
-          list-type="picture-card"
-          class="avatar-uploader"
-          :show-upload-list="false"
-          :customRequest="handleChange"
-          :before-upload="beforeUpload"
-          accept="image/*"
-        >
-          <CloseCircleOutlined v-if="formState.chatBackground" class="img-remove" title="移除聊天背景" @click.stop="removeChatBackground" />
-          <img
-            v-if="formState.chatBackground"
-            :src="formState.chatBackground"
-            alt="chat background"
-            class="ant-upload-image"
-          />
-          <div v-else>
-            <LoadingOutlined v-if="uploadLoading" />
-            <PlusOutlined v-else />
-            <div class="ant-upload-text">点击上传</div>
-          </div>
-        </a-upload>
-        <span style="font-size:12px;color:#999;">只可上传小于1M的JPG或PNG图片</span>
+        <ImageEditor :imageInfo="imageInfo" :aspectRatio="aspectRatio" :allowClear="true" tip="只可上传小于1M的JPG或PNG图片" @use="handleUse"></ImageEditor>
       </a-form-item>
     </a-form>
   </perfect-scrollbar>
 </template>
 
 <script setup>
-import { onUnmounted, ref, watch } from "vue";
+import { onUnmounted, reactive, ref, watch } from "vue";
 import { LoadingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 // import { useFetch } from '@vueuse/core'
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";
-import { fileToBase64, toArr } from "@/utils/utils";
-import { toast } from "@/utils/feedback";
+import { toArr } from "@/utils/utils";
 import useStore from "@/store";
 const { useSystemStore } = useStore();
+import ImageEditor from "@/components/common/ImageEditor.vue";
 
 let timer = null;
 onUnmounted(() => {
@@ -109,71 +86,40 @@ watch(() => useSystemStore.appearance.timeFollowSystem, (newVal) => {
   immediate: true,
 })
 
-const labelCol = {
-  style: {
-    width: "80px",
-  },
-};
-
-const batteryFormatter = (value) => {
-  return `${value}%`
+const imageInfo = reactive({
+  url: formState.value.chatBackground,
+  width: 100,
+  height: 100,
+})
+const handleUse = (url) => {
+  formState.value.chatBackground = imageInfo.url = url;
 }
-
-const fileList = ref([]);
-const uploadLoading = ref(false);
-const handleChange = (info) => {
-  // 用vueuse useFetch上传图片到图床
-  // const formData = new FormData();
-  // formData.append('image', info.file);
-  // const { data } = await useFetch('https://tucdn.wpon.cn/api/upload', {
-  //   method: 'POST',
-  //   body: formData,
-  // }).json();
-  // const imgUrl = data.value.data.url;
-  // formState.value.chatBackground = imgUrl;
-  uploadLoading.value = true;
-  fileToBase64(info.file).then((base64Data) => {
-    formState.value.chatBackground = base64Data;
-    uploadLoading.value = false;
-  });
-};
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    toast({
-      type: "warning",
-      content: "只可上传JPG或PNG图片！",
-    });
-  }
-  const isLt2M = file.size / 1024 / 1024 < 1;
-  if (!isLt2M) {
-    toast({
-      type: "warning",
-      content: "图片大小需小于1MB！",
-    });
-  }
-  return isJpgOrPng && isLt2M;
-};
-
-const removeChatBackground = () => {
-  formState.value.chatBackground = ""
-}
+const aspectRatio = ref(1)
+watch(() => [useSystemStore.phoneWidth, useSystemStore.phoneHeight], (newVal) => {
+  aspectRatio.value = (newVal[0] / newVal[1]).toFixed(2)
+}, {
+  immediate: true,
+})
 </script>
 
 <style lang="less" scoped>
 .config-appearance {
   overflow-x: hidden;
+
   .phone-time {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .ant-select {
       width: 38%;
     }
   }
+
   .ant-input-number {
     width: 100%;
   }
+
   .avatar-uploader {
     .ant-upload {
       width: 128px;
@@ -200,6 +146,7 @@ const removeChatBackground = () => {
         background-color: #FFFFFF;
         font-size: 22px;
         color: #F05F57;
+
         &:hover {
           color: red;
         }

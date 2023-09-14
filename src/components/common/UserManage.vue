@@ -7,7 +7,6 @@
     <a-table size="small" :columns="columns" :data-source="useUserStore.userList" :pagination="false" bordered>
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'avatar'">
-          <!-- <img :src="text" alt="" style="width:60px;"> -->
           <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
             :customRequest="info => handleChange(info, record)" :show-upload-list="false"
             :before-upload="beforeUpload" accept="image/*">

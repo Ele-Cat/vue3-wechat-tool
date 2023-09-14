@@ -91,7 +91,7 @@ watch(() => useSystemStore.appearance, (newVal) => {
           width: 100%;
           overflow: hidden;
           .phone-bg-for-height {
-            width: auto;
+            width: 100%;
             max-width: 100%;
             height: 100%;
             object-fit: cover;
