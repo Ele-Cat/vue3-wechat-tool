@@ -62,7 +62,7 @@ const handleTemplateOk = async () => {
   }
   const phoneWrap = document.querySelector('.phone-wrap');
   await captureHtmlToImage(phoneWrap);
-  useTemplateStore.addTemplate({
+  useTemplateStore.add({
     title: formState.templateTitle,
     chatList: useChatStore.chatList,
     snapshot: imageUrl.value,

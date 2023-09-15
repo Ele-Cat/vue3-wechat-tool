@@ -3,19 +3,19 @@ import { defineStore } from "pinia";
 export const useTemplateStore = defineStore("toolTemplate", {
   state: () => {
     return {
-      templateList: [],
+      list: [],
     };
   },
   actions: {
     // 新增聊天模板
-    addTemplate(params) {
-      this.templateList.unshift({
+    add(params) {
+      this.list.unshift({
         id: `template-${Date.now()}`,
         ...params
       })
     },
     delete(id) {
-      this.templateList = this.templateList.filter(item => item.id != id);
+      this.list = this.list.filter(item => item.id != id);
     },
   },
   persist: {

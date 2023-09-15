@@ -56,6 +56,7 @@
           <span>{{ chat.duration }}"</span>
           <div :style="{width: chat.duration * 5 + 'px'}"></div>
           <em v-if="!chat.received"></em>
+          <!-- <div class="">{{ chat.content }}</div> -->
         </div>
         <div class="wechat-item-notice" v-else-if="chat.type === 'time'">
           <span>{{ chat.content }}</span>
@@ -99,7 +100,7 @@ useAutoScrollBottom(phoneBodyRef)
 //     if (targetElement) {
 //       targetElement.scrollIntoView({
 //         behavior: "smooth",
-//         block: "center",
+//         block: "center", // start center end nearest
 //       });
 //     }
 //   }

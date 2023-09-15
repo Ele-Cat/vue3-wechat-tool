@@ -1,10 +1,10 @@
 <template>
   <div class="config-template">
     <div class="template-control">
-      已有{{ useTemplateStore.templateList.length }}个模板
+      已有{{ useTemplateStore.list.length }}个模板
       <!-- <a-button type="primary">新增模板</a-button> -->
     </div>
-    <a-table size="small" :columns="columns" :data-source="useTemplateStore.templateList" :pagination="false" bordered>
+    <a-table size="small" :columns="columns" :data-source="useTemplateStore.list" :pagination="false" bordered>
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'operation'">
           <a-space>
@@ -77,8 +77,8 @@ const handleDeleteTemplate = (id) => {
 
 // 应用模板
 const handleUseTemplate = (id) => {
-  const useChatList = useTemplateStore.templateList.find(item => item.id === id)["chatList"];
-  useChatStore.chatList = _.cloneDeep(useChatList);
+  const chatList = useTemplateStore.list.find(item => item.id === id)["chatList"];
+  useChatStore.chatList = _.cloneDeep(chatList);
   toast({
     type: "success",
     content: "应用成功",
