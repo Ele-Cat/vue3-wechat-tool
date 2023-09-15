@@ -79,12 +79,12 @@ watch(() => useSystemStore.appearance, (newVal) => {
         font-family: SF Pro, PingFang SC;
         font-weight: 400;
         -webkit-font-smoothing: antialiased;
-        background-color: #EDEDED;
+        background-color: var(--light-bg-color);
         position: relative;
         font-size: 36px;
         &.dark {
-          background-color: #232323;
-          color: snow;
+          background-color: var(--dark-bg-color);
+          color: var(--dark-text-color);
         }
         .phone-bg {
           display: flex;

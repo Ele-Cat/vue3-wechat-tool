@@ -121,7 +121,7 @@ const props = defineProps({
     &.dark {
       background: url(@/assets/images/bar/ios-battery-dark.png);
       .battery-width {
-        background: snow;
+        background: var(--dark-text-color);
       }
       &.phone-battery-charge {
         i {

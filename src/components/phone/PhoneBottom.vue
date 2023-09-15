@@ -54,7 +54,7 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
     height: 167px;
     display: flex;
     align-items: center;
-    color: #1a1a1a;
+    color: var(--light-text-color);
     .wechat-bottom-icon {
       width: 80px;
       height: 80px;
@@ -130,9 +130,9 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
     }
   }
   &.dark {
-    background: #232323;
+    background: var(--dark-bg-color);
     .phone-bottom-chat {
-      color: snow;
+      color: var(--dark-text-color);
       .wechat-bottom-icon {
         &.wechat-voice-say-icon {
           background: url(@/assets/images/bottom/wechat-bottom-icon4-dark.png) no-repeat;
