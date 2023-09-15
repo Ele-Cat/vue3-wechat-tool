@@ -1,10 +1,10 @@
 <template>
   <div class="phone-bar" :class="{dark: appearance.darkMode}">
     <div class="phone-time">{{ appearance.phoneTimeHour }}:{{ appearance.phoneTimeMinute }}</div>
-    <div class="phone-sigle" :class="['phone-sigle-v' + appearance.phoneSignal]">信号</div>
-    <div class="phone-wifi" :class="['phone-wifi-s' + appearance.wifiSignal]" v-if="appearance.networkType === 'wifi'">wifi</div>
+    <div class="phone-sigle" :class="[`phone-sigle-v${appearance.phoneSignal}-${appearance.darkMode ? 'dark' : 'light'}`]">信号</div>
+    <div class="phone-wifi" :class="[`phone-wifi-v${appearance.wifiSignal}-${appearance.darkMode ? 'dark' : 'light'}`]" v-if="appearance.networkType === 'wifi'">wifi</div>
     <div class="phone-no-wifi" v-else>{{appearance.networkType}}G</div>
-    <div class="phone-battery" :class="{'phone-battery-charge': appearance.isCharging}">
+    <div class="phone-battery" :class="{'phone-battery-charge': appearance.isCharging, 'dark': appearance.darkMode}">
       <span class="battery-box"> <span class="battery-width" :style="{width: appearance.phoneBattery + '%'}">电量</span> <i></i> </span>
     </div>
   </div>
@@ -27,11 +27,6 @@ const props = defineProps({
   padding: 0 43px 0 95px;
   position: relative;
   z-index: 99999;
-  background-color: #ededed;
-  // &.dark {
-  //   background-color: #111111;
-  // }
-
   .phone-time {
     font-size: 45px;
     flex: 1;
@@ -40,30 +35,57 @@ const props = defineProps({
   .phone-sigle {
     width: 54px;
     height: 36px;
-    background: url(@/assets/images/status/ios-single-4-dark.png) no-repeat;
+    background-repeat: no-repeat;
     margin-right: 6px;
     text-indent: -9999px;
-    &.phone-sigle-v1 {
-      background-image: url(@/assets/images/status/ios-single-1-dark.png);
+    &.phone-sigle-v1-light {
+      background-image: url(@/assets/images/bar/ios-single-1-light.png);
     }
-    &.phone-sigle-v2 {
-      background-image: url(@/assets/images/status/ios-single-2-dark.png);
+    &.phone-sigle-v2-light {
+      background-image: url(@/assets/images/bar/ios-single-2-light.png);
     }
-    &.phone-sigle-v3 {
-      background-image: url(@/assets/images/status/ios-single-3-dark.png);
+    &.phone-sigle-v3-light {
+      background-image: url(@/assets/images/bar/ios-single-3-light.png);
+    }
+    &.phone-sigle-v4-light {
+      background-image: url(@/assets/images/bar/ios-single-4-light.png);
+    }
+    &.phone-sigle-v1-dark {
+      background-image: url(@/assets/images/bar/ios-single-1-dark.png);
+    }
+    &.phone-sigle-v2-dark {
+      background-image: url(@/assets/images/bar/ios-single-2-dark.png);
+    }
+    &.phone-sigle-v3-dark {
+      background-image: url(@/assets/images/bar/ios-single-3-dark.png);
+    }
+    &.phone-sigle-v4-dark {
+      background-image: url(@/assets/images/bar/ios-single-4-dark.png);
     }
   }
   .phone-wifi {
     width: 63px;
     height: 45px;
-    background: url(@/assets/images/status/ios-wifi-3-dark.png) no-repeat;
+    background-repeat: no-repeat;
     margin-right: 6px;
     text-indent: -9999px;
-    &.phone-wifi-s1 {
-      background-image: url(@/assets/images/status/ios-wifi-1-dark.png);
+    &.phone-wifi-v1-light {
+      background-image: url(@/assets/images/bar/ios-wifi-1-light.png);
     }
-    &.phone-wifi-s2 {
-      background-image: url(@/assets/images/status/ios-wifi-2-dark.png);
+    &.phone-wifi-v2-light {
+      background-image: url(@/assets/images/bar/ios-wifi-2-light.png);
+    }
+    &.phone-wifi-v3-light {
+      background-image: url(@/assets/images/bar/ios-wifi-3-light.png);
+    }
+    &.phone-wifi-v1-dark {
+      background-image: url(@/assets/images/bar/ios-wifi-1-dark.png);
+    }
+    &.phone-wifi-v2-dark {
+      background-image: url(@/assets/images/bar/ios-wifi-2-dark.png);
+    }
+    &.phone-wifi-v3-dark {
+      background-image: url(@/assets/images/bar/ios-wifi-3-dark.png);
     }
   }
   .phone-no-wifi {
@@ -78,14 +100,15 @@ const props = defineProps({
   .phone-battery {
     width: 75px;
     height: 36px;
-    background: url(@/assets/images/status/ios-battery-dark.png) no-repeat;
+    background-image: url(@/assets/images/bar/ios-battery-light.png);
+    background-repeat: no-repeat;
     position: relative;
     padding: 7px;
     padding-right: 16px;
     .battery-box {
       position: absolute;
-      left: 7px;
-      right: 16px;
+      left: 5px;
+      right: 15px;
       .battery-width {
         height: 22px;
         background: #000;
@@ -95,6 +118,17 @@ const props = defineProps({
         text-indent: -9999px;
       }
     }
+    &.dark {
+      background: url(@/assets/images/bar/ios-battery-dark.png);
+      .battery-width {
+        background: snow;
+      }
+      &.phone-battery-charge {
+        i {
+          background: url(@/assets/images/bar/ios-battery-charge-dark.png) no-repeat;
+        }
+      }
+    }
     &.phone-battery-charge {
       .battery-width {
         background: #65c466;
@@ -102,7 +136,7 @@ const props = defineProps({
       i {
         width: 18px;
         height: 36px;
-        background: url(@/assets/images/status/ios-battery-charge-dark.png) no-repeat;
+        background: url(@/assets/images/bar/ios-battery-charge-light.png) no-repeat;
         position: absolute;
         left: 50%;
         margin-left: -9px;

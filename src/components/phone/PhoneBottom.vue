@@ -1,5 +1,5 @@
 <template>
-  <div class="phone-bottom">
+  <div class="phone-bottom" :class="{'dark': appearance.darkMode}">
     <div class="phone-bottom-chat">
       <div class="wechat-bottom-icon" :class="[appearance.voiceMode ? 'wechat-voice-say-icon' : 'wechat-voice-icon']">
         语音
@@ -54,26 +54,27 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
     height: 167px;
     display: flex;
     align-items: center;
+    color: #1a1a1a;
     .wechat-bottom-icon {
       width: 80px;
       height: 80px;
       text-indent: -9999px;
       &.wechat-voice-say-icon {
-        background: url(@/assets/images/bottom/wechat-bottom-icon4.png)
+        background: url(@/assets/images/bottom/wechat-bottom-icon4-light.png)
           no-repeat;
         margin-left: 32px;
       }
       &.wechat-voice-icon {
-        background: url(@/assets/images/bottom/wechat-bottom-icon1.png)
+        background: url(@/assets/images/bottom/wechat-bottom-icon1-light.png)
           no-repeat;
         margin-left: 32px;
       }
       &.wechat-emoji-icon {
-        background: url(@/assets/images/bottom/wechat-bottom-icon2.png)
+        background: url(@/assets/images/bottom/wechat-bottom-icon2-light.png)
           no-repeat;
       }
       &.wechat-more-icon {
-        background: url(@/assets/images/bottom/wechat-bottom-icon3.png)
+        background: url(@/assets/images/bottom/wechat-bottom-icon3-light.png)
           no-repeat;
         margin: 0 32px 0 39px;
       }
@@ -99,7 +100,6 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
       margin: 0 32px;
     }
     .wechat-input-say {
-      color: #1a1a1a;
       font-size: 48px;
       text-indent: 0;
       text-align: center;
@@ -109,7 +109,6 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
     .wechat-input-sync {
       display: flex;
       align-items: center;
-      color: #1a1a1a;
       font-size: 48px;
       text-indent: 0;
       padding: 0 0.6em;
@@ -125,9 +124,37 @@ watch(() => [props.appearance.voiceMode, useChatStore.inputText, useUserStore.ac
     i {
       width: 402px;
       height: 15px;
-      background: url(@/assets/images/bottom/phone-bottom-bar.png) no-repeat;
+      background: url(@/assets/images/bottom/phone-bottom-bar-light.png) no-repeat;
       margin-top: 63px;
       text-indent: -9999px;
+    }
+  }
+  &.dark {
+    background: #232323;
+    .phone-bottom-chat {
+      color: snow;
+      .wechat-bottom-icon {
+        &.wechat-voice-say-icon {
+          background: url(@/assets/images/bottom/wechat-bottom-icon4-dark.png) no-repeat;
+        }
+        &.wechat-voice-icon {
+          background: url(@/assets/images/bottom/wechat-bottom-icon1-dark.png) no-repeat;
+        }
+        &.wechat-emoji-icon {
+          background: url(@/assets/images/bottom/wechat-bottom-icon2-dark.png) no-repeat;
+        }
+        &.wechat-more-icon {
+          background: url(@/assets/images/bottom/wechat-bottom-icon3-dark.png) no-repeat;
+        }
+      }
+      .wechat-input {
+        background: #2b2b2b;
+      }
+    }
+    .phone-bottom-bar {
+      i {
+        background: url(@/assets/images/bottom/phone-bottom-bar-dark.png) no-repeat;
+      }
     }
   }
 }

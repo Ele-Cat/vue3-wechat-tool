@@ -1,5 +1,5 @@
 <template>
-  <div class="phone-body" ref="phoneBodyRef" @contextmenu.stop="handlePhoneBodyContextMenu">
+  <div class="phone-body" :class="{'dark': appearance.darkMode}" ref="phoneBodyRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
       <div class="wechat-item" :id="chat.id" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice-box': !showAvatar(chat), 'active': useContextMenuStore.activeChatId === chat.id}" @contextmenu.stop="e => rightClicked(e, chat.id)">
         <div class="wechat-item-avatar" v-if="showAvatar(chat)">
@@ -74,6 +74,10 @@ import useAutoScrollBottom from "@/hooks/useAutoScrollBottom";
 import { renderText } from "@/utils/utils";
 
 const props = defineProps({
+  appearance: {
+    type: Object,
+    default: () => {},
+  },
   emojiBase64: {
     type: Object,
     default: () => {},
@@ -282,7 +286,7 @@ const showAvatar = (chat) => {
           i {
             width: 34px;
             height: 49px;
-            background: url(@/assets/images/content/wechat-voice-icon1.png) no-repeat;
+            background: url(@/assets/images/content/wechat-voice-icon1-light.png) no-repeat;
             margin-right: 30px;
             margin-left: 16px;
           }
@@ -319,7 +323,7 @@ const showAvatar = (chat) => {
               padding-right: 0;
             }
             i {
-              background: url(@/assets/images/content/wechat-voice-icon2.png) no-repeat;
+              background: url(@/assets/images/content/wechat-voice-icon2-light.png) no-repeat;
               margin-left: 30px;
               margin-right: 16px;
             }
@@ -350,6 +354,42 @@ const showAvatar = (chat) => {
           em {
             font-style: normal;
             color: #ef9d49;
+          }
+        }
+      }
+    }
+  }
+  &.dark {
+    .wechat-content {
+      .wechat-item {
+        &:hover, &.active {
+          background-color: rgba(255, 255, 255, .15);
+        }
+        .wechat-item-text {
+          background: #2b2b2b;
+          color: #d5d5d5;
+          &:after {
+            content: '';
+            background: #2b2b2b;
+          }
+          &.wechat-item-voice {
+            i {
+              background: url(@/assets/images/content/wechat-voice-icon1-dark.png) no-repeat;
+            }
+          }
+        }
+        &.wechat-item-right {
+          .wechat-item-text {
+            background: #3eb575;
+            color: #000;
+            &:after {
+              background: #3eb575;
+            }
+            &.wechat-item-voice {
+              i {
+                background: url(@/assets/images/content/wechat-voice-icon2-light.png) no-repeat;
+              }
+            }
           }
         }
       }

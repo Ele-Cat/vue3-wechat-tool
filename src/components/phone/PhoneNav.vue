@@ -1,5 +1,5 @@
 <template>
-  <div class="phone-nav">
+  <div class="phone-nav" :class="{'dark': appearance.darkMode}">
     <div class="phone-nav-left">
       <div class="phone-nav-back">返回</div>
       <span v-if="appearance.unreadMessages">{{appearance.unreadMessages > 99 ? '99+' : appearance.unreadMessages}}</span>
@@ -38,8 +38,6 @@ const props = defineProps({
   display: flex;
   align-items: center;
   padding: 0 50px;
-  background-color: #ededed;
-
   .phone-nav-left {
     width: 150px;
     position: relative;
@@ -47,7 +45,7 @@ const props = defineProps({
     .phone-nav-back {
       width: 27px;
       height: 52px;
-      background: url(@/assets/images/top/wechat-nav-back.png) no-repeat;
+      background: url(@/assets/images/nav/wechat-nav-back-light.png) no-repeat;
       text-indent: -9999px;
     }
 
@@ -87,7 +85,7 @@ const props = defineProps({
       i {
         width: 31px;
         height: 42px;
-        background: url(@/assets/images/top/wechat-trans-earphone.png) no-repeat;
+        background: url(@/assets/images/nav/wechat-trans-earphone-light.png) no-repeat;
         margin: 8px 0 0 15px;
       }
     }
@@ -100,7 +98,7 @@ const props = defineProps({
     .phone-nav-more {
       width: 70px;
       height: 12px;
-      background: url(@/assets/images/top/wechat-nav-right.png) no-repeat;
+      background: url(@/assets/images/nav/wechat-nav-right-light.png) no-repeat;
       text-indent: -9999px;
     }
   }
@@ -114,6 +112,24 @@ const props = defineProps({
     overflow: hidden;
     left: 0;
     bottom: 2px;
+  }
+
+  &.dark {
+    .phone-nav-back {
+      background: url(@/assets/images/nav/wechat-nav-back-dark.png) no-repeat;
+    }
+    .phone-nav-center {
+      .center-span {
+        i {
+          background: url(@/assets/images/nav/wechat-trans-earphone-dark.png) no-repeat;
+        }
+      }
+    }
+    .phone-nav-right {
+      .phone-nav-more {
+        background: url(@/assets/images/nav/wechat-nav-right-dark.png) no-repeat;
+      }
+    }
   }
 }
 </style>

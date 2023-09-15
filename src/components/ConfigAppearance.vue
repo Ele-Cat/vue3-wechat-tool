@@ -5,7 +5,7 @@
         <a-select :options="models" v-model:value="formState.model" disabled></a-select>
       </a-form-item>
       <a-form-item label="深色模式">
-        <a-switch v-model:checked="formState.darkMode" disabled />
+        <a-switch v-model:checked="formState.darkMode" />
       </a-form-item>
       <a-form-item label="网络类型">
         <a-select :options="networkTypes" v-model:value="formState.networkType"></a-select>
@@ -16,7 +16,7 @@
       <a-form-item label="手机信号">
         <a-select :options="phoneSignals" v-model:value="formState.phoneSignal"></a-select>
       </a-form-item>
-      <a-form-item label="系统时间">
+      <a-form-item label="手机时间">
         <div class="phone-time">
           <a-select :options="toArr(24)" v-model:value="formState.phoneTimeHour"></a-select>:
           <a-select :options="toArr(60)" v-model:value="formState.phoneTimeMinute"></a-select>

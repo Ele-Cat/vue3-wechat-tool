@@ -4,13 +4,13 @@
       <div class="wt-preview">
         <div class="phone-wrap" :style="{height: wrapperHeight + 'px'}">
           <div class="phone-scale" :style="{ transform: `scale(${phoneScale})` }">
-            <div id="phone" class="phone" :style="{ width: phoneWidth + 'px', height: phoneHeight + 'px' }">
+            <div id="phone" class="phone" :class="{'dark': useSystemStore.appearance.darkMode}" :style="{ width: phoneWidth + 'px', height: phoneHeight + 'px' }">
               <PhoneBar :appearance="appearance" />
               <PhoneNav :appearance="appearance" />
               <div class="phone-bg" v-if="useSystemStore.appearance.chatBackground">
                 <img :src="useSystemStore.appearance.chatBackground" class="phone-bg-for-height" />
               </div>
-              <PhoneBody :emojiBase64="emojiBase64" />
+              <PhoneBody :appearance="appearance" :emojiBase64="emojiBase64" />
               <PhoneBottom :appearance="appearance" :emojiBase64="emojiBase64" />
             </div>
           </div>
@@ -82,6 +82,10 @@ watch(() => useSystemStore.appearance, (newVal) => {
         background-color: #EDEDED;
         position: relative;
         font-size: 36px;
+        &.dark {
+          background-color: #232323;
+          color: snow;
+        }
         .phone-bg {
           display: flex;
           align-items: center;
