@@ -2,7 +2,7 @@
   <a-card size="small" :bordered="true" :title="title" class="generate-form">
     <template #extra>
       <a-tooltip title="手机聊天输入框同步展示文本【需配置外观设置中为非语音模式】">
-        <a-switch v-if="useChatStore.activeType === 'text' && !useSystemStore.appearance.voiceMode && useUserStore.activeRole === 'own'" v-model:checked="useSystemStore.appearance.syncInputText" />
+        <a-switch v-if="useChatStore.activeType === 'text' && useUserStore.activeRole === 'own'" :disabled="useSystemStore.appearance.voiceMode" v-model:checked="useSystemStore.appearance.syncInputText" />
       </a-tooltip>
     </template>
     <a-form :model="formState" :label-col="{ style: { width: '80px' }}">
