@@ -8,9 +8,9 @@
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'operation'">
           <a-space>
+            <a-typography-link @click="() => previewSnapshot(record.snapshot)">预览</a-typography-link>
             <a-popconfirm title="本操作会覆盖右侧聊天内容，确认应用本模板？" @confirm="handleUseTemplate(record.id)" :overlayStyle="{width:'200px'}">
               <a-typography-link>应用</a-typography-link>
-              <!-- <a-button size="small" type="primary">应用</a-button> -->
             </a-popconfirm>
             <!-- <a-button size="small" type="primary" @click="handleUseTemplate(record.id)">编辑</a-button> -->
             <a-popconfirm title="确认删除该模板？" @confirm="handleDeleteTemplate(record.id)">
@@ -20,10 +20,20 @@
         </template>
       </template>
     </a-table>
+    <a-image
+      :width="200"
+      :style="{ display: 'none' }"
+      :preview="{
+        visible: previewVisible,
+        onVisibleChange: setPreviewVisible,
+      }"
+      :src="previewUrl"
+    />
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import _ from "lodash";
 import { DownOutlined } from '@ant-design/icons-vue';
 import useStore from "@/store";
@@ -44,6 +54,17 @@ const columns = [
     align: 'center',
   },
 ];
+
+const previewVisible = ref(false);
+const setPreviewVisible = value => {
+  previewVisible.value = value;
+};
+// 预览模板
+const previewUrl = ref("");
+const previewSnapshot = (snapshot) => {
+  previewUrl.value = snapshot;
+  setPreviewVisible(true);
+}
 
 // 删除模板
 const handleDeleteTemplate = (id) => {

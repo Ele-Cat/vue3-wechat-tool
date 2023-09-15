@@ -52,7 +52,7 @@ const handleSaveTemplate = () => {
   addTemplateModalVisible.value = true;
 }
 // 保存模板
-const handleTemplateOk = () => {
+const handleTemplateOk = async () => {
   if (!formState.templateTitle.trim()) {
     toast({
       type: "warning",
@@ -60,7 +60,13 @@ const handleTemplateOk = () => {
     });
     return;
   }
-  useTemplateStore.addTemplate(formState.templateTitle, useChatStore.chatList);
+  const phoneWrap = document.querySelector('.phone-wrap');
+  await captureHtmlToImage(phoneWrap);
+  useTemplateStore.addTemplate({
+    title: formState.templateTitle,
+    chatList: useChatStore.chatList,
+    snapshot: imageUrl.value,
+  });
   addTemplateModalVisible.value = false;
   toast({
     type: "success",

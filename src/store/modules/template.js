@@ -8,11 +8,10 @@ export const useTemplateStore = defineStore("toolTemplate", {
   },
   actions: {
     // 新增聊天模板
-    addTemplate(title, chatList) {
+    addTemplate(params) {
       this.templateList.unshift({
         id: `template-${Date.now()}`,
-        title,
-        chatList,
+        ...params
       })
     },
     delete(id) {
