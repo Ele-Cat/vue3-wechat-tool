@@ -69,7 +69,7 @@
         <div class="wechat-item-text wechat-item-av" v-else-if="chat.type === 'audio' || chat.type === 'video'">
           <i :class="[chat.type]"></i>
           <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
-          <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(otherAvInviteStates, chat.state) }}</span>
+          <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(avInviteStates, chat.state) }}</span>
         </div>
         <div class="wechat-item-notice" v-else-if="chat.type === 'time'">
           <span>{{ chat.content }}</span>
@@ -85,7 +85,7 @@ import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore } = useStore();
 import useAutoScrollBottom from "@/hooks/useAutoScrollBottom";
 import { renderText, filterLabel } from "@/utils/utils";
-import { otherAvInviteStates } from "@/utils/enum";
+import { avInviteStates } from "@/utils/enum";
 
 const props = defineProps({
   appearance: {
@@ -130,9 +130,9 @@ const showAvatar = (chat) => {
 </script>
 
 <style lang="less" scoped>
-// ::-webkit-scrollbar {
-//   display: none;
-// }
+::-webkit-scrollbar {
+  display: none;
+}
 .phone-body {
   position: absolute;
   top: 264px;

@@ -289,18 +289,7 @@ export const avInviteTypes = [
   },
 ]
 
-export const ownAvInviteStates = [
-  {
-    label: "通话完成",
-    value: "success",
-  },
-  {
-    label: "已拒绝",
-    value: "reject",
-  },
-]
-
-export const otherAvInviteStates = [
+export const avInviteStates = [
   {
     label: "通话完成",
     value: "success",

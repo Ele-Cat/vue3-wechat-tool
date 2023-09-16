@@ -82,7 +82,7 @@
           <!-- <a-select :options="avInviteTypes" v-model:value="formState.avInviteType" placeholder="请选择类型"></a-select> -->
         </a-form-item>
         <a-form-item label="状态">
-          <a-select :options="useUserStore.activeRole === 'own' ? ownAvInviteStates : otherAvInviteStates" v-model:value="formState.avInviteState" placeholder="请选择状态"></a-select>
+          <a-select :options="avInviteStates" v-model:value="formState.avInviteState" placeholder="请选择状态"></a-select>
         </a-form-item>
         <a-form-item label="时长" v-if="formState.avInviteState === 'success'">
           <div class="datetime-select">
@@ -123,7 +123,7 @@ import dayjs from "dayjs";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore, useSystemStore } = useStore();
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
-import { weeks, morningAfternoon, avInviteTypes, ownAvInviteStates, otherAvInviteStates } from "@/utils/enum";
+import { weeks, morningAfternoon, avInviteTypes, avInviteStates } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
 // import Emoji from "./Emoji.vue";
 const Emoji = defineAsyncComponent(() => import('./Emoji.vue'));
@@ -276,10 +276,6 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
-
-watch(() => useUserStore.activeRole, (newVal) => {
-  formState.avInviteState = ""
-})
 </script>
 
 <style lang="less" scoped>
