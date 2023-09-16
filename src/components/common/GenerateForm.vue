@@ -63,15 +63,15 @@
       </template>
       <template v-else-if="useChatStore.activeType === 'voice'">
         <a-form-item label="语音时长">
-          <a-input-number :min="0" :max="60" :precision="0" v-model:value="formState.voiceDuration" placeholder="请输入语音时长" />
+          <a-input-number :min="1" :max="60" :precision="0" v-model:value="formState.voiceDuration" placeholder="请输入语音时长" />
         </a-form-item>
-        <!-- <a-form-item label="语音文字">
+        <a-form-item label="语音文字">
           <a-textarea
             placeholder="语音转文字内容，请注意与语音时长匹配，不填写则不展示"
             v-model:value="formState.voiceContent"
             :autoSize="{ minRows: 3, maxRows: 6 }"
           />
-        </a-form-item> -->
+        </a-form-item>
         <a-form-item label="是否已读">
           <a-switch v-model:checked="formState.voiceReaded" />
         </a-form-item>

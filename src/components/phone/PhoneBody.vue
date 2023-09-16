@@ -51,12 +51,20 @@
             <span>微信转账</span>
           </div>
         </div>
-        <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'voice'">
+        <!-- <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'voice'">
           <i></i> 
           <span>{{ chat.duration }}"</span>
           <div :style="{width: chat.duration * 5 + 'px'}"></div>
           <em v-if="!chat.received"></em>
-          <!-- <div class="">{{ chat.content }}</div> -->
+        </div> -->
+        <div class="wechat-item-voice-wrapper" v-else-if="chat.type === 'voice'">
+          <div class="wechat-item-text wechat-item-voice">
+            <i></i> 
+            <span>{{ chat.duration }}"</span>
+            <div :style="{width: chat.duration * 5 + 'px'}"></div>
+            <em v-if="!chat.received"></em>
+          </div>
+          <div class="wechat-item-text wechat-item-voice-text" v-if="chat.content">{{ chat.content }}</div>
         </div>
         <div class="wechat-item-notice" v-else-if="chat.type === 'time'">
           <span>{{ chat.content }}</span>
@@ -154,6 +162,10 @@ const showAvatar = (chat) => {
           height: 100%;
           object-fit: cover;
         }
+      }
+      .wechat-item-voice-wrapper {
+        display: flex;
+        flex-direction: column;
       }
       .wechat-item-text {
         background: #fff;
@@ -279,9 +291,11 @@ const showAvatar = (chat) => {
         &.wechat-item-voice {
           display: flex;
           align-items: center;
+          max-width: fit-content;
           span {
             font-size: 42px;
             padding-right: 20px;
+            width: 120px;
           }
           i {
             width: 34px;
@@ -299,11 +313,21 @@ const showAvatar = (chat) => {
             right: -61px;
           }
         }
+        &.wechat-item-voice-text {
+          text-align: justify;
+          margin-top: 20px;
+          &:after {
+            display: none;
+          }
+        }
       }
       &.wechat-item-right {
         justify-content: flex-end;
         .wechat-item-face {
           right: 0;
+        }
+        .wechat-item-voice-wrapper {
+          align-items: end;
         }
         .wechat-item-text {
           background: #98e970;
@@ -330,6 +354,9 @@ const showAvatar = (chat) => {
             em {
               left: -61px;
             }
+          }
+          &.wechat-item-voice-text {
+            color: var(--dark-text-color) !important;
           }
         }
       }
