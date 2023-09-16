@@ -95,12 +95,15 @@ const handleGenerateLongPng = async () => {
   const wechatContent = document.querySelector('.wechat-content')
   const phoneWrap = document.querySelector('.phone-wrap')
   const phoneBg = document.querySelector('.phone-bg')
+  const chatBackground = useSystemStore.appearance.chatBackground
   const phone = document.querySelector('#phone')
   const phoneBody = document.querySelector('.phone-body')
   const phoneRealHeight = useSystemStore.phoneHeight > wechatContent.scrollHeight + 264 + 269 ? useSystemStore.phoneHeight : wechatContent.scrollHeight + 264 + 269;
   phone.style.height = phoneRealHeight + "px"
   phoneBody.scrollTop = 0
-  phoneBg.querySelector('img').setAttribute('src', '')
+  if (chatBackground) {
+    phoneBg.querySelector('img').setAttribute('src', '')
+  }
 
   captureHtmlToImage(phoneWrap, {
     height: phoneRealHeight * 0.32,
@@ -109,7 +112,9 @@ const handleGenerateLongPng = async () => {
   drawerTitle.value = "生成长图";
 
   phone.style.height = useSystemStore.phoneHeight + "px";
-  phoneBg.querySelector('img').setAttribute('src', useSystemStore.appearance.chatBackground)
+  if (chatBackground) {
+    phoneBg.querySelector('img').setAttribute('src', chatBackground)
+  }
 }
 
 // const { gifUrl, captureHtmlToGif } = useHtmlToGif();

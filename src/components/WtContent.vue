@@ -7,8 +7,8 @@
             <div id="phone" class="phone" :class="{'dark': useSystemStore.appearance.darkMode}" :style="{ width: phoneWidth + 'px', height: phoneHeight + 'px' }">
               <PhoneBar :appearance="appearance" />
               <PhoneNav :appearance="appearance" />
-              <div class="phone-bg" v-if="useSystemStore.appearance.chatBackground">
-                <img :src="useSystemStore.appearance.chatBackground" class="phone-bg-for-height" />
+              <div class="phone-bg">
+                <img :src="useSystemStore.appearance.chatBackground" v-if="useSystemStore.appearance.chatBackground" class="phone-bg-for-height" />
               </div>
               <PhoneBody :appearance="appearance" :emojiBase64="emojiBase64" />
               <PhoneBottom :appearance="appearance" :emojiBase64="emojiBase64" />
