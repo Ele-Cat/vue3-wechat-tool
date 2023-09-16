@@ -76,6 +76,22 @@
           <a-switch v-model:checked="formState.voiceReaded" />
         </a-form-item>
       </template>
+      <template v-else-if="useChatStore.activeType === 'avInvite'">
+        <a-form-item label="类型">
+          <a-radio-group :options="avInviteTypes" v-model:value="formState.avInviteType" />
+          <!-- <a-select :options="avInviteTypes" v-model:value="formState.avInviteType" placeholder="请选择类型"></a-select> -->
+        </a-form-item>
+        <a-form-item label="状态">
+          <a-select :options="useUserStore.activeRole === 'own' ? ownAvInviteStates : otherAvInviteStates" v-model:value="formState.avInviteState" placeholder="请选择状态"></a-select>
+        </a-form-item>
+        <a-form-item label="时长" v-if="formState.avInviteState === 'success'">
+          <div class="datetime-select">
+            <a-select :options="toArr(24)" v-model:value="formState.avInviteHour" placeholder="小时"></a-select>
+            <a-select :options="toArr(60)" v-model:value="formState.avInviteMinute" placeholder="分钟"></a-select>
+            <a-select :options="toArr(60)" v-model:value="formState.avInviteSecond" placeholder="秒"></a-select>
+          </div>
+        </a-form-item>
+      </template>
       <template v-else-if="useChatStore.activeType === 'time'">
         <a-form-item label="选择时间">
           <div class="datetime-select">
@@ -107,7 +123,7 @@ import dayjs from "dayjs";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore, useSystemStore } = useStore();
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
-import { weeks, morningAfternoon } from "@/utils/enum";
+import { weeks, morningAfternoon, avInviteTypes, ownAvInviteStates, otherAvInviteStates } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
 // import Emoji from "./Emoji.vue";
 const Emoji = defineAsyncComponent(() => import('./Emoji.vue'));
@@ -132,9 +148,15 @@ const formState = reactive({
     hour: ('00' + dayjs().get('hour')).slice(-2),
     minute: ('00' + dayjs().get('minute')).slice(-2),
   },
+  avInviteType: "audio",
+  avInviteState: "",
+  avInviteHour: "00",
+  avInviteMinute: "00",
+  avInviteSecond: "10",
 });
 
 const selectTime = ref("")
+// 监听时间控件变化，渲染时间预览
 watch(() => formState.datetime, (newVal) => {
   const showColon = newVal.hour && newVal.minute ? ":" : ""
   selectTime.value =  `${newVal.year || ""}${newVal.month || ""}${newVal.date || ""} ${newVal.week || ""} ${newVal.ap || ""}${newVal.hour || ""}${showColon}${newVal.minute || ""}`
@@ -164,11 +186,19 @@ const handleTextInput = () => {
   useChatStore.inputText = formState.text;
 }
 
+// 点击发送按钮
 const handleSentChat = () => {
   if (!formState.text.trim() && useChatStore.activeType === "text") {
     toast({
       type: "warning",
       content: "请输入文本后发送",
+    });
+    return;
+  }
+  if (useChatStore.activeType === "avInvite" && !formState.avInviteState) {
+    toast({
+      type: "warning",
+      content: "请选择音、视频状态",
     });
     return;
   }
@@ -192,6 +222,13 @@ const handleSentChat = () => {
       content: formState.voiceContent,
       duration: formState.voiceDuration,
       received: formState.voiceReaded,
+    }
+  } else if (useChatStore.activeType === "avInvite") {
+    const hour = parseInt(formState.avInviteHour) ? `${formState.avInviteHour}:` : ''
+    tempObj = {
+      type: formState.avInviteType,
+      duration: `${hour}${formState.avInviteMinute}:${formState.avInviteSecond}`,
+      state: formState.avInviteState,
     }
   } else if (useChatStore.activeType === "time") {
     tempObj = {
@@ -240,12 +277,9 @@ const beforeUpload = (file) => {
   return isLt2M;
 };
 
-const handleReceiveEnter = (e) => {
-  useContextMenuStore.activeChatId = e.target.dataset.id
-}
-const handleReceiveLeave = (e) => {
-  useContextMenuStore.activeChatId = ""
-}
+watch(() => useUserStore.activeRole, (newVal) => {
+  formState.avInviteState = ""
+})
 </script>
 
 <style lang="less" scoped>

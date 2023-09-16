@@ -66,6 +66,11 @@
           </div>
           <div class="wechat-item-text wechat-item-voice-text" v-if="chat.content">{{ chat.content }}</div>
         </div>
+        <div class="wechat-item-text wechat-item-av" v-else-if="chat.type === 'audio' || chat.type === 'video'">
+          <i :class="[chat.type]"></i>
+          <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
+          <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(otherAvInviteStates, chat.state) }}</span>
+        </div>
         <div class="wechat-item-notice" v-else-if="chat.type === 'time'">
           <span>{{ chat.content }}</span>
         </div>
@@ -79,7 +84,8 @@ import { ref, watch } from "vue";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore } = useStore();
 import useAutoScrollBottom from "@/hooks/useAutoScrollBottom";
-import { renderText } from "@/utils/utils";
+import { renderText, filterLabel } from "@/utils/utils";
+import { otherAvInviteStates } from "@/utils/enum";
 
 const props = defineProps({
   appearance: {
@@ -320,6 +326,29 @@ const showAvatar = (chat) => {
             display: none;
           }
         }
+        &.wechat-item-av {
+          display: flex;
+          align-items: center;
+          span {
+            margin: 0 12px;
+          }
+          i {
+            display: block;
+            position: relative;
+            top: 2px;
+            width: 64px;
+            height: 28px;
+            background-image: url(@/assets/images/content/wechat-audio-light.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            margin: 0px 18px 0 4px;
+            &.video {
+              width: 64px;
+              height: 38px;
+              background-image: url(@/assets/images/content/wechat-video-light.png);
+            }
+          }
+        }
       }
       &.wechat-item-right {
         justify-content: flex-end;
@@ -357,6 +386,15 @@ const showAvatar = (chat) => {
           }
           &.wechat-item-voice-text {
             color: var(--dark-text-color) !important;
+          }
+          &.wechat-item-av {
+            flex-direction: row-reverse;
+            i {
+              margin: 0px 4px 0 18px;
+              &.video {
+                background-image: url(@/assets/images/content/wechat-video-light.png);
+              }
+            }
           }
         }
       }
@@ -404,6 +442,14 @@ const showAvatar = (chat) => {
               background: url(@/assets/images/content/wechat-voice-icon1-dark.png) no-repeat;
             }
           }
+          &.wechat-item-av {
+            i {
+              background-image: url(@/assets/images/content/wechat-audio-dark.png);
+              &.video {
+                background-image: url(@/assets/images/content/wechat-video-dark.png);
+              }
+            }
+          }
         }
         &.wechat-item-right {
           .wechat-item-text {
@@ -415,6 +461,14 @@ const showAvatar = (chat) => {
             &.wechat-item-voice {
               i {
                 background: url(@/assets/images/content/wechat-voice-icon2-light.png) no-repeat;
+              }
+            }
+            &.wechat-item-av {
+              i {
+                background-image: url(@/assets/images/content/wechat-audio-light.png);
+                &.video {
+                  background-image: url(@/assets/images/content/wechat-video-light.png);
+                }
               }
             }
           }

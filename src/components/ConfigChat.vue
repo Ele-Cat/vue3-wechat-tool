@@ -25,13 +25,7 @@
       <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
     </a-tabs>
     <GenerateForm :title="addTypeName" />
-    <!-- <p>文本、图片、转账、红包、语音、系统消息、拍一拍、撤回消息、时间</p>
-    <p>输入、表情</p>
-    <p>拖动上传base64</p>
-    <p>转账金额、备注</p>
-    <p>红包金额、备注</p>
-    <p>语音时间、是否已读</p>
-    <p>系统消息</p> -->
+    <!-- <p>文本、表情、图片、转账、红包、语音、时间、音视频邀请、系统消息、拍一拍、撤回消息</p> -->
   </perfect-scrollbar>
   <UserManage :open="userManageVisible" @close="userManageVisible = false" />
 </template>
@@ -53,31 +47,35 @@ const addTypes = reactive([
   {
     label: "文本",
     value: "text",
-  }, {
+  }, 
+  {
     label: "图片",
     value: "image",
-  }, {
+  }, 
+  {
     label: "转账",
     value: "transferAccounts",
-  }, {
+  }, 
+  {
     label: "红包",
     value: "redEnvelope",
-  }, {
+  }, 
+  {
     label: "语音",
     value: "voice",
-  // }, {
-  //   label: "视频邀请",
-  //   value: "video",
-  // }, {
-  //   label: "语音邀请",
-  //   value: "systemMessages",
-  // }, {
-  //   label: "拍一拍",
-  //   value: "takeAPat",
-  }, {
+  }, 
+  {
+    label: "音、视频",
+    value: "avInvite",
+  }, 
+  {
     label: "时间",
     value: "time",
   }, 
+  // {
+  //   label: "拍一拍",
+  //   value: "takeAPat",
+  // },
   // {
   //   label: "撤回消息",
   //   value: "recallMessage",

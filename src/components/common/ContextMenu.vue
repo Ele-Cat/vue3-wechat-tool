@@ -2,7 +2,7 @@
   <div class="custom-menu" v-show="useContextMenuStore.menuVisible"
     :style="{ top: useContextMenuStore.menuTop + 'px', left: useContextMenuStore.menuLeft + 'px' }">
     <ul>
-      <li v-for="contextMenu in contextMenuList" :key="contextMenu.type" :class="{ 'border-top': contextMenu.borderTop }"
+      <li v-for="contextMenu in contextMenuList" :key="contextMenu.type" :class="{ 'border-top': contextMenu.borderTop, 'red': contextMenu.value === 'delete' }"
         @click.stop="handleMenuClick(contextMenu.value)">{{ contextMenu.label }}</li>
     </ul>
   </div>
@@ -24,7 +24,7 @@ const handleMenuClick = (type) => {
     if (activeChatIndex === 0) {
       toast({
         type: "warning",
-        content: "已是第一条！",
+        content: "已经是第一条！",
       });
     } else {
       const item = useChatStore.chatList.splice(activeChatIndex, 1);
@@ -34,12 +34,17 @@ const handleMenuClick = (type) => {
     if (activeChatIndex === useChatStore.chatList.length - 1) {
       toast({
         type: "warning",
-        content: "已是第后一条！",
+        content: "已经是最后一条！",
       });
     } else {
       const item = useChatStore.chatList.splice(activeChatIndex, 1);
       useChatStore.chatList.splice(activeChatIndex + 1, 0, item[0]);
     }
+  } else if (type === "edit") {
+    toast({
+      type: "warning",
+      content: "修改功能开发中..."
+    })
   } else if (type === "receive") {
     useChatStore.sentChat(Object.assign({}, {
       type: "receive",
@@ -73,8 +78,13 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
           value: "moveDown",
         },
         {
+          label: "修改",
+          value: "edit",
+        },
+        {
           label: "领取",
           value: "receive",
+          borderTop: true,
         },
         {
           label: "移除",
@@ -91,6 +101,10 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
         {
           label: "下移",
           value: "moveDown",
+        },
+        {
+          label: "修改",
+          value: "edit",
         },
         {
           label: "移除",
@@ -127,6 +141,9 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
       height: 28px;
       line-height: 28px;
       padding: 0 20px;
+      &.red {
+        color: #ff4d4f;
+      }
 
       &:hover {
         background-color: #E2E2E2;

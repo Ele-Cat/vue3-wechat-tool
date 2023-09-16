@@ -92,3 +92,16 @@ export function renderText(text, emojiBase64) {
   
   return replacedText;
 }
+
+/**
+ * 通过value返回arr数组的label
+ * @param {Array} arr 
+ * @param {Number/String} value 
+ * @returns 
+ */
+export function filterLabel(arr, value) {
+  if (!arr.length) {
+    return ""
+  }
+  return arr.find(item => item["value"] === value)["label"]
+}

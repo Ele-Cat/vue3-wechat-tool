@@ -277,3 +277,44 @@ export const emojiList = [
   "发抖",
   "转圈",
 ]
+
+export const avInviteTypes = [
+  {
+    label: "音频邀请",
+    value: "audio",
+  },
+  {
+    label: "视频邀请",
+    value: "video",
+  },
+]
+
+export const ownAvInviteStates = [
+  {
+    label: "通话完成",
+    value: "success",
+  },
+  {
+    label: "已拒绝",
+    value: "reject",
+  },
+]
+
+export const otherAvInviteStates = [
+  {
+    label: "通话完成",
+    value: "success",
+  },
+  {
+    label: "已取消",
+    value: "cancel",
+  },
+  {
+    label: "忙线中",
+    value: "busy",
+  },
+  {
+    label: "已拒绝",
+    value: "reject",
+  },
+]

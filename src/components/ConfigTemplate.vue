@@ -14,7 +14,7 @@
             </a-popconfirm>
             <!-- <a-button size="small" type="primary" @click="handleUseTemplate(record.id)">编辑</a-button> -->
             <a-popconfirm title="确认删除该模板？" @confirm="handleDeleteTemplate(record.id)">
-              <a-button danger size="small" type="primary">删除</a-button>
+              <a-typography-link type="danger">删除</a-typography-link>
             </a-popconfirm>
           </a-space>
         </template>
