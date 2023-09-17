@@ -21,6 +21,7 @@ const handleEmojiClick = (emoji) => {
 .emoji_wrap {
   display: flex;
   flex-wrap: wrap;
+  padding-left: 8px;
   a {
     display: block;
     width: 24px;

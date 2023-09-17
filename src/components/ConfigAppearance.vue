@@ -1,6 +1,6 @@
 <template>
   <perfect-scrollbar>
-    <a-form :model="formState" :label-col="{style: {width: '80px'}}" class="config-appearance">
+    <a-form :model="formState" :label-col="{style: {width: '88px'}}" class="config-appearance">
       <a-form-item label="机型">
         <a-select :options="models" v-model:value="formState.model" disabled></a-select>
       </a-form-item>

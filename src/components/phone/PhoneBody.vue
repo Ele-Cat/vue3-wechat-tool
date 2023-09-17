@@ -1,7 +1,7 @@
 <template>
   <div class="phone-body" :class="{'dark': appearance.darkMode}" ref="phoneBodyRef" @contextmenu.stop="handlePhoneBodyContextMenu">
     <div class="wechat-content">
-      <div class="wechat-item" :id="chat.id" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-notice-box': !showAvatar(chat), 'active': useContextMenuStore.activeChatId === chat.id}" @contextmenu.stop="e => rightClicked(e, chat.id)">
+      <div class="wechat-item" :id="chat.id" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-rejected': chat.role === 'own' && chat.rejected, 'wechat-item-notice-box': !showAvatar(chat), 'active': useContextMenuStore.activeChatId === chat.id}" @contextmenu.stop="e => rightClicked(e, chat.id)">
         <div class="wechat-item-avatar" v-if="showAvatar(chat)">
           <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
         </div>
@@ -205,10 +205,11 @@ const showAvatar = (chat) => {
           border: 1px #d5d5d5 solid;
           padding: 0;
           background: none !important;
-          overflow: hidden;
           img {
             max-width: 420px;
             max-height: 420px;
+            border-radius: 15px;
+            overflow: hidden;
           }
           &:after {
             display: none;
@@ -429,6 +430,31 @@ const showAvatar = (chat) => {
           em {
             font-style: normal;
             color: #ef9d49;
+          }
+        }
+      }
+      &.wechat-item-rejected {
+        .wechat-item-text:not(.wechat-item-voice-text) {
+          position: relative;
+          &:before {
+            content: "!";
+            position: absolute;
+            width: 64px;
+            text-align: center;
+            height: 64px;
+            line-height: 64px;
+            left: -91px;
+            top: 50%;
+            margin-top: -32px;
+            font-size: 42px;
+            color: var(--dark-text-color);
+            border-radius: 50%;
+            background-color: red;
+          }
+          &.wechat-item-voice {
+            em {
+              display: none;
+            }
           }
         }
       }

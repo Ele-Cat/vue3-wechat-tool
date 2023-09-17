@@ -5,7 +5,7 @@
         <a-switch v-if="useChatStore.activeType === 'text' && useUserStore.activeRole === 'own'" :disabled="useSystemStore.appearance.voiceMode" v-model:checked="useSystemStore.appearance.syncInputText" />
       </a-tooltip>
     </template>
-    <a-form :model="formState" :label-col="{ style: { width: '80px' }}">
+    <a-form :model="formState" :label-col="{ style: { width: '88px' }}">
       <template v-if="useChatStore.activeType === 'text'">
         <a-textarea
           ref="textareaRef"
@@ -14,7 +14,7 @@
           :autoSize="{ minRows: 3, maxRows: 6 }"
           @change="handleTextInput"
         />
-        <div class="emojis">
+        <perfect-scrollbar class="emojis">
           <Suspense>
             <template #default>
               <Emoji @add="addEmoji" />
@@ -25,7 +25,7 @@
               </div>
             </template>
           </Suspense>
-        </div>
+        </perfect-scrollbar>
       </template>
       <template v-else-if="useChatStore.activeType === 'image'">
         <a-upload-dragger
@@ -120,6 +120,11 @@
       <template v-else-if="useChatStore.activeType === 'revoke'">
         <a-button type="primary" @click="handleSentChat">发一条撤回信息</a-button>
       </template>
+      <template v-if="['text', 'image', 'voice'].includes(useChatStore.activeType) && useUserStore.activeRole === 'own'">
+        <a-form-item label="消息被拒收" style="margin-top:8px;">
+          <a-radio-group :options="ynEnums" v-model:value="formState.rejected" />
+        </a-form-item>
+      </template>
     </a-form>
     <template #actions v-if="!['image', 'revoke'].includes(useChatStore.activeType)">
       <a-button block danger type="link" size="small" @click="handleClearChat">清空</a-button>
@@ -140,7 +145,7 @@ import dayjs from "dayjs";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useSystemStore, useContextMenuStore } = useStore();
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
-import { weeks, morningAfternoon, avInviteTypes, avInviteStates, patRoles } from "@/utils/enum";
+import { weeks, morningAfternoon, avInviteTypes, avInviteStates, patRoles, ynEnums } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
 // import Emoji from "./Emoji.vue";
 const Emoji = defineAsyncComponent(() => import('./Emoji.vue'));
@@ -171,6 +176,7 @@ const formState = reactive({
   avInviteMinute: "00",
   avInviteSecond: "10",
   patRole: "other",
+  rejected: false,
 });
 
 const selectTime = ref("")
@@ -239,6 +245,7 @@ const handleSentChat = () => {
   if (useChatStore.activeType === "text") {
     tempObj = {
       content: formState.text.trim(),
+      rejected: formState.rejected,
     }
   } else if (useChatStore.activeType === "transferAccounts") {
     tempObj = {
@@ -255,6 +262,7 @@ const handleSentChat = () => {
       content: formState.voiceContent,
       duration: formState.voiceDuration,
       received: formState.voiceReaded,
+      rejected: formState.rejected,
     }
   } else if (useChatStore.activeType === "avInvite") {
     const hour = parseInt(formState.avInviteHour) ? `${formState.avInviteHour}:` : ''
@@ -303,6 +311,7 @@ const handleChange = (info) => {
       type: "image",
       content: base64Data,
       role: useUserStore.activeRole,
+      rejected: formState.rejected,
     });
   });
 };
@@ -330,6 +339,7 @@ const beforeUpload = (file) => {
   .emojis {
     display: flex;
     flex-wrap: wrap;
+    background-color: #F9F9F9;
     // justify-content: space-around;
     max-height: 136px;
     overflow-y: auto;

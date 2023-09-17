@@ -318,3 +318,14 @@ export const patRoles = [
     value: "own",
   },
 ]
+
+export const ynEnums = [
+  {
+    label: "是",
+    value: true,
+  },
+  {
+    label: "否",
+    value: false,
+  },
+]
