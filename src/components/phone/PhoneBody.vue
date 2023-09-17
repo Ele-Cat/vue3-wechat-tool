@@ -449,7 +449,7 @@ const showAvatar = (chat) => {
             font-size: 42px;
             color: var(--dark-text-color);
             border-radius: 50%;
-            background-color: red;
+            background-color: #FA5151;
           }
           &.wechat-item-voice {
             em {
