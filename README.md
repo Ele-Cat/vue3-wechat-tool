@@ -13,38 +13,21 @@
 </div>
 
 <!-- <img alt="欢迎⭐️" src="https://img.shields.io/badge/欢迎-⭐️-blue.svg?cacheSeconds=2592000" /> -->
+
 ### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程</a>
+
 ### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#开发教程' target="_blank">开发教程</a>
+
 ### ✨<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线预览</a>
 
 ## 截图
+
 ![预览](./snapshot/01.jpg)
 ![深色模式](./snapshot/02.jpg)
 
-## 使用
-
-- #### 安装
-
-  ```
-  npm install
-  ```
-
-- #### 运行
-
-  ```
-  npm run serve
-  ```
-
-- #### 打包
-
-  打包前请注意将`.env.production`的`VITE_BASE_PATH`修改为`/`
-
-  ```
-  npm run build
-  ```
-
 ## 功能清单
-> √为已实现的，规划中的功能有序安排中
+
+> √ 为已实现的，规划中的功能有序安排中
 
 - [x] 界面结构
 - [x] 外观设置
@@ -94,6 +77,28 @@
   - [ ] 在线编辑模板
   - [ ] 导入、导出模板
 - [x] 使用说明
+
+## 使用
+
+- #### 安装
+
+  ```
+  npm install
+  ```
+
+- #### 运行
+
+  ```
+  npm run serve
+  ```
+
+- #### 打包
+
+  打包前请注意将`.env.production`的`VITE_BASE_PATH`修改为`/`
+
+  ```
+  npm run build
+  ```
 
 ## 作者
 
