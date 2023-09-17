@@ -307,3 +307,14 @@ export const avInviteStates = [
     value: "reject",
   },
 ]
+
+export const patRoles = [
+  {
+    label: "对方",
+    value: "other",
+  },
+  {
+    label: "自己",
+    value: "own",
+  },
+]

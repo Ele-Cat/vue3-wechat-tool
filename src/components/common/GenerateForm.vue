@@ -92,6 +92,15 @@
           </div>
         </a-form-item>
       </template>
+      <template v-else-if="useChatStore.activeType === 'takeAPat'">
+        <a-form-item label="选择对象">
+          <a-select :options="patRoles" v-model:value="formState.patRole" placeholder="请选择拍一拍对象"></a-select>
+        </a-form-item>
+        <a-form-item label="内容">
+          <a-input v-model:value="formState.patContent" placeholder="请输入拍一拍内容，例：的甜筒黏了一手" allowClear></a-input>
+          预览：<span class="time-preview">{{ patResult }}</span>
+        </a-form-item>
+      </template>
       <template v-else-if="useChatStore.activeType === 'time'">
         <a-form-item label="选择时间">
           <div class="datetime-select">
@@ -123,7 +132,7 @@ import dayjs from "dayjs";
 import useStore from "@/store";
 const { useUserStore, useChatStore, useContextMenuStore, useSystemStore } = useStore();
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
-import { weeks, morningAfternoon, avInviteTypes, avInviteStates } from "@/utils/enum";
+import { weeks, morningAfternoon, avInviteTypes, avInviteStates, patRoles } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
 // import Emoji from "./Emoji.vue";
 const Emoji = defineAsyncComponent(() => import('./Emoji.vue'));
@@ -153,13 +162,29 @@ const formState = reactive({
   avInviteHour: "00",
   avInviteMinute: "00",
   avInviteSecond: "10",
+  patRole: "other",
 });
 
 const selectTime = ref("")
 // 监听时间控件变化，渲染时间预览
 watch(() => formState.datetime, (newVal) => {
   const showColon = newVal.hour && newVal.minute ? ":" : ""
-  selectTime.value =  `${newVal.year || ""}${newVal.month || ""}${newVal.date || ""} ${newVal.week || ""} ${newVal.ap || ""}${newVal.hour || ""}${showColon}${newVal.minute || ""}`
+  selectTime.value = `${newVal.year || ""}${newVal.month || ""}${newVal.date || ""} ${newVal.week || ""} ${newVal.ap || ""}${newVal.hour || ""}${showColon}${newVal.minute || ""}`
+}, {
+  immediate: true,
+  deep: true,
+})
+
+const patResult = ref("")
+// 监听角色、对象，渲染拍一拍内容
+watch(() => [formState.patRole, formState.patContent, useUserStore.activeRole], () => {
+  let first = useUserStore.activeRole === "own" ? "我" : ` "${useUserStore.otherInfo.nickname}" `;
+  let second = formState.patRole === "own" ? "自己" : ` "${useUserStore.otherInfo.nickname}" `;
+  if (useUserStore.activeRole === "other") {
+    second = formState.patRole === "own" ? "自己" : "我";
+  }
+  let patContent = formState.patContent || "";
+  patResult.value = `${first}拍了拍${second}${patContent}`;
 }, {
   immediate: true,
   deep: true,
@@ -229,6 +254,11 @@ const handleSentChat = () => {
       type: formState.avInviteType,
       duration: `${hour}${formState.avInviteMinute}:${formState.avInviteSecond}`,
       state: formState.avInviteState,
+    }
+  } else if (useChatStore.activeType === "takeAPat") {
+    tempObj = {
+      patBold: (useUserStore.activeRole === "own" && formState.patRole === "own") || (useUserStore.activeRole === "other" && formState.patRole === "other"),
+      content: patResult.value,
     }
   } else if (useChatStore.activeType === "time") {
     tempObj = {
@@ -304,8 +334,10 @@ const beforeUpload = (file) => {
     }
   }
   .time-preview {
+    display: inline-block;
     font-size: 18px;
     color: var(--theme-color);
+    margin-top: 12px;
   }
 }
 </style>

@@ -71,7 +71,7 @@
           <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
           <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(avInviteStates, chat.state) }}</span>
         </div>
-        <div class="wechat-item-notice" v-else-if="chat.type === 'time'">
+        <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat'].includes(chat.type)">
           <span>{{ chat.content }}</span>
         </div>
       </div>
@@ -125,7 +125,7 @@ useAutoScrollBottom(phoneBodyRef)
 // })
 
 const showAvatar = (chat) => {
-  return !['time'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 
+  return !['time', 'takeAPat'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 
 }
 </script>
 
@@ -405,10 +405,19 @@ const showAvatar = (chat) => {
           font-size: 36px;
           color: #a6a6a6;
           justify-content: center;
-          padding: 8px 16px;
+          padding: 12px 16px 10px;
           border-radius: 6px;
           display: flex;
           align-items: center;
+          &.bg {
+            color: var(--light-text-color);
+            background-color: rgba(255, 255, 255, 0.6);
+          }
+          &.bold {
+            span {
+              font-weight: bold;
+            }
+          }
           i {
             width: 45px;
             height: 51px;

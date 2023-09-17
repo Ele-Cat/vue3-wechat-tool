@@ -22,8 +22,9 @@
     </a-form>
     <a-divider style="border-color: var(--theme-color)" />
     <a-tabs v-model:activeKey="useChatStore.activeType" size="small" tab-position="top">
-      <a-tab-pane v-for="addType in addTypes" :key="addType.value" :tab="addType.label"></a-tab-pane>
+      <a-tab-pane v-for="addType in addTypes" :disabled="addType.disabled" :key="addType.value" :tab="addType.label"></a-tab-pane>
     </a-tabs>
+    <!-- <a-segmented v-model:value="useChatStore.activeType" :options="addTypes" /> -->
     <GenerateForm :title="addTypeName" />
     <!-- <p>文本、表情、图片、转账、红包、语音、时间、音视频邀请、系统消息、拍一拍、撤回消息</p> -->
   </perfect-scrollbar>
@@ -69,13 +70,13 @@ const addTypes = reactive([
     value: "avInvite",
   }, 
   {
+    label: "拍一拍",
+    value: "takeAPat",
+  },
+  {
     label: "时间",
     value: "time",
   }, 
-  // {
-  //   label: "拍一拍",
-  //   value: "takeAPat",
-  // },
   // {
   //   label: "撤回消息",
   //   value: "recallMessage",
