@@ -3,7 +3,7 @@
 > 使用 Vite + Vue3 + AntDesignVue + Pinia 搭建的在线微信对话生成器
 
 <div align="center">
-  <h4>本程序是一款微信聊天记录制作工具，可以模拟微信聊天、管理不同用户角色进行对话，同时支持发送文字、图片、语音、红包、转账等类型信息。可以将聊天内容一键生成为图片、长图、动图和视频。【<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线预览地址</a>】</h4>
+  <h4>本程序是一款微信聊天记录制作工具，可以模拟微信聊天、管理不同用户角色进行对话，同时支持发送文字、图片、语音、红包、转账等类型信息。可以将聊天内容一键生成为图片、长图、动图和视频。【<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线使用地址</a>】</h4>
   <h4>全量开源，更多好玩的功能欢迎提出Issues，敬请期待！</h4>
 </div>
 
@@ -18,7 +18,7 @@
 
 ### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#开发教程' target="_blank">开发教程</a>
 
-### ✨<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线预览</a>
+### ✨<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线使用</a>
 
 ## 截图
 
@@ -27,7 +27,7 @@
 
 ## 功能清单
 
-> √ 为已实现的，规划中的功能有序安排中
+> √ 为已实现的，规划中的功能有序安排中，欢迎提出反馈
 
 - [x] 界面结构
 - [x] 外观设置
