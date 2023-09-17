@@ -4,7 +4,7 @@
       已有{{ useTemplateStore.list.length }}个模板
       <!-- <a-button type="primary">新增模板</a-button> -->
     </div>
-    <a-table size="small" :columns="columns" :data-source="useTemplateStore.list" :pagination="false" bordered>
+    <a-table size="small" :columns="columns" :data-source="useTemplateStore.list" :pagination="false" bordered :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'operation'">
           <a-space>
@@ -50,7 +50,7 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'operation',
-    width: '140px',
+    width: '120px',
     align: 'center',
   },
 ];
@@ -93,5 +93,13 @@ const handleUseTemplate = (id) => {
   align-items: center;
   margin-bottom: 10px;
   color: var(--theme-color);
+}
+</style>
+
+<style lang="less">
+.config-template {
+  .table-striped td {
+    background-color: #FAFAFA !important;
+  }
 }
 </style>
