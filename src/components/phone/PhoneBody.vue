@@ -71,8 +71,9 @@
           <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
           <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(avInviteStates, chat.state) }}</span>
         </div>
-        <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat'].includes(chat.type)">
-          <span>{{ chat.content }}</span>
+        <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat', 'revoke'].includes(chat.type)">
+          <span v-if="chat.type !== 'revoke'">{{ chat.content }}</span>
+          <span v-else>{{ chat.role === 'own' ? "你" : useUserStore.otherInfo.nickname }}撤回了一条消息</span>
         </div>
       </div>
     </div>
@@ -112,20 +113,20 @@ const rightClicked = (e, chatId) => {
 const phoneBodyRef = ref(null)
 useAutoScrollBottom(phoneBodyRef)
 
-// watch(() => useContextMenuStore.activeChatId, (newVal) => {
-//   if (newVal) {
-//     const targetElement = document.getElementById(newVal);
-//     if (targetElement) {
-//       targetElement.scrollIntoView({
-//         behavior: "smooth",
-//         block: "center", // start center end nearest
-//       });
-//     }
-//   }
-// })
+watch(() => useContextMenuStore.activeChatId, (newVal) => {
+  if (newVal) {
+    const targetElement = document.getElementById(newVal);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest", // start center end nearest
+      });
+    }
+  }
+})
 
 const showAvatar = (chat) => {
-  return !['time', 'takeAPat'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 
+  return !['time', 'takeAPat', 'revoke'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 
 }
 </script>
 

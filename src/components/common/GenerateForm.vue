@@ -117,11 +117,19 @@
           预览：<span class="time-preview">{{ selectTime }}</span>
         </a-form-item>
       </template>
+      <template v-else-if="useChatStore.activeType === 'revoke'">
+        <a-button type="primary" @click="handleSentChat">发一条撤回信息</a-button>
+      </template>
     </a-form>
-    <template #actions v-if="!['image'].includes(useChatStore.activeType)">
+    <template #actions v-if="!['image', 'revoke'].includes(useChatStore.activeType)">
       <a-button block danger type="link" size="small" @click="handleClearChat">清空</a-button>
       <a-button block type="link" size="small" @click="handleSentChat">发送</a-button>
     </template>
+    <!-- <a-form-item label="撤回内容">
+      <a-select v-model:value="formState.revokeId" placeholder="请选择要撤回内容" allowClear>
+        <a-select-option v-for="item in useChatStore.receiveList()" :key="item.value" :data-id="item.value" :value="item.value" @mouseenter="handleReceiveEnter" @mouseleave="handleReceiveLeave">{{ item.label }}</a-select-option>
+      </a-select>
+    </a-form-item> -->
   </a-card>
 </template>
 
@@ -130,7 +138,7 @@ import { watch, reactive, ref, defineAsyncComponent } from "vue";
 import { InboxOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 import useStore from "@/store";
-const { useUserStore, useChatStore, useContextMenuStore, useSystemStore } = useStore();
+const { useUserStore, useChatStore, useSystemStore, useContextMenuStore } = useStore();
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
 import { weeks, morningAfternoon, avInviteTypes, avInviteStates, patRoles } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
@@ -283,6 +291,8 @@ const handleClearChat = () => {
     formState.redEnvelopeRemarks = "恭喜发财，大吉大利";
   } else if (useChatStore.activeType === "voice") {
     formState.voiceContent = ""
+  } else if (useChatStore.activeType === "takeAPat") {
+    formState.patContent = ""
   }
 };
 
@@ -306,6 +316,13 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
+
+// const handleReceiveEnter = (e) => {
+//   useContextMenuStore.activeChatId = e.target.dataset.id
+// }
+// const handleReceiveLeave = (e) => {
+//   useContextMenuStore.activeChatId = ""
+// }
 </script>
 
 <style lang="less" scoped>

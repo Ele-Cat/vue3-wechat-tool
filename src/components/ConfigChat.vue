@@ -74,13 +74,13 @@ const addTypes = reactive([
     value: "takeAPat",
   },
   {
+    label: "撤回",
+    value: "revoke",
+  },
+  {
     label: "时间",
     value: "time",
   }, 
-  // {
-  //   label: "撤回消息",
-  //   value: "recallMessage",
-  // }
 ])
 watch(() => [useChatStore.activeType, useUserStore], () => {
   let sendRole = ""

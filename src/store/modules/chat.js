@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useUserStore } from "./user"
 
 export const useChatStore = defineStore("toolChat", {
   state: () => {
@@ -12,13 +13,11 @@ export const useChatStore = defineStore("toolChat", {
   },
   actions: {
     /**
-     * 可领取的列表【红包、转账】，只能领取对方发送的
-     * @param {*} activeRole 当前角色
+     * 根据角色返回已发送消息列表
      * @returns 
      */
-    receiveList(activeRole) {
-      let receiveList = this.chatList.filter(chat => ["transferAccounts", "redEnvelope"].includes(chat.type) && chat.role != activeRole).map(chat => {
-        let content = chat.type === "transferAccounts" ? "转账" : "红包"
+    receiveList() {
+      let receiveList = this.chatList.filter(chat => chat.role === useUserStore().activeRole).map(chat => {
         return {
           label: chat.content || content,
           value: chat.id,
