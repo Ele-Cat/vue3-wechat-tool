@@ -104,6 +104,8 @@
 
 **2023-09-18**
 - 🌟新增对话修改功能【右键菜单】
+- 🌟新增工具使用教程<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程</a>
+- 🐞修复一系列系统遗留问题
 
 **2023-09-17**
 - 🌟新增发送音频、视频邀请功能
