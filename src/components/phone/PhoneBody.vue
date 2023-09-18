@@ -113,17 +113,17 @@ const rightClicked = (e, chatId) => {
 const phoneBodyRef = ref(null)
 useAutoScrollBottom(phoneBodyRef)
 
-watch(() => useContextMenuStore.activeChatId, (newVal) => {
-  if (newVal) {
-    const targetElement = document.getElementById(newVal);
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest", // start center end nearest
-      });
-    }
-  }
-})
+// watch(() => useContextMenuStore.activeChatId, (newVal) => {
+//   if (newVal) {
+//     const targetElement = document.getElementById(newVal);
+//     if (targetElement) {
+//       targetElement.scrollIntoView({
+//         behavior: "smooth",
+//         block: "nearest", // start center end nearest
+//       });
+//     }
+//   }
+// })
 
 const showAvatar = (chat) => {
   return !['time', 'takeAPat', 'revoke'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 

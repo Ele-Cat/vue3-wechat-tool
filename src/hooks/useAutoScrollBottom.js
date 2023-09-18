@@ -1,4 +1,5 @@
 import { onMounted, watch, nextTick } from "vue";
+import eventBus from '@/utils/eventBus';
 import useStore from "@/store";
 const { useChatStore } = useStore();
 
@@ -7,14 +8,18 @@ const { useChatStore } = useStore();
  * @param {ref} component ref绑定的dom
  */
 export default function useAutoScrollBottom(component) {
-  watch(() => useChatStore.chatList, () => {
-    toBottom();
-  }, {
-    deep: true,
-  })
+  // watch(() => useChatStore.chatList, () => {
+  //   toBottom();
+  // }, {
+  //   deep: true,
+  // })
 
   onMounted(() => {
     toBottom();
+
+    eventBus.on("sentChat", () => {
+      toBottom();
+    })
   });
 
   const toBottom = () => {
@@ -23,4 +28,8 @@ export default function useAutoScrollBottom(component) {
       component.value.scrollTop = component.value.scrollHeight;
     })
   };
+
+  return {
+    toBottom,
+  }
 }

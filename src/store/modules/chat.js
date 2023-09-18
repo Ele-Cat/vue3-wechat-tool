@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { useUserStore } from "./user"
+import eventBus from '@/utils/eventBus';
+import { useUserStore } from "./user";
 
 export const useChatStore = defineStore("toolChat", {
   state: () => {
@@ -40,6 +41,7 @@ export const useChatStore = defineStore("toolChat", {
         id: "chat-" + Date.now(),
         ...chatInfo,
       })
+      eventBus.emit("sentChat");
     },
     // 修改消息
     editChat(chatInfo) {

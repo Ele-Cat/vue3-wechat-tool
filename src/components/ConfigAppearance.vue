@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { onUnmounted, reactive, ref, watch } from "vue";
+import { onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { LoadingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 // import { useFetch } from '@vueuse/core'
@@ -71,7 +71,6 @@ onUnmounted(() => {
 })
 
 const formState = ref({});
-formState.value = useSystemStore.appearance
 
 watch(() => useSystemStore.appearance.timeFollowSystem, (newVal) => {
   if (newVal) {
@@ -84,6 +83,15 @@ watch(() => useSystemStore.appearance.timeFollowSystem, (newVal) => {
   }
 }, {
   immediate: true,
+})
+onMounted(() => {
+  watch(() => useSystemStore.appearance, (newVal) => {
+    formState.value = newVal
+    imageInfo.url = newVal.chatBackground;
+  }, {
+    immediate: true,
+    deep: true,
+  })
 })
 
 const imageInfo = reactive({
