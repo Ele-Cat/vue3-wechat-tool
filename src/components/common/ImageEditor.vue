@@ -116,12 +116,12 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['use'])
+const emit = defineEmits(['use'])
 
 const cropperVisible = ref(false);
 const handleUse = (flag = true) => {
   cropperVisible.value = false
-  emits('use', flag ? previewImg.value : "")
+  emit('use', flag ? previewImg.value : "")
   handleCancel();
 }
 

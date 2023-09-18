@@ -66,8 +66,8 @@
           </div>
           <div class="wechat-item-text wechat-item-voice-text" v-if="chat.content">{{ chat.content }}</div>
         </div>
-        <div class="wechat-item-text wechat-item-av" v-else-if="chat.type === 'audio' || chat.type === 'video'">
-          <i :class="[chat.type]"></i>
+        <div class="wechat-item-text wechat-item-av" v-else-if="chat.type === 'avInvite'">
+          <i :class="[chat.invateType]"></i>
           <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
           <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(avInviteStates, chat.state) }}</span>
         </div>

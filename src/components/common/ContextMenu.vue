@@ -6,15 +6,22 @@
         @click.stop="handleMenuClick(contextMenu.value)">{{ contextMenu.label }}</li>
     </ul>
   </div>
-  <!-- <DragModal /> -->
+  <a-modal title="对话修改" :width="466" v-model:open="editorModalVisible" :footer="null">
+    <GenerateForm :title="editorModalTitle" formType="edit" :chatInfo="chatInfo" @close="editorModalVisible = false" />
+  </a-modal>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue';
 import useStore from '@/store';
-const { useContextMenuStore, useChatStore } = useStore();
+const { useContextMenuStore, useChatStore, useUserStore } = useStore();
 import { toast } from "@/utils/feedback";
+import GenerateForm from "./GenerateForm.vue";
+import { addTypes } from "@/utils/enum";
 
+const editorModalVisible = ref(false);
+const editorModalTitle = ref("");
+const chatInfo = ref({});
 // 点击菜单条目
 const handleMenuClick = (type) => {
   const activeChatId = useContextMenuStore.activeChatId
@@ -41,10 +48,14 @@ const handleMenuClick = (type) => {
       useChatStore.chatList.splice(activeChatIndex + 1, 0, item[0]);
     }
   } else if (type === "edit") {
-    toast({
-      type: "warning",
-      content: "修改功能开发中..."
-    })
+    editorModalVisible.value = true;
+    let sendRole = ""
+    if (!["time"].includes(activeChatInfo.type)) {
+      sendRole = activeChatInfo.role === 'own' ? '你自己：' : `${useUserStore.otherInfo.nickname}：`
+    }
+    editorModalTitle.value = sendRole + addTypes.find(item => item.value === activeChatInfo.type)['label'];
+    activeChatInfo['editTime'] = Date.now();
+    chatInfo.value = activeChatInfo;
   } else if (type === "receive") {
     useChatStore.sentChat(Object.assign({}, {
       type: "receive",
@@ -85,6 +96,22 @@ watch(() => useContextMenuStore.activeChatId, (newVal) => {
           label: "领取",
           value: "receive",
           borderTop: true,
+        },
+        {
+          label: "移除",
+          value: "delete",
+          borderTop: true,
+        }
+      ]
+    } else if (["takeAPat", "revoke", "time"].includes(chatInfo.type)) {
+      contextMenuList.value = [
+        {
+          label: "上移",
+          value: "moveUp",
+        },
+        {
+          label: "下移",
+          value: "moveDown",
         },
         {
           label: "移除",

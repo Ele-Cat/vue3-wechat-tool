@@ -121,6 +121,45 @@ export const phoneSignals = [
   },
 ];
 
+export const addTypes = [
+  {
+    label: "文本",
+    value: "text",
+  }, 
+  {
+    label: "图片",
+    value: "image",
+  }, 
+  {
+    label: "转账",
+    value: "transferAccounts",
+  }, 
+  {
+    label: "红包",
+    value: "redEnvelope",
+  }, 
+  {
+    label: "语音",
+    value: "voice",
+  }, 
+  {
+    label: "音、视频",
+    value: "avInvite",
+  }, 
+  {
+    label: "拍一拍",
+    value: "takeAPat",
+  },
+  {
+    label: "撤回",
+    value: "revoke",
+  },
+  {
+    label: "时间",
+    value: "time",
+  }, 
+]
+
 export const weeks = [
   {
     label: "周一",

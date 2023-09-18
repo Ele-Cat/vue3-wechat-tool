@@ -10,22 +10,23 @@ export const useChatStore = defineStore("toolChat", {
     };
   },
   getters: {
-  },
-  actions: {
     /**
      * 根据角色返回已发送消息列表
      * @returns 
      */
-    receiveList() {
-      let receiveList = this.chatList.filter(chat => chat.role === useUserStore().activeRole).map(chat => {
+    sendList() {
+      let sendList = this.chatList.filter(chat => chat.role === useUserStore().activeRole).map(chat => {
         return {
           label: chat.content || content,
           value: chat.id,
           disabled: chat.received,
         }
       });
-      return receiveList;
-    },
+      return sendList;
+    }
+  },
+  actions: {
+    // 将某条消息置为已接收
     receiveChat(chatId) {
       this.chatList.map(chat => {
         if (chat.id === chatId) {
@@ -33,13 +34,17 @@ export const useChatStore = defineStore("toolChat", {
         }
       })
     },
+    // 发送消息
     sentChat(chatInfo) {
       this.chatList.push({
         id: "chat-" + Date.now(),
         ...chatInfo,
       })
     },
-    editChat() {
+    // 修改消息
+    editChat(chatInfo) {
+      const editIndex = this.chatList.findIndex(chat => chat.id === chatInfo.id);
+      this.chatList.splice(editIndex, 1, chatInfo);
     },
   },
   persist: {
