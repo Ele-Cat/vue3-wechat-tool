@@ -11,7 +11,9 @@
         <a :href="useSystemStore.qqGroupLink" target="_blank">点击加入QQ群聊</a>
       </a-popover>
     </p>
-    <p>👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程</a></p>
+    <!-- <p>👉<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用教程【B站】</a></p> -->
+    <p>👉<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用教程【B站】</a></p>
+    <p>👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程【文本】</a></p>
     <p>👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#开发教程' target="_blank">开发教程</a></p>
   </div>
   <Disclaimers :open="open" @close="onClose" />
