@@ -46,6 +46,7 @@ const { useChatStore, useSystemStore, useTemplateStore } = useStore();
 import { useHtmlToImage, useHtmlToGif } from '@/hooks/useHtmlToImage';
 import html2canvas from 'html2canvas';
 import GIF from 'gif.js';
+import eventBus from '@/utils/eventBus';
 
 // 将当前对话保存为模板
 const formState = reactive({
@@ -124,6 +125,58 @@ const handleGenerateLongPng = async () => {
 
 const handleGifVideoConfig = () => {
   console.log("配置");
+}
+
+const generateGif = () => {
+  let element = document.querySelector('.phone-wrap');
+  let promiseArr = [];
+
+  for(let i=0, len=24; i < len; i++) {
+    promiseArr.push(generateImg(element, `img${i+1}`, 16 * i));
+  }
+
+  Promise.all(promiseArr).then(res => {
+    if(res) {
+      let width = res[0].width;
+      let height = res[0].height;
+      const gif = new GIF({
+        quality: 10,
+        width,
+        height,
+      });
+      for (let i = 0; i < res.length; i++) {
+        gif.addFrame(res[i], { delay: 200 });
+      }
+      gif.on('finished', (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'converted.gif';
+        a.click();
+      });
+      
+      gif.render();
+    }
+  })
+}
+const generateImg = (imgId, time) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      useChatStore.chatList.push({
+        id: "chat-" + Date.now(),
+        type: "text",
+        content: "你是谁" + Date.now(),
+        role: "own",
+      })
+      eventBus.emit("sentChat");
+      let node = document.querySelector('.phone-wrap');
+      html2canvas(node).then((canvas) => {
+        resolve(canvas);
+      }).catch(function (error) {
+        reject(error);
+      });
+    }, time)
+  })
 }
 
 // const { gifUrl, captureHtmlToGif } = useHtmlToGif();
