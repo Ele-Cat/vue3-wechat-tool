@@ -9,9 +9,14 @@
     <a-tooltip title="顾名思义" placement="right">
       <div class="wtc-button" @click="handleGenerateLongPng">生成长图</div>
     </a-tooltip>
-    <!-- <a-tooltip title="生成动图前有一系列的配置" placement="right">
+    <!-- <a-divider></a-divider>
+    <a-tooltip title="生成动图、视频配置" placement="right">
+      <div class="wtc-button" @click="handleGifVideoConfig">配置</div>
+    </a-tooltip>
+    <a-tooltip title="生成动图前可以修改配置" placement="right">
       <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
     </a-tooltip> -->
+    <!-- <div class="wtc-button" @click="generateGif">生成动图</div> -->
     <!-- <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
 
@@ -117,6 +122,10 @@ const handleGenerateLongPng = async () => {
   }
 }
 
+const handleGifVideoConfig = () => {
+  console.log("配置");
+}
+
 // const { gifUrl, captureHtmlToGif } = useHtmlToGif();
 // 生成动图
 let gifTimer = null;
@@ -147,7 +156,7 @@ const handleGenerateGif = async () => {
       role: "own",
     })
     canvas = await html2canvas(element)
-    gif.addFrame(canvas, { delay: 1000, copy: true }); // 添加帧到GIF，可以设置延迟时间
+    gif.addFrame(canvas, { delay: 200, copy: true }); // 添加帧到GIF，可以设置延迟时间
   }, 1000)
 
   // 下载GIF到本地

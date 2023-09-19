@@ -14,7 +14,7 @@
           }" :aspectRatio="1" @use="url => handleUse(url, record)"></ImageEditor>
         </template>
         <template v-if="column.dataIndex === 'nickname' && record.role != 'own'">
-          <a-input v-model:value="record.nickname" maxlength="20" style="margin: -5px 0;text-align: center;" />
+          <a-input v-model:value="record.nickname" maxlength="20" style="text-align: center;" />
         </template>
         <template v-if="column.dataIndex === 'operation' && record.role != 'own'">
           <a-space>
@@ -64,7 +64,7 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'operation',
-    width: '120px',
+    width: '100px',
     align: 'center',
   },
 ];

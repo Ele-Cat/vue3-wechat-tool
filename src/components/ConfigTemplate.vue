@@ -6,6 +6,9 @@
     </div>
     <a-table size="small" :columns="columns" :data-source="useTemplateStore.list" :pagination="false" bordered :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)">
       <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'title'">
+          <a-input v-model:value="record.title" maxlength="30" />
+        </template>
         <template v-if="column.dataIndex === 'operation'">
           <a-space>
             <a-typography-link @click="() => previewSnapshot(record.snapshot)">预览</a-typography-link>
@@ -50,7 +53,7 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'operation',
-    width: '120px',
+    width: '100px',
     align: 'center',
   },
 ];

@@ -143,7 +143,7 @@ export const addTypes = [
     value: "voice",
   }, 
   {
-    label: "音、视频",
+    label: "音视频",
     value: "avInvite",
   }, 
   {

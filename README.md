@@ -14,7 +14,9 @@
 
 <!-- <img alt="欢迎⭐️" src="https://img.shields.io/badge/欢迎-⭐️-blue.svg?cacheSeconds=2592000" /> -->
 
-### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程</a>
+### 👉<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用视频教程</a>
+
+### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程【文本】</a>
 
 ### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#开发教程' target="_blank">开发教程</a>
 
@@ -102,6 +104,10 @@
   ```
 
 ## 更新日志
+
+**2023-09-18**
+- 🌟新增<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用视频教程</a>
+- 🌟新增模板管理标题修改功能
 
 **2023-09-18**
 - 🌟新增对话修改功能【右键菜单】
