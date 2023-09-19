@@ -20,10 +20,11 @@
 
 ### ✨<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线使用</a>
 
-## 截图
+## 截图预览
 
-![预览](./snapshot/01.jpg)
-![深色模式](./snapshot/02.jpg)
+![外观设置效果预览](./snapshot/1695047989076.gif)
+![发送对话](./snapshot/1695050793373.gif)
+![右键菜单](./snapshot/1695052489383.gif)
 
 ## 功能清单
 
