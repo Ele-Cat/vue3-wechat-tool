@@ -8,6 +8,11 @@ export const useChatStore = defineStore("toolChat", {
       chatList: [], // 聊天列表
       activeType: "text",
       inputText: "",
+      generateConfig: {
+        minInterval: 1500,
+        maxInterval: 3000,
+        chatSound: false,
+      },
     };
   },
   getters: {
@@ -54,7 +59,7 @@ export const useChatStore = defineStore("toolChat", {
     strategies: [
       {
         storage: localStorage,
-        paths: ["chatList", "activeType"],
+        paths: ["chatList", "activeType", "generateConfig"],
       },
     ],
   },

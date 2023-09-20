@@ -66,6 +66,7 @@
     - [x] 存为模板
     - [x] 生成图片
     - [x] 生成长图
+    - [x] 生成动图、视频配置
     - [x] 生成动图
     - [ ] 生成视频
       - [ ] 消息音效【生成视频中，发送消息的声音】
@@ -107,6 +108,7 @@
 
 **2023-09-18**
 - 🌟新增生成动图功能
+- 🌟新增生成动图、视频配置【思考时间】
 
 **2023-09-18**
 - 🌟新增<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用视频教程</a>
