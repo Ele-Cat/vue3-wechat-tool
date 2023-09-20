@@ -9,15 +9,14 @@
     <a-tooltip title="顾名思义" placement="right">
       <div class="wtc-button" @click="handleGenerateLongPng">生成长图</div>
     </a-tooltip>
-    <!-- <a-divider></a-divider>
+    <a-divider></a-divider>
     <a-tooltip title="生成动图、视频配置" placement="right">
       <div class="wtc-button" @click="handleGifVideoConfig">配置</div>
     </a-tooltip>
     <a-tooltip title="生成动图前可以修改配置" placement="right">
       <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
-    </a-tooltip> -->
-    <!-- <div class="wtc-button" @click="generateGif">生成动图</div>
-    <div id="imgBox" v-show="false"></div> -->
+    </a-tooltip>
+    <div id="imgBox" v-show="false"></div>
     <!-- <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
 
@@ -126,21 +125,25 @@ const handleGenerateLongPng = async () => {
 }
 
 const handleGifVideoConfig = () => {
-  console.log("配置");
+  toast({
+    type: "warning",
+    content: "配置功能开发中！",
+  })
 }
 
-let chatList = _.cloneDeep(useChatStore.chatList)
+// 第一条延迟多久展示
 const initInterval = 1000
-
-const generateGif = async() => {
+// 生成动图
+const handleGenerateGif = async() => {
+  let chatList = _.cloneDeep(useChatStore.chatList);
   document.getElementById('imgBox').innerHTML = '';
   let promiseArr = [];
   
-  useChatStore.chatList = []
+  useChatStore.chatList = [];
   promiseArr.push(generateImg(`chat-0`));
   for(let i = 0; i < chatList.length; i++) {
-    await sleep(1000)
-    useChatStore.chatList.push(chatList[i])
+    await sleep(500);
+    useChatStore.chatList.push(chatList[i]);
     eventBus.emit("sentChat");
     promiseArr.push(generateImg(chatList[i]['id'], chatList[i]['intervalTime']));
   }
@@ -194,72 +197,6 @@ const sleep = async(time) => {
       resolve()
     }, time)
   });
-}
-
-// const { gifUrl, captureHtmlToGif } = useHtmlToGif();
-// 生成动图
-let gifTimer = null;
-onUnmounted(() => {
-  gifTimer && clearInterval(gifTimer);
-})
-const gifUrl = ref("")
-const handleGenerateGif = async () => {
-  const element = document.querySelector('.phone-wrap');
-  // drawerVisible.value = true;
-  // drawerTitle.value = "生成动图";
-
-  let canvas = await html2canvas(element)
-  const gif = new GIF({
-    quality: 100,
-  }); // 创建GIF对象
-  let counter = 1;
-  gifTimer = setInterval(async() => {
-    counter++;
-    if (counter >= 5) {
-      clearInterval(gifTimer)
-      gif.render();
-    }
-    useChatStore.chatList.push({
-      id: "chat-" + Date.now(),
-      type: "text",
-      content: "你是谁" + Date.now(),
-      role: "own",
-    })
-    canvas = await html2canvas(element)
-    gif.addFrame(canvas, { delay: 200, copy: true }); // 添加帧到GIF，可以设置延迟时间
-  }, 1000)
-
-  // 下载GIF到本地
-  gif.on('finished', function(blob) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'converted.gif';
-    a.click();
-    clearInterval(gifTimer);
-  });
-
-  // 或者显示在页面上
-  // gif.on('finished', function(blob) {
-  //   console.log(123);
-  //   const url = URL.createObjectURL(blob);
-  //   gifUrl.value = url;
-  // });
-
-  // 定时停止录制
-  // setTimeout(() => {
-  //   gif.render();
-  // }, duration);
-
-  // captureHtmlToGif(props.phone);
-  // useChatStore.chatList.push({
-  //   id: "chat-" + Date.now(),
-  //   type: "text",
-  //   content: "你是谁",
-  //   role: "own",
-  // })
-  // drawerVisible.value = true;
-  // drawerTitle.value = "生成动图";
 }
 
 // 生成视频
