@@ -16,7 +16,8 @@
     <a-tooltip title="生成动图前可以修改配置" placement="right">
       <div class="wtc-button" @click="handleGenerateGif">生成动图</div>
     </a-tooltip> -->
-    <!-- <div class="wtc-button" @click="generateGif">生成动图</div> -->
+    <!-- <div class="wtc-button" @click="generateGif">生成动图</div>
+    <div id="imgBox" v-show="false"></div> -->
     <!-- <div class="wtc-button" @click="handleGenerateVideo">生成视频</div> -->
   </div>
 
@@ -38,7 +39,7 @@
 </template>
 
 <script setup>
-import { onUnmounted, reactive, ref } from "vue";
+import { onUnmounted, reactive, ref, watch } from "vue";
 import dayjs from "dayjs";
 import { toast } from "@/utils/feedback";
 import useStore from "@/store";
@@ -47,6 +48,7 @@ import { useHtmlToImage, useHtmlToGif } from '@/hooks/useHtmlToImage';
 import html2canvas from 'html2canvas';
 import GIF from 'gif.js';
 import eventBus from '@/utils/eventBus';
+import _ from "lodash";
 
 // 将当前对话保存为模板
 const formState = reactive({
@@ -127,25 +129,31 @@ const handleGifVideoConfig = () => {
   console.log("配置");
 }
 
-const generateGif = () => {
-  let element = document.querySelector('.phone-wrap');
-  let promiseArr = [];
+let chatList = _.cloneDeep(useChatStore.chatList)
+const initInterval = 1000
 
-  for(let i=0, len=24; i < len; i++) {
-    promiseArr.push(generateImg(element, `img${i+1}`, 16 * i));
+const generateGif = async() => {
+  document.getElementById('imgBox').innerHTML = '';
+  let promiseArr = [];
+  
+  useChatStore.chatList = []
+  promiseArr.push(generateImg(`chat-0`));
+  for(let i = 0; i < chatList.length; i++) {
+    await sleep(1000)
+    useChatStore.chatList.push(chatList[i])
+    eventBus.emit("sentChat");
+    promiseArr.push(generateImg(chatList[i]['id'], chatList[i]['intervalTime']));
   }
 
   Promise.all(promiseArr).then(res => {
     if(res) {
-      let width = res[0].width;
-      let height = res[0].height;
       const gif = new GIF({
         quality: 10,
-        width,
-        height,
+        width: useSystemStore.phoneWidth * useSystemStore.phoneScale,
+        height: useSystemStore.phoneHeight * useSystemStore.phoneScale,
       });
       for (let i = 0; i < res.length; i++) {
-        gif.addFrame(res[i], { delay: 200 });
+        gif.addFrame(res[i], { delay: res[i]['id'].split('-')[2] });
       }
       gif.on('finished', (blob) => {
         const url = URL.createObjectURL(blob);
@@ -159,24 +167,33 @@ const generateGif = () => {
     }
   })
 }
-const generateImg = (imgId, time) => {
-  return new Promise((resolve, reject) => {
+const generateImg = (chatId, time) => {
+  return new Promise(async(resolve, reject) => {
+    let intervalTime = time != undefined ? (time || Math.floor(Math.random() * 1500 + 1500)) : initInterval;
+    let node = document.querySelector('.phone-wrap');
     setTimeout(() => {
-      useChatStore.chatList.push({
-        id: "chat-" + Date.now(),
-        type: "text",
-        content: "你是谁" + Date.now(),
-        role: "own",
+      html2canvas(node)
+      .then((dataUrl) => {
+        let img = new Image();
+        img.src = dataUrl.toDataURL();
+        img.id = `${chatId}-${intervalTime}`;
+        img.className = 'imgPiece';
+        document.getElementById('imgBox').appendChild(img);
+        resolve(document.getElementById(`${chatId}-${intervalTime}`));
       })
-      eventBus.emit("sentChat");
-      let node = document.querySelector('.phone-wrap');
-      html2canvas(node).then((canvas) => {
-        resolve(canvas);
-      }).catch(function (error) {
+      .catch(function (error) {
         reject(error);
       });
-    }, time)
+    }, 0)
   })
+}
+
+const sleep = async(time) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  });
 }
 
 // const { gifUrl, captureHtmlToGif } = useHtmlToGif();
