@@ -105,3 +105,16 @@ export function filterLabel(arr, value) {
   }
   return arr.find(item => item["value"] === value)["label"]
 }
+
+/**
+ * 延时函数
+ * @param {Number} time 
+ * @returns 
+ */
+export const sleep = async(time) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  });
+}
