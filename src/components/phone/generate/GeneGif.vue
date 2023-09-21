@@ -41,7 +41,7 @@ const handleGenerateGif = async() => {
   useChatStore.chatList = [];
   promiseArr.push(generateImg(`chat-0`));
   for(let i = 0; i < chatList.length; i++) {
-    await sleep(500);
+    await sleep(200);
     useChatStore.chatList.push(chatList[i]);
     eventBus.emit("sentChat");
     const maxInterval = useChatStore.generateConfig.maxInterval

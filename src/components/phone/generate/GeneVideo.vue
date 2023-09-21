@@ -2,7 +2,7 @@
   <a-tooltip title="生成视频前可以修改配置" placement="right">
     <div class="wtc-button" @click="handleGenerateVideo">生成视频</div>
   </a-tooltip>
-  <canvas ref="canvas" width="640" height="480"></canvas>
+  <canvas ref="canvas" width="200" height="200"></canvas>
   <video :src="videoSource" controls></video>
 </template>
 
@@ -39,11 +39,26 @@ const handleGenerateVideo = () => {
 
   // 在Canvas上绘制内容，这里以绘制红色矩形为例
   const ctx = canvas.value.getContext('2d');
-  ctx.fillStyle = 'red';
-  ctx.fillRect(0, 0, canvas.value.width, canvas.value.height);
+  let timer = setInterval(() => {
+    const image = new Image(); // 创建一个新的图像对象
+    image.src = 'favicon.ico'; // 设置图像的源文件路径
+    ctx.fillStyle = getRandomColor();
+    ctx.drawImage(image, 0, 0);
+    ctx.fillRect(0, 0, canvas.value.width, canvas.value.height);
+  }, 1000)
+
+  const getRandomColor = () => {    
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;   
+  }
 
   setTimeout(() => {
     mediaRecorder.stop(); // 结束录制
+    clearInterval(timer);
   }, 5000); // 5秒后结束录制
 }
 </script>
