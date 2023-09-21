@@ -107,79 +107,79 @@
 ## 更新日志
 
 **2023-09-20**
-- :recycle:重构生成功能
+- 👌重构生成功能
 
 **2023-09-19**
-- :sparkles:新增生成动图功能
-- :sparkles:新增生成动图、视频配置【思考时间】
+- 🌟新增生成动图功能
+- 🌟新增生成动图、视频配置【思考时间】
 
 **2023-09-18**
-- :sparkles:新增<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用视频教程</a>
-- :sparkles:新增模板管理标题修改功能
+- 🌟新增<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用视频教程</a>
+- 🌟新增模板管理标题修改功能
 
 **2023-09-18**
-- :sparkles:新增对话修改功能【右键菜单】
-- :sparkles:新增工具使用教程<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程</a>
-- :bug:修复一系列系统遗留问题
+- 🌟新增对话修改功能【右键菜单】
+- 🌟新增工具使用教程<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程</a>
+- 🐞修复一系列系统遗留问题
 
 **2023-09-17**
-- :sparkles:新增发送音频、视频邀请功能
-- :sparkles:新增拍一拍、撤回消息、消息被拒收功能
-- :bug:修复保存长图时背景图问题
+- 🌟新增发送音频、视频邀请功能
+- 🌟新增拍一拍、撤回消息、消息被拒收功能
+- 🐞修复保存长图时背景图问题
 
 **2023-09-16**
-- :sparkles:新增深色模式
-- :sparkles:新增语音条转文字功能
+- 🌟新增深色模式
+- 🌟新增语音条转文字功能
 
 **2023-09-15**
-- :sparkles:新增模板预览功能
+- 🌟新增模板预览功能
 
 **2023-09-14**
-- :sparkles:新增图片上传裁剪组件 `vue-advanced-cropper`
-- :sparkles:新增用户输入文本同步展示在聊天输入框功能
-- :sparkles:新增保存、应用模板功能
+- 🌟新增图片上传裁剪组件 `vue-advanced-cropper`
+- 🌟新增用户输入文本同步展示在聊天输入框功能
+- 🌟新增保存、应用模板功能
 
 **2023-09-13**
-- :sparkles:新增领取红包、转账功能【右键菜单】
-- :bug:修复保存长图最小高度问题
+- 🌟新增领取红包、转账功能【右键菜单】
+- 🐞修复保存长图最小高度问题
 
 **2023-09-12**
-- :sparkles:新增保存图片、长图功能 `html2canvas`
+- 🌟新增保存图片、长图功能 `html2canvas`
 
 **2023-09-11**
-- :sparkles:新增移动端打开提示去web端
-- :bug:调整手机组件、表情包组件为异步，加快首屏渲染速度
+- 🌟新增移动端打开提示去web端
+- 🐞调整手机组件、表情包组件为异步，加快首屏渲染速度
 
 **2023-09-10**
-- :sparkles:新增发送语音条功能
-- :bug:调整一系列样式问题
+- 🌟新增发送语音条功能
+- 🐞调整一系列样式问题
 
 **2023-09-09**
-- :sparkles:新增聊天工具【重置外观、清空聊天】
-- :sparkles:新增聊天条目上移、下移、移除功能【右键菜单】
-- :sparkles:新增上传聊天图片、转账、红包功能
-- :bug:修复聊天发送表情功能
+- 🌟新增聊天工具【重置外观、清空聊天】
+- 🌟新增聊天条目上移、下移、移除功能【右键菜单】
+- 🌟新增上传聊天图片、转账、红包功能
+- 🐞修复聊天发送表情功能
 
 **2023-09-08**
-- :sparkles:完成项目聊天与用户解耦
+- 🌟完成项目聊天与用户解耦
 
 **2023-09-07**
-- :sparkles:新增手机外观设置联动
-- :sparkles:新增用户管理功能
-- :bug:优化界面滚动条样式 `vue3-perfect-scrollbar`
+- 🌟新增手机外观设置联动
+- 🌟新增用户管理功能
+- 🐞优化界面滚动条样式 `vue3-perfect-scrollbar`
 
 **2023-09-06**
-- :sparkles:新增文本+表情包发送
-- :sparkles:完成项目数据持久化 `pinia`、`pinia-plugin-persist`
-- :sparkles:完成项目组件结构抽离
-- :sparkles:新增使用说明
-- :sparkles:新增免责声明
-- :bug:修复线上图片引用问题
+- 🌟新增文本+表情包发送
+- 🌟完成项目数据持久化 `pinia`、`pinia-plugin-persist`
+- 🌟完成项目组件结构抽离
+- 🌟新增使用说明
+- 🌟新增免责声明
+- 🐞修复线上图片引用问题
 
 **2023-09-05**
-- :sparkles:项目立项
-- :sparkles:完成项目基础结构
-- :sparkles:完成基础外观设置
+- 🌟项目立项
+- 🌟完成项目基础结构
+- 🌟完成基础外观设置
 
 ## 支持
 
