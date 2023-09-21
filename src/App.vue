@@ -145,11 +145,14 @@ const handleResize = () => {
   height: calc(100vh - 50px);
   background-color: #FFFFFF;
   background-image: linear-gradient(
-    90deg,rgba(159,219,252,.15) 3%,transparent 0),linear-gradient(
-    1turn,rgba(159,219,252,.15) 3%,transparent 0);
+    90deg,rgba(159,219,252,.35) 3%,transparent 0),linear-gradient(
+    1turn,rgba(159,219,252,.35) 3%,transparent 0);
   background-size: 20px 20px;
   background-position: 50%;
   background-attachment: fixed;
+  // --s: 100px;
+  // --_g: #0000 90deg,rgba(159,219,252,.15) 0;
+  // background: conic-gradient(from 90deg at 1px 1px,var(--_g)) 0 0/calc(var(--s)/5) calc(var(--s)/5);
 }
 .widget {
   position: fixed;

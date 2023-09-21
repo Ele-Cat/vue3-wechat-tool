@@ -30,16 +30,22 @@ import GeneVideo from "./generate/GeneVideo.vue";
   transform: translate(100%, 0);
 
   .wtc-button {
+    width: 72px;
     height: 32px;
     line-height: 30px;
     text-align: center;
-    padding: 0 12px;
     font-size: 12px;
     background-image: linear-gradient(135deg, #fd6e6a 10%, #ffc600 100%);
     border-radius: 6px;
     color: #ffffff;
     cursor: pointer;
     transition: all 0.5s ease;
+    .label {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
     &+.wtc-button {
       margin-top: 10px;
     }

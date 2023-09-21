@@ -2,6 +2,17 @@
   <a-tooltip title="将当前对话保存为模板" placement="right">
     <div class="wtc-button" @click="handleSaveTemplate">存为模板</div>
   </a-tooltip>
+  <a-tooltip title="导出聊天为JSON文件" placement="right">
+    <div class="wtc-button" @click="handleExportChat">导出聊天</div>
+  </a-tooltip>
+  <a-tooltip title="导入JSON文件为聊天" placement="right">
+    <div class="wtc-button">
+      <label class="label" for="json">
+        导入聊天
+        <input id="json" type="file" accept=".json" hidden @change="handleImportChat" />
+      </label>
+    </div>
+  </a-tooltip>
 
   <a-modal v-model:open="addTemplateModalVisible" centered title="保存模板" :width="400" @cancel="handleTemplateCancel"
     @ok="handleTemplateOk">
@@ -16,6 +27,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import dayjs from "dayjs";
+import FileSaver from 'file-saver'
 import { useHtmlToImage } from '@/hooks/useHtmlToImage';
 import useStore from "@/store";
 import { toast } from "@/utils/feedback";
@@ -56,5 +68,40 @@ const handleTemplateOk = async () => {
 // 取消保存
 const handleTemplateCancel = () => {
   addTemplateModalVisible.value = false;
+}
+
+const handleExportChat = () => {
+  const chatList = useChatStore.chatList;
+  const jsonObj = {
+    chatList,
+  }
+  const blob = new Blob([JSON.stringify(jsonObj, null, 2)], {
+    type: 'application/json'
+  })
+  FileSaver.saveAs(blob, `聊天记录 - ${dayjs().format('YYYYMMDDHHmmss')}.json`);
+}
+
+const handleImportChat = (e) => {
+  const file = e.target.files[0]
+  if (!file.name.includes('json')) {
+    toast({
+      type: "warning",
+      content: "只能插入json文件",
+    });
+    return
+  }
+  const reader = new FileReader()
+  reader.readAsText(file)
+  reader.onload = (res) => {
+    const { chatList } = JSON.parse(res.target.result)
+    if (chatList && chatList.length) {
+      useChatStore.chatList = chatList;
+    } else {
+      toast({
+        type: "warning",
+        content: "JSON文件中的格式有问题，请检查后重试",
+      });
+    }
+  }
 }
 </script>
