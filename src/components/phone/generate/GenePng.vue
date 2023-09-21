@@ -6,11 +6,11 @@
     <div class="wtc-button" @click="handleGenerateLongPng">生成长图</div>
   </a-tooltip>
 
-  <a-drawer :width="500" :title="drawerTitle" placement="right" :closable="false" :maskClosable="false" :destroyOnClose="true" :open="drawerVisible" @close="onClose">
+  <a-drawer :width="500" :title="drawerTitle" placement="right" :closable="false" :destroyOnClose="true" :open="drawerVisible" @close="onClose">
     <template #extra>
       <a-space>
-        <a-button type="primary" :disabled="imgLoading" @click="handleDownload">下载</a-button>
-        <a-button danger type="primary" :disabled="imgLoading" @click="onClose">关闭</a-button>
+        <a-button type="primary" :disabled="!imageUrl" @click="handleDownload">下载</a-button>
+        <a-button danger type="link" shape="circle" :icon="h(CloseOutlined)" :disabled="!imageUrl" @click="onClose" />
       </a-space>
     </template>
     <img :src="imageUrl" alt="">
@@ -18,7 +18,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, h } from "vue";
+import { CloseOutlined } from '@ant-design/icons-vue';
 import { useHtmlToImage } from '@/hooks/useHtmlToImage';
 import useStore from "@/store";
 const { imageUrl, captureHtmlToImage } = useHtmlToImage();
