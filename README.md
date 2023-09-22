@@ -12,8 +12,6 @@
   <a href='https://gitee.com/ele-cat/vue3-wechat-tool/members' target="_blank"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/badge/fork.svg?theme=dark' alt='fork'></img></a>
 </div>
 
-<!-- <img alt="欢迎⭐️" src="https://img.shields.io/badge/欢迎-⭐️-blue.svg?cacheSeconds=2592000" /> -->
-
 ### 👉<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用视频教程</a>
 
 ### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程【文本】</a>
@@ -68,7 +66,7 @@
     - [x] 生成长图
     - [x] 生成动图、视频配置
     - [x] 生成动图
-    - [x] 生成视频【实际为生成图片序列】
+    - [x] 生成视频【实际为生成图片序列自行剪辑】
     - [x] 聊天内容导入导出
   - [ ] **群聊**
 - [x] 模板管理
@@ -102,8 +100,11 @@
 
 ## 更新日志
 
+**2023-09-22**
+- 🤔至此，本项目已近乎完善，等有新的需求点过来再开箱吧！
+
 **2023-09-21**
-- 🌟新增生成视频功能【实际为生成图片序列】
+- 🌟新增生成视频功能【实际为生成图片序列自行剪辑】
 
 **2023-09-20**
 - 🌟新增导入导出聊天功能
