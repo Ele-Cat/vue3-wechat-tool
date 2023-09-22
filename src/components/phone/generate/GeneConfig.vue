@@ -17,9 +17,9 @@
         </a-space>
         <p class="form-tip">会话间隔可以理解为<b>回复考虑时长</b>，考虑时长为<b>最小间隔</b>~<b>最大间隔</b>的随机数</p>
       </a-form-item>
-      <a-form-item label="发送音效" style="margin-top:40px;">
-        <a-switch v-model:checked="useChatStore.generateConfig.chatSound" disabled />
-        <p class="form-tip">生成视频时，每次会话发送时是否有音效</p>
+      <a-form-item label="思考" style="margin-top:40px;">
+        <p>1、通过网页生成的动图、视频会有模糊、重影的问题无法规避，所以就在考量在线生成动图、视频的必要性，最终决定生成出带有编号的图片序列，用户下载压缩包后自行通过视频剪辑软件剪辑。</p>
+        <p>2、当然你也可以右键保存单张图片！</p>
       </a-form-item>
     </a-form>
     <a-row align="center" style="margin-top:40px;">

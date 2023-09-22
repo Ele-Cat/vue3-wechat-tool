@@ -11,7 +11,6 @@ export const useChatStore = defineStore("toolChat", {
       generateConfig: {
         minInterval: 1500,
         maxInterval: 3000,
-        chatSound: false,
       },
     };
   },

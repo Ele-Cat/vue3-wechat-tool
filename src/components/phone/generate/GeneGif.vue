@@ -23,6 +23,7 @@ import { CloseOutlined } from '@ant-design/icons-vue';
 import _ from "lodash";
 import html2canvas from 'html2canvas';
 import GIF from 'gif.js';
+import dayjs from "dayjs";
 import eventBus from '@/utils/eventBus';
 import { sleep } from "@/utils/utils";
 import useStore from "@/store";
@@ -33,7 +34,7 @@ const initInterval = 1000;
 const drawerVisible = ref(false);
 const gifUrl = ref("")
 // 生成动图
-const handleGenerateGif = async() => {
+const handleGenerateGif = async () => {
   drawerVisible.value = true;
   let chatList = _.cloneDeep(useChatStore.chatList);
   document.getElementById('imgBox').innerHTML = '';
@@ -61,8 +62,7 @@ const handleGenerateGif = async() => {
         gif.addFrame(res[i], { delay: res[i]['id'].split('-')[2] });
       }
       gif.on('finished', (blob) => {
-        const url = URL.createObjectURL(blob);
-        gifUrl.value = url;
+        gifUrl.value = URL.createObjectURL(blob);
       });
       
       gif.render();

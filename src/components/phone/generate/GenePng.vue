@@ -20,6 +20,7 @@
 <script setup>
 import { ref, h } from "vue";
 import { CloseOutlined } from '@ant-design/icons-vue';
+import dayjs from "dayjs";
 import { useHtmlToImage } from '@/hooks/useHtmlToImage';
 import useStore from "@/store";
 const { imageUrl, captureHtmlToImage } = useHtmlToImage();

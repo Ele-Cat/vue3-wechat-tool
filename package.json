@@ -18,6 +18,7 @@
     "file-saver": "^2.0.5",
     "gif.js": "^0.2.0",
     "html2canvas": "^1.4.1",
+    "jszip": "^3.10.1",
     "mitt": "^3.0.1",
     "pinia": "^2.1.6",
     "pinia-plugin-persist": "^1.0.0",

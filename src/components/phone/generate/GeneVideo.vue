@@ -6,41 +6,43 @@
   <a-drawer :width="500" title="生成视频" placement="right" :closable="false" :destroyOnClose="true" :open="drawerVisible" @close="onClose">
     <template #extra>
       <a-space>
-        <a-button type="primary" :disabled="!videoSource" @click="handleDownload">下载</a-button>
-        <a-button danger type="link" shape="circle" :icon="h(CloseOutlined)" :disabled="!videoSource" @click="onClose" />
+        <a-button type="primary" :disabled="!videoUrl" @click="handleDownload">下载Zip</a-button>
+        <a-button danger type="link" shape="circle" :icon="h(CloseOutlined)" :disabled="!generated" @click="onClose" />
       </a-space>
     </template>
-    
-    <canvas ref="canvas" :width="canvasWidth" :height="canvasHeight" v-show="true"></canvas>
-    <video :src="videoSource" controls v-if="videoSource"></video>
-    <div class="default-loading" v-else>
+    <p>1、通过网页生成的视频会有模糊、重影的问题无法规避，所以就在考量在线生成视频的必要性，最终决定生成出带有编号的图片序列，用户下载压缩包后自行通过视频剪辑软件剪辑。</p>
+    <p>2、当然你也可以右键保存单张图片！</p>
+    <div id="videoBox" v-show="videoUrl"></div>
+    <div class="default-loading" v-if="!videoUrl">
       <a-spin tip="生成中..." size="large"></a-spin>
     </div>
   </a-drawer>
 </template>
 
 <script setup>
-import { ref, h } from "vue";
+import { ref, h, nextTick } from "vue";
 import { CloseOutlined } from '@ant-design/icons-vue';
 import _ from "lodash";
+import JSZip from 'jszip';
+import dayjs from "dayjs";
 import html2canvas from 'html2canvas';
 import eventBus from '@/utils/eventBus';
 import { sleep } from "@/utils/utils";
 import useStore from "@/store";
-const { useChatStore, useSystemStore } = useStore();
+const { useChatStore } = useStore();
 
-const canvasWidth = useSystemStore.phoneWidth * useSystemStore.phoneScale
-const canvasHeight = useSystemStore.phoneHeight * useSystemStore.phoneScale
-
+// 第一条延迟多久展示
 const initInterval = 1000;
 const drawerVisible = ref(false);
-const canvas = ref(null);
-const videoSource = ref(null);
+const videoUrl = ref("");
+const zip = new JSZip();
 // 生成视频
 const handleGenerateVideo = async () => {
   drawerVisible.value = true;
   let chatList = _.cloneDeep(useChatStore.chatList);
-  document.getElementById('imgBox').innerHTML = '';
+  nextTick(() => {
+    document.getElementById('videoBox').innerHTML = '';
+  })
   let promiseArr = [];
   
   useChatStore.chatList = [];
@@ -55,60 +57,11 @@ const handleGenerateVideo = async () => {
   }
 
   Promise.all(promiseArr).then(res => {
-    console.log('res: ', res);
     if(res) {
-      const stream = canvas.value.captureStream(); // 捕获Canvas的媒体流
-      const mediaRecorder = new MediaRecorder(stream); // 创建MediaRecorder对象
-
-      const chunks = [];
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          chunks.push(event.data);
-        }
-      };
-
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'video/webm' }); // 创建Blob对象
-        videoSource.value = URL.createObjectURL(blob); // 设置video标签的src属性
-      };
-
-      mediaRecorder.start(); // 开始录制
-
-      // 在Canvas上绘制内容，这里以绘制红色矩形为例
-      const ctx = canvas.value.getContext('2d');
-
-      // for (let i = 0; i < res.length; i++) {
-      //   gif.addFrame(res[i], { delay: res[i]['id'].split('-')[2] });
-
-      //   const image = new Image(); // 创建一个新的图像对象
-      //   image.src = res[i]; // 设置图像的源文件路径
-      //   // ctx.fillStyle = getRandomColor();
-      //   ctx.drawImage(image, 0, 0);
-      //   ctx.fillRect(0, 0, canvas.value.width, canvas.value.height);
-      // }
-
-      let timer = setInterval(() => {
-        const image = new Image(); // 创建一个新的图像对象
-        image.src = 'https://next.antdv.com/assets/logo.1ef800a8.svg'; // 设置图像的源文件路径
-        ctx.fillStyle = getRandomColor();
-        ctx.drawImage(image, 0, 0);
-        ctx.fillRect(0, 0, canvas.value.width, canvas.value.height);
-      }, 1000)
-
-      const getRandomColor = () => {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;   
-      }
-
-      setTimeout(() => {
-        mediaRecorder.stop(); // 结束录制
-        clearInterval(timer);
-      }, 5000); // 5秒后结束录制
+      zip.generateAsync({ type: 'blob' })
+      .then(blob => {
+        videoUrl.value = URL.createObjectURL(blob);
+      });
     }
   })
 }
@@ -119,13 +72,18 @@ const generateImg = (chatId, time) => {
     setTimeout(() => {
       html2canvas(node)
       .then((dataUrl) => {
-        // let img = new Image();
-        // img.src = dataUrl.toDataURL();
-        // img.id = `${chatId}-${intervalTime}`;
-        // img.className = 'imgPiece';
-        // document.getElementById('imgBox').appendChild(img);
-        // resolve(document.getElementById(`${chatId}-${intervalTime}`));
-        resolve(dataUrl);
+        let img = new Image();
+        img.src = dataUrl.toDataURL();
+        img.id = `${chatId}-${intervalTime}`;
+        img.className = 'imgPiece';
+        nextTick(() => {
+          document.getElementById('videoBox').appendChild(img);
+        })
+        dataUrl.toBlob((blob) => {
+          // 处理 Blob 对象
+          zip.file(`${chatId}-${intervalTime}.png`, blob);
+          resolve(document.getElementById(`${chatId}-${intervalTime}`));
+        }, 'image/png');
       })
       .catch(function (error) {
         reject(error);
@@ -136,13 +94,13 @@ const generateImg = (chatId, time) => {
 
 const onClose = () => {
   drawerVisible.value = false;
-  videoSource.value = "";
+  videoUrl.value = "";
 }
 
 const handleDownload = () => {
   const link = document.createElement('a');
-  link.href = videoSource.value;
-  link.download = `微信聊天视频 - ${dayjs().format('YYYYMMDDHHmmss')}.gif`;
+  link.href = videoUrl.value;
+  link.download = `微信聊天视频 - ${dayjs().format('YYYYMMDDHHmmss')}.zip`;
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
 

@@ -10,7 +10,7 @@
 
     <GeneConfig />
     <GeneGif />
-    <!-- <GeneVideo /> -->
+    <GeneVideo />
   </div>
 </template>
 
