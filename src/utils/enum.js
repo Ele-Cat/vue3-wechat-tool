@@ -147,6 +147,10 @@ export const addTypes = [
     value: "avInvite",
   }, 
   {
+    label: "名片",
+    value: "businessCard",
+  },
+  {
     label: "拍一拍",
     value: "takeAPat",
   },

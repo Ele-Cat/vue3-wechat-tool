@@ -71,6 +71,13 @@
           <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
           <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(avInviteStates, chat.state) }}</span>
         </div>
+        <div class="wechat-item-text wechat-item-businessCard" v-else-if="chat.type === 'businessCard'">
+          <div class="info">
+            <img :src="chat.image" alt="">
+            <p>{{ chat.content }}</p>
+          </div>
+          <span>个人名片</span>
+        </div>
         <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat', 'revoke'].includes(chat.type)">
           <span v-if="chat.type !== 'revoke'">{{ chat.content }}</span>
           <span v-else>{{ chat.role === 'own' ? "你" : useUserStore.otherInfo.nickname }}撤回了一条消息</span>
@@ -351,6 +358,32 @@ const showAvatar = (chat) => {
             }
           }
         }
+        &.wechat-item-businessCard {
+          padding: 28px 28px 0;
+          width: 60%;
+          .info {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #E9E9E9;
+            padding-bottom: 28px;
+            img {
+              width: 108px;
+              border-radius: 12px;
+              margin-right: 28px;
+            }
+            p {
+              margin: 0;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+          span {
+            position: relative;
+            font-size: 28px;
+            top: -8px;
+          }
+        }
       }
       &.wechat-item-right {
         justify-content: flex-end;
@@ -396,6 +429,12 @@ const showAvatar = (chat) => {
               &.video {
                 background-image: url(@/assets/images/content/wechat-video-light.png);
               }
+            }
+          }
+          &.wechat-item-businessCard {
+            background-color: #FFF;
+            &:after {
+              background: #FFF;
             }
           }
         }

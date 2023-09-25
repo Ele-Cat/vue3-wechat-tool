@@ -95,6 +95,18 @@
           </div>
         </a-form-item>
       </template>
+      <template v-else-if="activeType === 'businessCard'">
+        <a-form-item label="上传头像">
+          <ImageEditor :imageInfo="{
+            url: formState.businessCardAvatar,
+            width: 100,
+            height: 100,
+          }" :aspectRatio="1" @use="url => formState.businessCardAvatar = url"></ImageEditor>
+        </a-form-item>
+        <a-form-item label="名片昵称">
+          <a-input v-model:value="formState.businessCardName" placeholder="请输入名片昵称" allowClear></a-input>
+        </a-form-item>
+      </template>
       <template v-else-if="activeType === 'takeAPat'">
         <a-form-item label="选择对象">
           <a-select :options="patRoles" v-model:value="formState.patRole" placeholder="请选择拍一拍对象"></a-select>
@@ -150,6 +162,7 @@ const { useUserStore, useChatStore, useSystemStore, useContextMenuStore } = useS
 import { fileToBase64, toYearStr, toArr } from "@/utils/utils";
 import { weeks, morningAfternoon, avInviteTypes, avInviteStates, patRoles, ynEnums } from "@/utils/enum";
 import { toast } from "@/utils/feedback";
+import ImageEditor from "@/components/common/ImageEditor.vue";
 // import Emoji from "./Emoji.vue";
 const Emoji = defineAsyncComponent(() => import('./Emoji.vue'));
 
@@ -188,6 +201,8 @@ let formState = reactive({
   avInviteHour: "00",
   avInviteMinute: "00",
   avInviteSecond: "10",
+  businessCardAvatar: "",
+  businessCardName: "",
   patRole: "other",
   rejected: false,
 });
@@ -228,6 +243,9 @@ watch(() => props.chatInfo, (newVal) => {
       formState.avInviteSecond = duration.length === 3 ? duration[2] : duration[1];
       formState.avInviteType = infoObj.invateType;
       formState.avInviteState = infoObj.state;
+    } else if (activeType.value === "businessCard") {
+      formState.businessCardAvatar = infoObj.image;
+      formState.businessCardName = infoObj.content;
     }
   }
 }, {
@@ -332,6 +350,11 @@ const handleSentChat = () => {
       duration: `${hour}${formState.avInviteMinute}:${formState.avInviteSecond}`,
       state: formState.avInviteState,
     }
+  } else if (activeType.value === "businessCard") {
+    tempObj = {
+      content: formState.businessCardName,
+      image: formState.businessCardAvatar,
+    }
   } else if (activeType.value === "takeAPat") {
     tempObj = {
       patBold: (useUserStore.activeRole === "own" && formState.patRole === "own") || (useUserStore.activeRole === "other" && formState.patRole === "other"),
@@ -369,6 +392,9 @@ const handleClearChat = () => {
       formState.redEnvelopeRemarks = "恭喜发财，大吉大利";
     } else if (activeType.value === "voice") {
       formState.voiceContent = ""
+    } else if (activeType.value === "businessCard") {
+      formState.businessCardAvatar = ""
+      formState.businessCardName = ""
     } else if (activeType.value === "takeAPat") {
       formState.patContent = ""
     }
