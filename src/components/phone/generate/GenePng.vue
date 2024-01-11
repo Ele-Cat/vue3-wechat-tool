@@ -49,6 +49,8 @@ const handleGenerateLongPng = () => {
   phone.style.height = phoneRealHeight + "px"
   phoneBody.scrollTop = 0
   if (chatBackground) {
+    phoneBody.style.background = `url(${chatBackground}) repeat-y center top`
+    phoneBody.style.backgroundSize = `1125px 2036px`
     phoneBg.querySelector('img').setAttribute('src', '')
   }
 
@@ -59,6 +61,7 @@ const handleGenerateLongPng = () => {
   phone.style.height = useSystemStore.phoneHeight + "px";
   if (chatBackground) {
     phoneBg.querySelector('img').setAttribute('src', chatBackground)
+    phoneBody.style.background = ""
   }
   drawerVisible.value = true;
   drawerTitle.value = "生成长图";
