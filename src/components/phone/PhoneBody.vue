@@ -78,7 +78,7 @@
           </div>
           <span>个人名片</span>
         </div>
-        <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat', 'revoke'].includes(chat.type)">
+        <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat', 'revoke', 'system'].includes(chat.type)">
           <span v-if="chat.type !== 'revoke'">{{ chat.content }}</span>
           <span v-else>{{ chat.role === 'own' ? "你" : useUserStore.otherInfo.nickname }}撤回了一条消息</span>
         </div>
@@ -133,7 +133,7 @@ useAutoScrollBottom(phoneBodyRef)
 // })
 
 const showAvatar = (chat) => {
-  return !['time', 'takeAPat', 'revoke'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 
+  return !['time', 'takeAPat', 'revoke', 'system'].includes(chat.type) && !(chat.type === 'receive' && chat.receivedChatType === 'redEnvelope') 
 }
 </script>
 

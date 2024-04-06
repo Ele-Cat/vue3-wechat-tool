@@ -47,7 +47,7 @@ const changeRole = (role) => {
 const addTypeName = ref('')
 watch(() => [useChatStore.activeType, useUserStore], () => {
   let sendRole = ""
-  if (!["time"].includes(useChatStore.activeType)) {
+  if (!["time", "system"].includes(useChatStore.activeType)) {
     sendRole = useUserStore.activeRole === 'own' ? '你自己：' : `${useUserStore.otherInfo.nickname}：`
   }
   addTypeName.value = sendRole + addTypes.find(item => item.value === useChatStore.activeType)['label']
@@ -125,7 +125,7 @@ watch(() => [useChatStore.activeType, useUserStore], () => {
 <style lang="less">
 .config-chat {
   .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
-    margin: 0 0 0 18px;
+    margin: 0 0 0 12px;
   }
 }
 </style>

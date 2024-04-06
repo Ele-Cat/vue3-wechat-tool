@@ -155,13 +155,17 @@ export const addTypes = [
     value: "takeAPat",
   },
   {
+    label: "时间",
+    value: "time",
+  },
+  {
     label: "撤回",
     value: "revoke",
   },
   {
-    label: "时间",
-    value: "time",
-  }, 
+    label: "系统消息",
+    value: "system",
+  },
 ]
 
 export const weeks = [

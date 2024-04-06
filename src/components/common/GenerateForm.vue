@@ -50,7 +50,7 @@
       </template>
       <template v-else-if="activeType === 'transferAccounts'">
         <a-form-item label="转账金额">
-          <a-input-number :min="0" :max="999999999" :precision="2" v-model:value="formState.transferAmount" placeholder="请输入转账金额" />
+          <a-input-number :min="0.01" :max="999999999" :precision="2" v-model:value="formState.transferAmount" placeholder="请输入转账金额" />
         </a-form-item>
         <a-form-item label="转账备注">
           <a-input v-model:value="formState.transferRemarks" placeholder="请输入转账备注" />
@@ -58,7 +58,7 @@
       </template>
       <template v-else-if="activeType === 'redEnvelope'">
         <a-form-item label="红包金额">
-          <a-input-number :min="0" :max="520" :precision="2" v-model:value="formState.redEnvelopeAmount" placeholder="请输入转账金额" />
+          <a-input-number :min="0.01" :max="520" :precision="2" v-model:value="formState.redEnvelopeAmount" placeholder="请输入红包金额" />
         </a-form-item>
         <a-form-item label="红包备注">
           <a-input v-model:value="formState.redEnvelopeRemarks" placeholder="请输入转账备注" />
@@ -135,6 +135,9 @@
       <template v-else-if="activeType === 'revoke'">
         <a-button type="primary" @click="handleSentChat">发一条撤回信息</a-button>
       </template>
+      <template v-else-if="activeType === 'system'">
+        <a-textarea v-model:value="formState.systemContent" placeholder="请输入系统消息" :autoSize="{ minRows: 3, maxRows: 6 }" allowClear></a-textarea>
+      </template>
       <template v-if="['text', 'image', 'voice'].includes(activeType) && ((formType !== 'edit' && useUserStore.activeRole === 'own') || formType === 'edit' && chatInfo.role === 'own')">
         <a-form-item label="消息被拒收" style="margin-top:8px;">
           <a-radio-group :options="ynEnums" v-model:value="formState.rejected" />
@@ -203,6 +206,7 @@ let formState = reactive({
   avInviteSecond: "10",
   businessCardAvatar: "",
   businessCardName: "",
+  systemContent: "消息已发出，但被对方拒收了。",
   patRole: "other",
   rejected: false,
 });
@@ -246,6 +250,8 @@ watch(() => props.chatInfo, (newVal) => {
     } else if (activeType.value === "businessCard") {
       formState.businessCardAvatar = infoObj.image;
       formState.businessCardName = infoObj.content;
+    } else if (activeType.value === "system") {
+      formState.systemContent = infoObj.content;
     }
   }
 }, {
@@ -301,10 +307,31 @@ const handleTextInput = () => {
 
 // 点击发送按钮
 const handleSentChat = () => {
-  if (!formState.text.trim() && activeType.value === "text") {
+  if (activeType.value === "text" && !formState.text.trim()) {
     toast({
       type: "warning",
       content: "请输入文本后" + (props.formType !== "edit" ? "发送" : "确认修改"),
+    });
+    return;
+  }
+  if (activeType.value === "image" && !formState.image) {
+    toast({
+      type: "warning",
+      content: "请选择图片",
+    });
+    return;
+  }
+  if (activeType.value === "transferAccounts" && !formState.transferAmount) {
+    toast({
+      type: "warning",
+      content: "请输入转账金额",
+    });
+    return;
+  }
+  if (activeType.value === "redEnvelope" && !formState.redEnvelopeAmount) {
+    toast({
+      type: "warning",
+      content: "请输入红包金额",
     });
     return;
   }
@@ -312,6 +339,27 @@ const handleSentChat = () => {
     toast({
       type: "warning",
       content: "请选择音、视频状态",
+    });
+    return;
+  }
+  if (activeType.value === "businessCard" && !formState.businessCardAvatar) {
+    toast({
+      type: "warning",
+      content: "请上传名片头像",
+    });
+    return;
+  }
+  if (activeType.value === "businessCard" && !formState.businessCardName) {
+    toast({
+      type: "warning",
+      content: "请输入名片昵称",
+    });
+    return;
+  }
+  if (activeType.value === "system" && !formState.systemContent) {
+    toast({
+      type: "warning",
+      content: "请输入系统消息",
     });
     return;
   }
@@ -364,6 +412,10 @@ const handleSentChat = () => {
     tempObj = {
       content: selectTime.value,
     }
+  } else if (activeType.value === "system") {
+    tempObj = {
+      content: formState.systemContent
+    }
   }
   if (props.formType !== "edit") {
     // 发送
@@ -397,6 +449,8 @@ const handleClearChat = () => {
       formState.businessCardName = ""
     } else if (activeType.value === "takeAPat") {
       formState.patContent = ""
+    } else if (activeType.value === "system") {
+      formState.systemContent = "消息已发出，但被对方拒收了。"
     }
   } else {
     emit("close")
