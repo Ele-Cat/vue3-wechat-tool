@@ -125,7 +125,7 @@ watch(() => [useChatStore.activeType, useUserStore], () => {
 <style lang="less">
 .config-chat {
   .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
-    margin: 0 0 0 12px;
+    margin: 0 0 0 10px;
   }
 }
 </style>

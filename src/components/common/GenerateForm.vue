@@ -157,7 +157,7 @@
 </template>
 
 <script setup>
-import { watch, reactive, ref, defineAsyncComponent } from "vue";
+import { watch, reactive, ref, defineAsyncComponent, nextTick } from "vue";
 import { InboxOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 import useStore from "@/store";
@@ -423,6 +423,15 @@ const handleSentChat = () => {
       type: activeType.value,
       role: useUserStore.activeRole,
     }, {...tempObj}));
+    if (tempObj.rejected) {
+      nextTick(() => {
+        useChatStore.sentChat({
+          type: "system",
+          role: useUserStore.activeRole,
+          content: "消息已发出，但被对方拒收了。"
+        });
+      })
+    }
   } else {
     // 修改
     useChatStore.editChat({...props.chatInfo, ...tempObj});
