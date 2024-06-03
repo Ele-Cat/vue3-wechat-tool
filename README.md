@@ -22,9 +22,12 @@
 
 ## 截图预览
 
+<img src='https://tucdn.wpon.cn/2024/06/03/eb8bee78809f7.jpg' alt='' height='288px' />
+<img src='https://tucdn.wpon.cn/2024/06/03/30aa4a1fd5194.jpg' alt='' height='288px' />
 ![外观设置效果预览](./snapshot/1695047989076.gif)
 ![发送对话](./snapshot/1695050793373.gif)
 ![右键菜单](./snapshot/1695052489383.gif)
+
 
 ## 功能清单
 
@@ -109,7 +112,9 @@
 
 ## 捐赠
 
-<img src='./snapshot/1651905141755.jpg' alt='' height='288px' />
-<img src='./snapshot/1651905463193.jpg' alt='' height='288px' />
+<img src='https://tucdn.wpon.cn/2024/06/03/4a0dd61877713.jpg' alt='' height='288px' />
+<img src='https://tucdn.wpon.cn/2024/06/03/fb3bfa1fa3075.jpg' alt='' height='288px' />
+
+
 
 您的赞赏与支持，是我最大的动力
