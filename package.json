@@ -4,7 +4,7 @@
   "description": "使用 Vite + Vue3 + AntDesignVue + Pinia 搭建的在线微信对话生成器",
   "author": "ele-cat",
   "license": "MIT",
-  "homepage": "https://gitee.com/ele-cat/vue3-wechat-tool",
+  "homepage": "https://github.com/ele-cat/vue3-wechat-tool",
   "private": true,
   "type": "module",
   "scripts": {

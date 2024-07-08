@@ -4,7 +4,7 @@
       <a-form-item>
         <slot name="label">
           <div class="config-label">
-            <span>选择发送用户</span>
+            <span>点击切换发送用户</span>
             <a-button type="primary" @click="userManageVisible = true">用户管理</a-button>
           </div>
         </slot>

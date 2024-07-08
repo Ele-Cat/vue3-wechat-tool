@@ -3,22 +3,22 @@
 > 使用 Vite + Vue3 + AntDesignVue + Pinia 搭建的在线微信对话生成器
 
 <div align="center">
-  <h4>本程序是一款微信聊天记录制作工具，可以模拟微信聊天、管理不同用户角色进行对话，同时支持发送文字、图片、语音、红包、转账等类型信息。可以将聊天内容一键生成为图片、长图、动图和视频。【<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线使用地址</a>】</h4>
+  <h4>本程序是一款微信聊天记录制作工具，可以模拟微信聊天、管理不同用户角色进行对话，同时支持发送文字、图片、语音、红包、转账等类型信息。可以将聊天内容一键生成为图片、长图、动图和视频。【<a href='https://ele-cat.github.io/vue3-wechat-tool/' target="_blank">在线使用地址</a>】</h4>
   <h4>全量开源，更多好玩的功能欢迎提出Issues，敬请期待！</h4>
 </div>
 
 <div align="center">
-  <a href='https://gitee.com/ele-cat/vue3-wechat-tool/stargazers' target="_blank"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/badge/star.svg?theme=dark' alt='star'></img></a>
-  <a href='https://gitee.com/ele-cat/vue3-wechat-tool/members' target="_blank"><img src='https://gitee.com/ele-cat/vue3-wechat-tool/badge/fork.svg?theme=dark' alt='fork'></img></a>
+  <a href='https://github.com/ele-cat/vue3-wechat-tool/stargazers' target="_blank"><img src='https://img.shields.io/github/stars/ele-cat/vue3-wechat-tool.svg' alt='star'></img></a>
+  <a href='https://github.com/ele-cat/vue3-wechat-tool/members' target="_blank"><img src='https://img.shields.io/github/forks/ele-cat/vue3-wechat-tool.svg' alt='fork'></img></a>
 </div>
 
 ### 👉<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用教程【视频】</a>
 
-### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程【文本】</a>
+### 👉<a href='https://ele-cat.github.io/tools/Vue3WechatTool.html#使用教程' target="_blank">使用教程【文本】</a>
 
-### 👉<a href='https://ele-cat.gitee.io/tools/Vue3WechatTool.html#开发教程' target="_blank">开发教程</a>
+### 👉<a href='https://ele-cat.github.io/tools/Vue3WechatTool.html#开发教程' target="_blank">开发教程</a>
 
-### ✨<a href='https://ele-cat.gitee.io/vue3-wechat-tool/' target="_blank">在线使用</a>
+### ✨<a href='https://ele-cat.github.io/vue3-wechat-tool/' target="_blank">在线使用</a>
 
 ## 截图预览
 

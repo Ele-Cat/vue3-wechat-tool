@@ -17,16 +17,15 @@
           <a-input v-model:value="record.nickname" maxlength="20" style="text-align: center;" />
         </template>
         <template v-if="column.dataIndex === 'operation' && record.role != 'own'">
-          <a-space>
-            <a-typography-link @click="handleSelectUser(record.id)" v-if="record.id !== useUserStore.activeOther">选择</a-typography-link>
-            <a-typography-text block disabled v-else>已选</a-typography-text>
-            <a-popconfirm title="确认删除该用户？" @confirm="handleDeleteUser(record.id)">
-              <a-typography-link type="danger" v-if="useUserStore.userList.length > 2">删除</a-typography-link>
-            </a-popconfirm>
-          </a-space>
+          <a-typography-link @click="handleSelectUser(record.id)" v-if="record.id !== useUserStore.activeOther">选择</a-typography-link>
+          <a-typography-text block disabled v-else>已选</a-typography-text>
+          <a-popconfirm title="确认删除该用户？" @confirm="handleDeleteUser(record.id)">
+            <a-typography-link type="danger" v-if="useUserStore.userList.length > 2 && record.id !== useUserStore.activeOther" style="margin-left: 8px;">删除</a-typography-link>
+          </a-popconfirm>
         </template>
       </template>
     </a-table>
+    <p style="margin-top: 12px;color: #aaa;font-size: 12px;">点击头像即可修改用户头像</p>
   </a-drawer>
 </template>
 
