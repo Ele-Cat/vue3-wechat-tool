@@ -56,6 +56,11 @@
       <a-form-item label="聊天背景">
         <ImageEditor :imageInfo="imageInfo" :aspectRatio="aspectRatio" :allowClear="true" tip="只可上传小于1M的JPG或PNG图片" @use="handleUse"></ImageEditor>
       </a-form-item>
+      <a-form-item label="操作">
+        <a-popconfirm title="确认将系统重置为初始化状态？" @confirm="resetSystem">
+          <a-button type="primary">重置系统</a-button>
+        </a-popconfirm>
+      </a-form-item>
     </a-form>
   </perfect-scrollbar>
 </template>
@@ -68,7 +73,7 @@ import dayjs from "dayjs";
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";
 import { toArr } from "@/utils/utils";
 import useStore from "@/store";
-const { useSystemStore } = useStore();
+const { useSystemStore, useChatStore, useUserStore, useTemplateStore } = useStore();
 import ImageEditor from "@/components/common/ImageEditor.vue";
 
 let timer = null;
@@ -114,6 +119,14 @@ watch(() => [useSystemStore.phoneWidth, useSystemStore.phoneHeight], (newVal) =>
 }, {
   immediate: true,
 })
+
+const resetSystem = () => {
+  useSystemStore.$reset()
+  useChatStore.$reset()
+  useUserStore.$reset()
+  useTemplateStore.$reset()
+  window.location.reload()
+}
 </script>
 
 <style lang="less" scoped>
