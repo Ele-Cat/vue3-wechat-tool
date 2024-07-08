@@ -271,9 +271,9 @@ watch(() => formState.datetime, (newVal) => {
 
 const patResult = ref("")
 // 监听角色、对象，渲染拍一拍内容
-watch(() => [formState.patRole, formState.patContent, useUserStore.activeRole], () => {
-  let first = useUserStore.activeRole === "own" ? "我" : ` "${useUserStore.otherInfo.nickname}" `;
-  let second = formState.patRole === "own" ? "自己" : ` "${useUserStore.otherInfo.nickname}" `;
+watch(() => [formState.patRole, formState.patContent, useUserStore.activeUserId], () => {
+  let first = useUserStore.activeRole === "own" ? "我" : ` "${useUserStore.activeUser.nickname}" `;
+  let second = formState.patRole === "own" ? "自己" : ` "${useUserStore.activeUser.nickname}" `;
   if (useUserStore.activeRole === "other") {
     second = formState.patRole === "own" ? "自己" : "我";
   }

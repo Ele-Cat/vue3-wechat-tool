@@ -4,18 +4,20 @@ import { otherAvatar } from "@/utils/avatar";
 export const useUserStore = defineStore("toolUser", {
   state: () => {
     return {
-      activeRole: "own",
       selectedOther: "",
       userList: [],
-      activeOther: "",
+      activeUserId: "",
     };
   },
   getters: {
+    activeRole() {
+      return this.activeUserId === "user-0" ? "own" : "other";
+    },
     ownInfo() {
       return this.userList[0];
     },
-    otherInfo() {
-      const user = this.userList.find(user => user.id === this.activeOther) || {};
+    activeUser() {
+      const user = this.userList.find(user => user.id === this.activeUserId) || {};
       return user;
     },
   },
@@ -23,18 +25,15 @@ export const useUserStore = defineStore("toolUser", {
     addUser() {
       this.userList.push({
         nickname: "微信用户",
-        avatar: otherAvatar,
+        // avatar: otherAvatar,
         role: "other",
         id: "user-" + Date.now(),
       })
     },
     selectUser(id) {
-      this.activeOther = id;
+      this.activeUserId = id;
     },
     deleteUser(id) {
-      if (this.activeOther === id) {
-        this.activeOther = this.userList[1]['id'];
-      }
       this.userList = this.userList.filter(user => user.id != id);
     },
   },

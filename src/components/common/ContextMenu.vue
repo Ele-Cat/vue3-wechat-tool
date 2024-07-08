@@ -51,7 +51,7 @@ const handleMenuClick = (type) => {
     editorModalVisible.value = true;
     let sendRole = ""
     if (!["time"].includes(activeChatInfo.type)) {
-      sendRole = activeChatInfo.role === 'own' ? '你自己：' : `${useUserStore.otherInfo.nickname}：`
+      sendRole = activeChatInfo.role === 'own' ? '你自己：' : `${useUserStore.activeUser.nickname}：`
     }
     editorModalTitle.value = sendRole + addTypes.find(item => item.value === activeChatInfo.type)['label'];
     activeChatInfo['editTime'] = Date.now();

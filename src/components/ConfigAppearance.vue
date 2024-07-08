@@ -44,6 +44,12 @@
       <a-form-item label="未读消息数">
         <a-input-number v-model:value="formState.unreadMessages" :min="0" :max="10000" />
       </a-form-item>
+      <a-form-item label="聊天标题">
+        <a-input v-model:value="formState.chatTitle" />
+      </a-form-item>
+      <a-form-item label="显示用户名">
+        <a-switch v-model:checked="formState.showChatName" />
+      </a-form-item>
       <a-form-item label="语音模式">
         <a-switch v-model:checked="formState.voiceMode" />
       </a-form-item>

@@ -43,6 +43,7 @@ export const useChatStore = defineStore("toolChat", {
     sentChat(chatInfo) {
       this.chatList.push({
         id: "chat-" + Date.now(),
+        user: useUserStore().activeUser,
         ...chatInfo,
       })
       eventBus.emit("sentChat");

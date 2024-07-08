@@ -118,3 +118,22 @@ export const sleep = async(time) => {
     }, time)
   });
 }
+
+/**
+ * 保留前面和后面各 6 位字符，并用省略号替代中间部分
+ * @param {*} str 原字符串
+ * @param {*} maxLength 文本允许最大长度
+ * @returns 
+ */
+export const truncateMiddle = (str, maxLength) => {
+  if (str.length <= maxLength) {
+    return str;
+  }
+
+  const ellipsis = '...';
+  const startLength = Math.ceil((maxLength - ellipsis.length) / 2);
+  const endLength = Math.floor((maxLength - ellipsis.length) / 2);
+
+  const truncatedStr = str.substr(0, startLength) + ellipsis + str.substr(str.length - endLength);
+  return truncatedStr;
+}

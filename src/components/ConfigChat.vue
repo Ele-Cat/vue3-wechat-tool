@@ -4,20 +4,33 @@
       <a-form-item>
         <slot name="label">
           <div class="config-label">
-            <span>点击切换发送用户</span>
-            <a-button type="primary" @click="userManageVisible = true">用户管理</a-button>
+            <span>编辑和选择用户（第一个用户默认是自己）</span>
           </div>
         </slot>
-        <div class="user-select-box">
-          <div class="user-item" :class="{active: useUserStore.activeRole === 'own'}" @click="changeRole('own')">
-            <img :src="useUserStore.ownInfo.avatar" alt="">
-            <p>{{useUserStore.ownInfo.nickname}}</p>
+        <a-radio-group class="user-select-box" v-model:value="activeUserId">
+          <div class="user-item" v-for="(user, index) in useUserStore.userList" :key="user.id">
+            <ImageEditor :imageInfo="{
+              url: user.avatar,
+              width: 60,
+              height: 60,
+            }" :aspectRatio="1" @use="url => user.avatar = url"></ImageEditor>
+            <p v-if="index == 0">{{ user.nickname }}</p>
+            <a-input v-else size="small" v-model:value="user.nickname" />
+            <a-radio class="user-select" :value="user.id" />
+            <a-popconfirm
+              title="确认移除这个用户？"
+              v-if="index != 0 && useUserStore.userList.length > 2"
+              @confirm="handleDeleteUser(user.id)"
+            >
+              <div class="user-delete" v-if="index != 0 && useUserStore.userList.length > 2">
+                <CloseOutlined />
+              </div>
+            </a-popconfirm>
           </div>
-          <div class="user-item" :class="{active: useUserStore.activeRole === 'other'}" @click="changeRole('other')">
-            <img :src="useUserStore.otherInfo.avatar" alt="">
-            <p :title="useUserStore.otherInfo.nickname">{{useUserStore.otherInfo.nickname}}</p>
+          <div class="user-item add-btn" @click="handleAddUser">
+            <PlusOutlined />
           </div>
-        </div>
+        </a-radio-group>
       </a-form-item>
     </a-form>
     <a-divider style="border-color: var(--theme-color)" />
@@ -28,33 +41,41 @@
     <GenerateForm :title="addTypeName" />
     <!-- <p>文本、表情、图片、转账、红包、语音、时间、音视频邀请、系统消息、拍一拍、撤回消息</p> -->
   </perfect-scrollbar>
-  <UserManage :open="userManageVisible" @close="userManageVisible = false" />
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
-import GenerateForm from "./common/GenerateForm.vue"
-import UserManage from "./common/UserManage.vue"
+import { PlusOutlined, CloseOutlined } from "@ant-design/icons-vue";
+import { storeToRefs } from "pinia";
+import { addTypes } from "@/utils/enum";
 import useStore from "@/store";
 const { useUserStore, useChatStore } = useStore();
-import { addTypes } from "@/utils/enum";
-
-const userManageVisible = ref(false)
-const changeRole = (role) => {
-  useUserStore.activeRole = role
-}
+import GenerateForm from "./common/GenerateForm.vue";
+import ImageEditor from "@/components/common/ImageEditor.vue";
 
 const addTypeName = ref('')
 watch(() => [useChatStore.activeType, useUserStore], () => {
   let sendRole = ""
   if (!["time", "system"].includes(useChatStore.activeType)) {
-    sendRole = useUserStore.activeRole === 'own' ? '你自己：' : `${useUserStore.otherInfo.nickname}：`
+    sendRole = useUserStore.activeUserId === 'user-0' ? '你自己：' : `${useUserStore.activeUser.nickname}：`
   }
   addTypeName.value = sendRole + addTypes.find(item => item.value === useChatStore.activeType)['label']
 }, {
   immediate: true,
   deep: true,
 })
+
+const { activeUserId } = storeToRefs(useUserStore);
+
+const handleAddUser = () => {
+  useUserStore.addUser();
+}
+const handleDeleteUser = (id) => {
+  if (id === activeUserId.value) {
+    useUserStore.activeUserId = useUserStore.userList[0].id
+  }
+  useUserStore.deleteUser(id);
+}
 </script>
 
 <style lang="less" scoped>
@@ -66,41 +87,74 @@ watch(() => [useChatStore.activeType, useUserStore], () => {
 
 .user-select-box {
   display: flex;
-  justify-content: space-around;
+  // justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
   background-color: #F5F5F5;
   border-radius: 4px;
-  padding: 6px 4px;
+  padding: 16px 0 6px 10px;
   margin-top: 6px;
   .user-item {
-    width: 49.5%;
-    height: 100px;
+    position: relative;
+    width: 88px;
+    height: 88px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     border-radius: 4px;
     cursor: pointer;
-    &:hover {
-      background-color: #E7E7E7;
-    }
+    margin: 0 10px 10px 0;
     &.active {
       background-color: #FFFFFF;
       color: var(--theme-color);
     }
-    img {
-      width: 56px;
-      height: 56px;
-      object-fit: cover;
-      border-radius: 6px;
+    .ant-input {
+      text-align: center;
     }
     p {
       margin: 2px 0 0 0;
       max-width: 80%;
-      font-size: 16px;
+      font-size: 14px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .user-select {
+      position: absolute;
+      right: 0;
+      bottom: 22px;
+    }
+    .user-delete {
+      position: absolute;
+      right: 6px;
+      top: -6px;
+      background-color: red;
+      color: #fff;
+      z-index: 999;
+      font-size: 12px;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+  }
+  .add-btn {
+    width: 88px;
+    height: 88px;
+    border: 1px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+    transition: all .3s;
+    &:hover {
+      color: var(--theme-color);
+      border: 1px dashed var(--theme-color);
     }
   }
 }

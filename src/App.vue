@@ -98,7 +98,7 @@ onMounted(() => {
         role: "other",
       }
     ]
-    useUserStore.activeOther = useUserStore.userList[1]['id'];
+    useUserStore.activeUserId = useUserStore.userList[0]['id'];
   }
   if (!useChatStore.chatList.length) {
     useChatStore.chatList = [
@@ -106,12 +106,14 @@ onMounted(() => {
         id: "chat-1",
         type: "text",
         content: "你是谁",
+        user: useUserStore.userList[0],
         role: "own",
       },
       {
         id: "chat-2",
         type: "text",
         content: "我是小甜甜~",
+        user: useUserStore.userList[1],
         role: "other",
       }
     ]

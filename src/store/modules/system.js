@@ -13,6 +13,8 @@ const appearance = {
   phoneBattery: 60,
   earphoneMode: true,
   unreadMessages: 1,
+  chatTitle: "微信对话",
+  showChatName: false,
   voiceMode: false,
   syncInputText: true,
   chatBackground: "",

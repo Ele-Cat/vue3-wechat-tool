@@ -5,7 +5,7 @@
       <span v-if="appearance.unreadMessages">{{appearance.unreadMessages > 99 ? '99+' : appearance.unreadMessages}}</span>
     </div>
     <div class="phone-nav-center">
-      <span class="center-span"> <span class="user-name">{{activeUserName}}</span> <i v-if="appearance.earphoneMode"></i> </span>
+      <span class="center-span"> <span class="user-name">{{chatTitle}}</span> <i v-if="appearance.earphoneMode"></i> </span>
     </div>
     <div class="phone-nav-right">
       <div class="phone-nav-more">更多</div>
@@ -14,19 +14,20 @@
 </template>
 
 <script setup>
-import useStore from "@/store";
 import { computed } from "vue";
-const { useUserStore } = useStore();
-const activeUserName = computed(() => {
-  const user = useUserStore.userList.find(user => user.id === useUserStore.activeOther)
-  return user ? user['nickname'] : '微信用户';
-})
+import useStore from "@/store";
+const { useSystemStore } = useStore();
+import { truncateMiddle } from "@/utils/utils"
 
 const props = defineProps({
   appearance: {
     type: Object,
     default: () => {},
   }
+})
+
+const chatTitle = computed(() => {
+  return truncateMiddle(useSystemStore.appearance.chatTitle, 14)
 })
 </script>
 
@@ -77,10 +78,10 @@ const props = defineProps({
       justify-content: center;
       font-weight: 500;
       .user-name {
-        max-width: 600px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        // max-width: 600px;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
       }
       i {
         width: 31px;

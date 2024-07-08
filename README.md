@@ -9,7 +9,7 @@
 
 <div align="center">
   <a href='https://github.com/ele-cat/vue3-wechat-tool/stargazers' target="_blank"><img src='https://img.shields.io/github/stars/ele-cat/vue3-wechat-tool.svg' alt='star'></img></a>
-  <a href='https://github.com/ele-cat/vue3-wechat-tool/members' target="_blank"><img src='https://img.shields.io/github/forks/ele-cat/vue3-wechat-tool.svg' alt='fork'></img></a>
+  <a href='https://github.com/Ele-Cat/vue3-wechat-tool/graphs/contributors' target="_blank"><img src='https://img.shields.io/github/forks/ele-cat/vue3-wechat-tool.svg' alt='fork'></img></a>
 </div>
 
 ### 👉<a href='https://www.bilibili.com/video/BV1Q84y1S7iA/?share_source=copy_web&vd_source=a365c12124cceb4ffcbdc878f6f2ef60' target="_blank">使用教程【视频】</a>

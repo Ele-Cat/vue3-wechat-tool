@@ -3,84 +3,89 @@
     <div class="wechat-content">
       <div class="wechat-item" :id="chat.id" v-for="chat in useChatStore.chatList" :key="chat.id" :class="{'wechat-item-right': chat.role === 'own', 'wechat-item-rejected': chat.role === 'own' && chat.rejected, 'wechat-item-notice-box': !showAvatar(chat), 'active': useContextMenuStore.activeChatId === chat.id}" @contextmenu.stop="e => rightClicked(e, chat.id)">
         <div class="wechat-item-avatar" v-if="showAvatar(chat)">
-          <img :src="chat.role === 'own' ? useUserStore.ownInfo.avatar : useUserStore.otherInfo.avatar" alt="">
+          <img :src="chat.user.avatar" alt="">
         </div>
-        <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content, emojiBase64)"></div>
-        <div class="wechat-item-text wechat-item-image" v-else-if="chat.type === 'image'">
-          <img :src="chat.content" alt="">
-        </div>
-        <div class="wechat-item-text wechat-item-trans" :class="{'wechat-item-trans-received': chat.received}" v-else-if="chat.type === 'transferAccounts'">
-          <div class="wechat-item-trans-content">
-            <i></i> 
-            <div>
-              <span>¥{{ chat.money.toFixed(2) }}</span> 
-              <span class="font" v-if="chat.received">已被领取</span>
-              <span class="font" v-else-if="!chat.content">转账给{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}</span>
-              <span class="font" v-else>{{ chat.content }}</span>
+        <div>
+          <div class="wechat-item-name" v-if="useSystemStore.appearance.showChatName && !['time', 'takeAPat', 'revoke', 'system'].includes(chat.type)">
+            {{ chat.user.nickname }}
+          </div>
+          <div class="wechat-item-text" v-if="chat.type === 'text'" v-html="renderText(chat.content, emojiBase64)"></div>
+          <div class="wechat-item-text wechat-item-image" v-else-if="chat.type === 'image'">
+            <img :src="chat.content" alt="">
+          </div>
+          <div class="wechat-item-text wechat-item-trans" :class="{'wechat-item-trans-received': chat.received}" v-else-if="chat.type === 'transferAccounts'">
+            <div class="wechat-item-trans-content">
+              <i></i> 
+              <div>
+                <span>¥{{ chat.money.toFixed(2) }}</span> 
+                <span class="font" v-if="chat.received">已被领取</span>
+                <span class="font" v-else-if="!chat.content">转账给{{ chat.role === 'own' ? useUserStore.activeUser.nickname : "你" }}</span>
+                <span class="font" v-else>{{ chat.content }}</span>
+              </div>
+            </div>
+            <div class="wechat-item-trans-bottom">
+              <span>微信转账</span>
             </div>
           </div>
-          <div class="wechat-item-trans-bottom">
-            <span>微信转账</span>
-          </div>
-        </div>
-        <div class="wechat-item-text wechat-item-trans" :class="{'wechat-item-trans-received': chat.received}" v-else-if="chat.type === 'redEnvelope'">
-          <div class="wechat-item-trans-content wechat-item-redp-content">
-            <i></i> 
-            <div>
-              <!-- <span>¥{{ chat.money.toFixed(2) }}</span>  -->
-              <span>{{ chat.content || "恭喜发财，大吉大利" }}</span>
-              <span class="font" v-if="chat.received">已领取</span>
+          <div class="wechat-item-text wechat-item-trans" :class="{'wechat-item-trans-received': chat.received}" v-else-if="chat.type === 'redEnvelope'">
+            <div class="wechat-item-trans-content wechat-item-redp-content">
+              <i></i> 
+              <div>
+                <!-- <span>¥{{ chat.money.toFixed(2) }}</span>  -->
+                <span>{{ chat.content || "恭喜发财，大吉大利" }}</span>
+                <span class="font" v-if="chat.received">已领取</span>
+              </div>
+            </div>
+            <div class="wechat-item-trans-bottom">
+              <span>微信红包</span>
             </div>
           </div>
-          <div class="wechat-item-trans-bottom">
-            <span>微信红包</span>
+          <div class="wechat-item-notice" v-else-if="chat.type === 'receive' && chat.receivedChatType === 'redEnvelope'">
+            <i></i>{{ chat.role === 'own' ? "你" : useUserStore.activeUser.nickname }}领取了{{ chat.role === 'own' ? useUserStore.activeUser.nickname : "你" }}的<em>红包</em>
           </div>
-        </div>
-        <div class="wechat-item-notice" v-else-if="chat.type === 'receive' && chat.receivedChatType === 'redEnvelope'">
-          <i></i>{{ chat.role === 'own' ? "你" : useUserStore.otherInfo.nickname }}领取了{{ chat.role === 'own' ? useUserStore.otherInfo.nickname : "你" }}的<em>红包</em>
-        </div>
-        <div class="wechat-item-text wechat-item-trans wechat-item-trans-received" v-else-if="chat.type === 'receive' && chat.receivedChatType === 'transferAccounts'">
-          <div class="wechat-item-trans-content">
-            <i></i> 
-            <div>
-              <span>¥{{ chat.money.toFixed(2) }}</span> 
-              <span class="font">已收款</span>
+          <div class="wechat-item-text wechat-item-trans wechat-item-trans-received" v-else-if="chat.type === 'receive' && chat.receivedChatType === 'transferAccounts'">
+            <div class="wechat-item-trans-content">
+              <i></i> 
+              <div>
+                <span>¥{{ chat.money.toFixed(2) }}</span> 
+                <span class="font">已收款</span>
+              </div>
+            </div>
+            <div class="wechat-item-trans-bottom">
+              <span>微信转账</span>
             </div>
           </div>
-          <div class="wechat-item-trans-bottom">
-            <span>微信转账</span>
-          </div>
-        </div>
-        <!-- <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'voice'">
-          <i></i> 
-          <span>{{ chat.duration }}"</span>
-          <div :style="{width: chat.duration * 5 + 'px'}"></div>
-          <em v-if="!chat.received"></em>
-        </div> -->
-        <div class="wechat-item-voice-wrapper" v-else-if="chat.type === 'voice'">
-          <div class="wechat-item-text wechat-item-voice">
+          <!-- <div class="wechat-item-text wechat-item-voice" v-else-if="chat.type === 'voice'">
             <i></i> 
             <span>{{ chat.duration }}"</span>
             <div :style="{width: chat.duration * 5 + 'px'}"></div>
             <em v-if="!chat.received"></em>
+          </div> -->
+          <div class="wechat-item-voice-wrapper" v-else-if="chat.type === 'voice'">
+            <div class="wechat-item-text wechat-item-voice">
+              <i></i> 
+              <span>{{ chat.duration }}"</span>
+              <div :style="{width: chat.duration * 5 + 'px'}"></div>
+              <em v-if="!chat.received"></em>
+            </div>
+            <div class="wechat-item-text wechat-item-voice-text" v-if="chat.content">{{ chat.content }}</div>
           </div>
-          <div class="wechat-item-text wechat-item-voice-text" v-if="chat.content">{{ chat.content }}</div>
-        </div>
-        <div class="wechat-item-text wechat-item-av" v-else-if="chat.type === 'avInvite'">
-          <i :class="[chat.invateType]"></i>
-          <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
-          <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(avInviteStates, chat.state) }}</span>
-        </div>
-        <div class="wechat-item-text wechat-item-businessCard" v-else-if="chat.type === 'businessCard'">
-          <div class="info">
-            <img :src="chat.image" alt="">
-            <p>{{ chat.content }}</p>
+          <div class="wechat-item-text wechat-item-av" v-else-if="chat.type === 'avInvite'">
+            <i :class="[chat.invateType]"></i>
+            <span v-if="chat.state === 'success'">通话时长 {{ chat.duration }}</span>
+            <span v-else>{{ chat.role === "other" ? "对方" : "" }}{{ filterLabel(avInviteStates, chat.state) }}</span>
           </div>
-          <span>个人名片</span>
-        </div>
-        <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat', 'revoke', 'system'].includes(chat.type)">
-          <span v-if="chat.type !== 'revoke'">{{ chat.content }}</span>
-          <span v-else>{{ chat.role === 'own' ? "你" : useUserStore.otherInfo.nickname }}撤回了一条消息</span>
+          <div class="wechat-item-text wechat-item-businessCard" v-else-if="chat.type === 'businessCard'">
+            <div class="info">
+              <img :src="chat.image" alt="">
+              <p>{{ chat.content }}</p>
+            </div>
+            <span>个人名片</span>
+          </div>
+          <div class="wechat-item-notice bg" :class="{'bold': chat.type === 'takeAPat' && chat.patBold}" v-else-if="['time', 'takeAPat', 'revoke', 'system'].includes(chat.type)">
+            <span v-if="chat.type !== 'revoke'">{{ chat.content }}</span>
+            <span v-else>{{ chat.role === 'own' ? "你" : useUserStore.activeUser.nickname }}撤回了一条消息</span>
+          </div>
         </div>
       </div>
     </div>
@@ -90,7 +95,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import useStore from "@/store";
-const { useUserStore, useChatStore, useContextMenuStore } = useStore();
+const { useSystemStore, useUserStore, useChatStore, useContextMenuStore } = useStore();
 import useAutoScrollBottom from "@/hooks/useAutoScrollBottom";
 import { renderText, filterLabel } from "@/utils/utils";
 import { avInviteStates } from "@/utils/enum";
@@ -157,6 +162,9 @@ const showAvatar = (chat) => {
       display: flex;
       &:hover, &.active {
         background-color: rgba(0, 0, 0, .15);
+      }
+      .wechat-item-name {
+        margin: 0 0 12px 162px;
       }
       .wechat-item-avatar {
         width: 123px;
@@ -387,6 +395,9 @@ const showAvatar = (chat) => {
       }
       &.wechat-item-right {
         justify-content: flex-end;
+        .wechat-item-name {
+          display: none;
+        }
         .wechat-item-face {
           right: 0;
         }
