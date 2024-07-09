@@ -31,7 +31,7 @@ const resetAppearance = () => {
 const resetChat = () => {
   useChatStore.chatList = [];
   toast({
-    type: "warning",
+    type: "success",
     content: "清空对话成功！",
   });
 }
