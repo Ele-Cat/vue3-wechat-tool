@@ -77,10 +77,16 @@ const configComponents = shallowRef({
         margin-bottom: 6px;
       }
 
-      &.active,
-      &:hover {
+      &.active {
         background-color: #F9F9F9;
         color: var(--theme-color);
+      }
+      &:hover {
+        background-color: #F5F5F5;
+        color: var(--theme-color);
+      }
+      p {
+        margin: 0;
       }
     }
   }
