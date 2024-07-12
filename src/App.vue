@@ -9,7 +9,8 @@
         <WtHeader />
       </a-layout-header>
       <a-layout class="content" v-if="!isPhone">
-        <a-layout-sider :style="siderStyle" :width="useSystemStore.activeMenu === 'chat' ? 640 : 480">
+        <!-- <a-layout-sider :style="siderStyle" :width="useSystemStore.activeMenu === 'chat' ? 640 : 480"> -->
+        <a-layout-sider :style="siderStyle" :width="640">
           <WtSider />
         </a-layout-sider>
         <a-layout-content>

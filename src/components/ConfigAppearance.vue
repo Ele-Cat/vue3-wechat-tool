@@ -1,11 +1,14 @@
 <template>
   <perfect-scrollbar>
-    <a-form :model="formState" :label-col="{style: {width: '88px'}}" class="config-appearance">
+    <a-form :model="formState" :label-col="{style: {width: '108px'}}" class="config-appearance">
       <a-form-item label="机型">
         <a-select :options="models" v-model:value="formState.model" disabled></a-select>
       </a-form-item>
       <a-form-item label="深色模式">
-        <a-switch v-model:checked="formState.darkMode" />
+        <a-switch v-model:checked="formState.darkMode">
+          <template #checkedChildren><check-outlined /></template>
+          <template #unCheckedChildren><close-outlined /></template>
+        </a-switch>
       </a-form-item>
       <a-form-item label="网络类型">
         <a-select :options="networkTypes" v-model:value="formState.networkType"></a-select>
@@ -25,21 +28,27 @@
           </a-tooltip>
         </div>
       </a-form-item>
-      <a-form-item label="是否充电">
-        <a-switch v-model:checked="formState.isCharging" />
+      <a-form-item label="是否充电中">
+        <a-switch v-model:checked="formState.isCharging">
+          <template #checkedChildren><check-outlined /></template>
+          <template #unCheckedChildren><close-outlined /></template>
+        </a-switch>
       </a-form-item>
       <a-form-item label="手机电量">
         <a-row :gutter="12">
-          <a-col :span="16">
+          <a-col :span="18">
             <a-slider v-model:value="formState.phoneBattery" :tip-formatter="value => `${value}%`" :min="0" :max="100" />
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-input-number v-model:value="formState.phoneBattery" :min="0" :max="100" />
           </a-col>
         </a-row>
       </a-form-item>
       <a-form-item label="听筒模式">
-        <a-switch v-model:checked="formState.earphoneMode" />
+        <a-switch v-model:checked="formState.earphoneMode">
+          <template #checkedChildren><check-outlined /></template>
+          <template #unCheckedChildren><close-outlined /></template>
+        </a-switch>
       </a-form-item>
       <a-form-item label="未读消息数">
         <a-input-number v-model:value="formState.unreadMessages" :min="0" :max="10000" />
@@ -48,16 +57,22 @@
         <a-input v-model:value="formState.chatTitle" />
       </a-form-item>
       <a-form-item label="显示用户名">
-        <a-switch v-model:checked="formState.showChatName" />
+        <a-switch v-model:checked="formState.showChatName">
+          <template #checkedChildren><check-outlined /></template>
+          <template #unCheckedChildren><close-outlined /></template>
+        </a-switch>
       </a-form-item>
       <a-form-item label="语音模式">
-        <a-switch v-model:checked="formState.voiceMode" />
+        <a-switch v-model:checked="formState.voiceMode">
+          <template #checkedChildren><check-outlined /></template>
+          <template #unCheckedChildren><close-outlined /></template>
+        </a-switch>
       </a-form-item>
       <a-form-item label="聊天背景">
         <ImageEditor :imageInfo="imageInfo" :aspectRatio="aspectRatio" :allowClear="true" tip="只可上传小于1M的JPG或PNG图片" @use="handleUse"></ImageEditor>
       </a-form-item>
       <a-form-item label="操作">
-        <a-popconfirm title="确认将系统重置为初始化状态？" @confirm="resetSystem">
+        <a-popconfirm title="确认将系统重置为初始化状态？所有外观、对话、模版均会清除，请谨慎操作！" :overlayStyle="{width: '260px', textAlign: 'justify'}" @confirm="resetSystem">
           <a-button type="primary">重置系统</a-button>
         </a-popconfirm>
       </a-form-item>
@@ -67,7 +82,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, reactive, ref, watch } from "vue";
-import { LoadingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 // import { useFetch } from '@vueuse/core'
 import { models, networkTypes, wifiSignals, phoneSignals } from "@/utils/enum";

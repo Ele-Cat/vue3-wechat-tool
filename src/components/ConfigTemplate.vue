@@ -53,7 +53,7 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'operation',
-    width: '100px',
+    width: '76px',
     align: 'center',
   },
 ];
