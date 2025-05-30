@@ -36,6 +36,16 @@ export const useUserStore = defineStore("toolUser", {
     deleteUser(id) {
       this.userList = this.userList.filter(user => user.id != id);
     },
+    setUserAvatar(userId, avatar) {
+      // 限制 base64 长度，防止超出 localStorage
+      if (avatar && avatar.length > 100 * 1024) { // 约100KB
+        // 可以用 toast 或 alert 提示
+        alert("图片过大，无法作为头像保存！");
+        return;
+      }
+      const user = this.userList.find(u => u.id === userId);
+      if (user) user.avatar = avatar;
+    }
   },
   persist: {
     enabled: true,

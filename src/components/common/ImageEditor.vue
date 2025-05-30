@@ -13,7 +13,8 @@
   <a-modal :title="title" v-model:open="cropperVisible" :width="860" :footer="null" :maskClosable="false" @cancel="handleCancel" destroyOnClose>
     <a-row :gutter="20">
       <a-col :span="16">
-        <cropper ref="cropperRef" :src="initImage" class="cropper" :min-height="200" :min-width="200" :stencil-props="{
+        <!-- 修正 cropper 标签为大写 -->
+        <Cropper ref="cropperRef" :src="initImage" class="cropper" :min-height="200" :min-width="200" :stencil-props="{
           aspectRatio,
         }" @change="change" />
         <div style="margin-top:20px">
@@ -73,11 +74,11 @@ const props = defineProps({
   // 初始化图片信息
   imageInfo: {
     type: Object,
-    default: {
+    default: () => ({
       url: "",
       width: 100,
       height: 100,
-    },
+    }),
   },
   // 裁剪比例
   aspectRatio: {
@@ -165,7 +166,12 @@ const handleRotate = (angle) => {
 
 const previewImg = ref("")
 const change = ({ coordinates, canvas }) => {
-  previewImg.value = canvas.toDataURL();
+  try {
+    previewImg.value = canvas ? canvas.toDataURL() : "";
+  } catch (e) {
+    previewImg.value = "";
+    toast({ type: "error", content: "图片处理失败，请重试" });
+  }
 }
 
 const handleDownload = () => {

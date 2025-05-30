@@ -9,11 +9,12 @@
         </slot>
         <a-radio-group class="user-select-box" v-model:value="activeUserId">
           <div class="user-item" v-for="(user, index) in useUserStore.userList" :key="user.id">
-            <ImageEditor :imageInfo="{
-              url: user.avatar,
-              width: 60,
-              height: 60,
-            }" :aspectRatio="1" @use="url => user.avatar = url"></ImageEditor>
+            <!-- 头像上传组件 -->
+            <ImageEditor
+              :imageInfo="{ url: user.avatar, width: 60, height: 60 }"
+              :aspectRatio="1"
+              @use="url => useUserStore.setUserAvatar(user.id, url || '')"
+            ></ImageEditor>
             <p v-if="index == 0">{{ user.nickname }}</p>
             <a-input v-else size="small" v-model:value="user.nickname" />
             <a-radio class="user-select" :value="user.id" />
