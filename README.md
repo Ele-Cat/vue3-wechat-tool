@@ -119,3 +119,12 @@
 
 
 您的赞赏与支持，是我最大的动力
+
+## Star History
+<a href="https://www.star-history.com/#copicseal/copicseal&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=copicseal/copicseal&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=copicseal/copicseal&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=copicseal/copicseal&type=Date" />
+ </picture>
+</a>
