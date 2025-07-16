@@ -4,7 +4,21 @@
       <a-form-item>
         <slot name="label">
           <div class="config-label">
-            <span>编辑和选择用户（第一个用户默认是自己）</span>
+            <span>编辑和选择用户
+              <a-tooltip placement="rightBottom" :overlayStyle="{maxWidth:'800px'}">
+                <ExclamationCircleOutlined />
+                <template #title>
+                  <ol style="padding-left:16px;margin:0;">
+                    <li>第一个用户默认是自己</li>
+                    <li>点击添加按钮可以添加用户</li>
+                    <li>点击头像可以编辑用户头像</li>
+                    <li>点击昵称可以编辑用户昵称</li>
+                    <li>点击删除按钮可以移除用户</li>
+                    <li>点击用户头像右下角可以切换用户</li>
+                  </ol>
+                </template>
+              </a-tooltip>
+            </span>
           </div>
         </slot>
         <a-radio-group class="user-select-box" v-model:value="activeUserId">
@@ -16,7 +30,7 @@
             }" :aspectRatio="1" @use="url => user.avatar = url"></ImageEditor>
             <p v-if="index == 0">{{ user.nickname }}</p>
             <a-input v-else size="small" v-model:value="user.nickname" />
-            <a-radio class="user-select" :value="user.id" />
+            <a-radio class="user-select" :title="`选择${user.nickname}`" :value="user.id" />
             <a-popconfirm
               title="确认移除这个用户？"
               v-if="index != 0 && useUserStore.userList.length > 2"
@@ -45,7 +59,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { PlusOutlined, CloseOutlined } from "@ant-design/icons-vue";
+import { ExclamationCircleOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons-vue";
 import { storeToRefs } from "pinia";
 import { addTypes } from "@/utils/enum";
 import useStore from "@/store";

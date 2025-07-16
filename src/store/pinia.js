@@ -1,9 +1,12 @@
 import { createPinia } from "pinia";
-import piniaPluginPersist from "pinia-plugin-persist";
+import { createPersistedState } from "pinia-plugin-persistedstate";
+import { indexedDBStorage } from "@/utils/storage";
 
 // 创建pinia实例
 const pinia = createPinia();
 // pinia持久化
-pinia.use(piniaPluginPersist);
+pinia.use(createPersistedState({
+  storage: indexedDBStorage,
+}));
 
 export default pinia;

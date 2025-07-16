@@ -147,6 +147,7 @@ const beforeUpload = (file) => {
       type: "warning",
       content: props.limitAcceptText,
     });
+    return false
   }
   const isLtM = file.size / 1024 / 1024 < props.limitSize;
   if (!isLtM) {
@@ -154,8 +155,8 @@ const beforeUpload = (file) => {
       type: "warning",
       content: `图片大小需小于${props.limitSize}MB！`,
     });
+    return false
   }
-  return isAccept && isLtM;
 };
 
 const cropperRef = ref(null);

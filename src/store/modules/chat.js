@@ -1,19 +1,18 @@
 import { defineStore } from "pinia";
 import eventBus from '@/utils/eventBus';
+import { indexedDBStorage } from "@/utils/storage";
 import { useUserStore } from "./user";
 
 export const useChatStore = defineStore("toolChat", {
-  state: () => {
-    return {
-      chatList: [], // 聊天列表
-      activeType: "text",
-      inputText: "",
-      generateConfig: {
-        minInterval: 1500,
-        maxInterval: 3000,
-      },
-    };
-  },
+  state: () => ({
+    chatList: [], // 聊天列表
+    activeType: "text",
+    inputText: "",
+    generateConfig: {
+      minInterval: 1500,
+      maxInterval: 3000,
+    }
+  }),
   getters: {
     /**
      * 根据角色返回已发送消息列表
@@ -31,6 +30,14 @@ export const useChatStore = defineStore("toolChat", {
     }
   },
   actions: {
+    async init() {
+      const toolChat = await indexedDBStorage.getItem('toolChat');
+      if (!toolChat) return;
+      const {chatList, activeType, generateConfig} = JSON.parse(toolChat);
+      this.chatList = chatList;
+      this.activeType = activeType;
+      this.generateConfig = generateConfig;
+    },
     // 将某条消息置为已接收
     receiveChat(chatId) {
       this.chatList.map(chat => {
@@ -58,7 +65,7 @@ export const useChatStore = defineStore("toolChat", {
     enabled: true,
     strategies: [
       {
-        storage: localStorage,
+        storage: indexedDBStorage,
         paths: ["chatList", "activeType", "generateConfig"],
       },
     ],

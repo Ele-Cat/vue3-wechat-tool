@@ -1,14 +1,12 @@
 import { defineStore } from "pinia";
 import { otherAvatar } from "@/utils/avatar";
+import { indexedDBStorage } from "@/utils/storage";
 
 export const useUserStore = defineStore("toolUser", {
-  state: () => {
-    return {
-      selectedOther: "",
-      userList: [],
-      activeUserId: "",
-    };
-  },
+  state: () => ({
+    userList: [],
+    activeUserId: "",
+  }),
   getters: {
     activeRole() {
       return this.activeUserId === "user-0" ? "own" : "other";
@@ -22,6 +20,13 @@ export const useUserStore = defineStore("toolUser", {
     },
   },
   actions: {
+    async init() {
+      const toolUser = await indexedDBStorage.getItem('toolUser');
+      if (!toolUser) return;
+      const {userList, activeUserId} = JSON.parse(toolUser);
+      this.userList = userList;
+      this.activeUserId = activeUserId;
+    },
     addUser() {
       this.userList.push({
         nickname: "微信用户",
@@ -41,7 +46,7 @@ export const useUserStore = defineStore("toolUser", {
     enabled: true,
     strategies: [
       {
-        storage: localStorage,
+        storage: indexedDBStorage,
       },
     ],
   },

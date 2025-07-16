@@ -78,7 +78,9 @@ const handleModalOk = e => {
 const handleModalCancel = e => {
   modalOpen.value = false;
 };
-!useSystemStore.hadDisclaimer && showDisclaimerModal();
+setTimeout(() => {
+  !useSystemStore.hadDisclaimer && showDisclaimerModal();
+}, 1500)
 
 const showFork = ref(false);
 onMounted(() => {

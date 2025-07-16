@@ -1,14 +1,12 @@
 import { defineStore } from "pinia";
 
 export const useContextMenuStore = defineStore("toolContextMenu", {
-  state: () => {
-    return {
-      menuVisible: false, // 是否显示右键菜单
-      menuLeft: 0, // 菜单位置横坐标
-      menuTop: 0, // 菜单位置纵坐标
-      activeChatId: "",
-    };
-  },
+  state: () => ({
+    menuVisible: false, // 是否显示右键菜单
+    menuLeft: 0, // 菜单位置横坐标
+    menuTop: 0, // 菜单位置纵坐标
+    activeChatId: "",
+  }),
   actions: {
     // 显示右键菜单
     showContextMenu(clientX, clientY, chatId) {

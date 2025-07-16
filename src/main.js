@@ -11,6 +11,13 @@ import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 const app = createApp(App);
 
 app.use(pinia);
+import useStore from "@/store";
+const { useChatStore, useSystemStore, useTemplateStore, useUserStore } = useStore();
+useChatStore.init()
+useSystemStore.init()
+useTemplateStore.init()
+useUserStore.init()
+
 app.use(Antd);
 app.use(PerfectScrollbar, {
   watchOptions: true,

@@ -1,12 +1,17 @@
 import { defineStore } from "pinia";
+import { indexedDBStorage } from "@/utils/storage";
 
 export const useTemplateStore = defineStore("toolTemplate", {
-  state: () => {
-    return {
-      list: [],
-    };
-  },
+  state: () => ({
+    list: [],
+  }),
   actions: {
+    async init() {
+      const toolTemplate = await indexedDBStorage.getItem('toolTemplate');
+      if (!toolTemplate) return;
+      const {list} = JSON.parse(toolTemplate);
+      this.list = list;
+    },
     // 新增聊天模板
     add(params) {
       this.list.unshift({
@@ -22,7 +27,7 @@ export const useTemplateStore = defineStore("toolTemplate", {
     enabled: true,
     strategies: [
       {
-        storage: localStorage,
+        storage: indexedDBStorage,
       },
     ],
   },
