@@ -5,7 +5,7 @@
       <span v-if="appearance.unreadMessages">{{appearance.unreadMessages > 99 ? '99+' : appearance.unreadMessages}}</span>
     </div>
     <div class="phone-nav-center">
-      <span class="center-span"> <span class="user-name">{{chatTitle}}</span> <i v-if="appearance.earphoneMode"></i> </span>
+      <span class="center-span"> <span class="user-name">{{chatTitle}}</span> <i class="do-not-disturb" v-if="appearance.doNotDisturb"></i><i class="ear-phone-mode" v-if="appearance.earphoneMode"></i> </span>
     </div>
     <div class="phone-nav-right">
       <div class="phone-nav-more">更多</div>
@@ -86,8 +86,17 @@ const chatTitle = computed(() => {
       i {
         width: 31px;
         height: 42px;
-        background: url(@/assets/images/nav/wechat-trans-earphone-light.png) no-repeat;
         margin: 8px 0 0 15px;
+        &.do-not-disturb {
+          width: 40px;
+          height: 44px;
+          background: url(@/assets/images/nav/wechat-trans-do-not-disturb-light.png) no-repeat;
+          background-size: 100% 100%;
+        }
+        &.ear-phone-mode {
+          background: url(@/assets/images/nav/wechat-trans-earphone-light.png) no-repeat;
+          background-size: 100% 100%;
+        }
       }
     }
   }
@@ -122,7 +131,14 @@ const chatTitle = computed(() => {
     .phone-nav-center {
       .center-span {
         i {
-          background: url(@/assets/images/nav/wechat-trans-earphone-dark.png) no-repeat;
+          &.do-not-disturb {
+            background: url(@/assets/images/nav/wechat-trans-do-not-disturb-dark.png) no-repeat;
+            background-size: 100% 100%;
+          }
+          &.ear-phone-mode {
+            background: url(@/assets/images/nav/wechat-trans-earphone-dark.png) no-repeat;
+            background-size: 100% 100%;
+          }
         }
       }
     }

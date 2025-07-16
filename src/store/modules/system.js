@@ -12,6 +12,7 @@ const appearance = {
   timeFollowSystem: false,
   isCharging: false,
   phoneBattery: 60,
+  doNotDisturb: false,
   earphoneMode: true,
   unreadMessages: 1,
   chatTitle: "微信对话",

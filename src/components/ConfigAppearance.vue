@@ -44,6 +44,12 @@
           </a-col>
         </a-row>
       </a-form-item>
+      <a-form-item label="消息免打扰">
+        <a-switch v-model:checked="formState.doNotDisturb">
+          <template #checkedChildren><check-outlined /></template>
+          <template #unCheckedChildren><close-outlined /></template>
+        </a-switch>
+      </a-form-item>
       <a-form-item label="听筒模式">
         <a-switch v-model:checked="formState.earphoneMode">
           <template #checkedChildren><check-outlined /></template>
