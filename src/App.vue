@@ -35,6 +35,13 @@
   <a-modal v-model:open="modalOpen" title="注意" :maskClosable="false" @ok="handleModalOk" @cancel="handleModalCancel" cancelText="关闭" okText="我已知晓，关闭">
     <Instructions />
   </a-modal>
+  <a-modal v-model:open="showDisclaimerModal" title="敬告" :maskClosable="false" @ok="handleDisclaimerModalOk" :cancelButtonProps="{
+    style: {
+      display: 'none',
+    },
+  }" okText="我已知晓，关闭">
+    <Disclaimer />
+  </a-modal>
   <ContextMenu />
 </template>
 
@@ -49,6 +56,7 @@ import WtSider from "@/components/WtSider.vue"
 // import WtContent from "@/components/WtContent.vue"
 const WtContent = defineAsyncComponent(() => import('@/components/WtContent.vue'));
 import Instructions from "@/components/common/Instructions.vue"
+import Disclaimer from "@/components/common/Disclaimer.vue"
 import ContextMenu from "@/components/common/ContextMenu.vue"
 import IsPhone from "@/components/common/IsPhone.vue"
 import useStore from "@/store";
@@ -68,7 +76,7 @@ const siderStyle = {
 };
 
 const modalOpen = ref(false);
-const showDisclaimerModal = () => {
+const showModal = () => {
   modalOpen.value = true;
 };
 const handleModalOk = e => {
@@ -78,8 +86,13 @@ const handleModalOk = e => {
 const handleModalCancel = e => {
   modalOpen.value = false;
 };
+const showDisclaimerModal = ref(false);
+const handleDisclaimerModalOk = e => {
+  showDisclaimerModal.value = false;
+};
 setTimeout(() => {
-  !useSystemStore.hadDisclaimer && showDisclaimerModal();
+  !useSystemStore.hadDisclaimer && showModal();
+  showDisclaimerModal.value = true;
 }, 1500)
 
 const showFork = ref(false);
