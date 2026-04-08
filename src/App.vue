@@ -92,7 +92,7 @@ const handleDisclaimerModalOk = e => {
 };
 setTimeout(() => {
   !useSystemStore.hadDisclaimer && showModal();
-  showDisclaimerModal.value = true;
+  // showDisclaimerModal.value = true;
 }, 1500)
 
 const showFork = ref(false);
